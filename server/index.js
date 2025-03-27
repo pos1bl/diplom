@@ -1,10 +1,10 @@
 import express from 'express';
 import 'dotenv/config';
-import cors from cors;
+import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
-import router from './router/index';
-import errorMiddleware from './middlewares/error-middleware';
+import router from './router/index.js';
+import errorMiddleware from './middlewares/error-middleware.js';
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -17,10 +17,7 @@ app.use(errorMiddleware);
 
 const start = async () => {
   try {
-    await mongoose.connect(process.env.DB_URL, {
-      useNewUrlParse: true,
-      useUnifiedTopology: true
-    })
+    await mongoose.connect(process.env.DB_URL);
     app.listen(PORT, () => console.log(`Server started on PORT = ${PORT}`));
   } catch (e) {
       console.error(e);

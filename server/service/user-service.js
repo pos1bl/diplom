@@ -1,12 +1,19 @@
-import { userModel as UserModel } from "../models/user-model";
 import bcrypt from "bcrypt";
-import uuid from 'uuid';
-import mailService from "./mail-service";
-import tokenService from "./token-service";
-import UserDto from "../dtos/user-dto";
-import ApiError from "../exceptions/api-error";
+import { v4 } from 'uuid';
+import UserModel from "../models/user-model.js";
+import mailService from "./mail-service.js";
+import tokenService from "./token-service.js";
+import UserDto from "../dtos/user-dto.js";
+import ApiError from "../exceptions/api-error.js";
 
 class UserService {
+  _buildAuthResponse(user) {
+    const userDto = new UserDto(user);
+    const tokens = tokenService.generateTokens({ ...userDto });
+    tokenService.saveToken(userDto.id, tokens.refreshToken);
+    return { ...tokens, user: userDto };
+  }
+
   async registration(email, password) {
     const candidate = await UserModel.findOne({email});
 
@@ -20,12 +27,7 @@ class UserService {
 
     await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`);
 
-    const userDto = new UserDto(user);
-    const tokens = tokenService.generateTokens({ ...userDto });
-
-    await tokenService.saveToken(userDto.id, tokens.refreshToken);
-
-    return { ...tokens, user: userDto };
+    return this._buildAuthResponse(user);
   }
 
   async activate(activationLink) {
@@ -52,18 +54,34 @@ class UserService {
       throw ApiError.BadRequest('Неправильний пароль');
     }
 
-    const userDto = new UserDto(user);
-    const tokens = tokenService.generateTokens({ ...userDto });
-
-    await tokenService.saveToken(userDto.id, tokens.refreshToken);
-
-    return { ...tokens, user: userDto };
+    return this._buildAuthResponse(user);
   }
 
   async logout(refreshToken) {
     const token = await tokenService.removeToken(refreshToken);
     
     return token;
+  }
+
+  async refresh(refreshToken) {
+    if(!refreshToken) {
+      throw ApiError.UnathorizedError();
+    }
+
+    const userData = tokenService.validateToken(refreshToken, process.env.JWT_REFRESH_SECRET);
+    const tokenFromDb = await tokenService.findToken(refreshToken);
+    
+    if (!userData || !tokenFromDb) {
+      throw ApiError.UnathorizedError();
+    }
+    const user = await UserModel.findByID(userData.id);
+
+    return this._buildAuthResponse(user);
+  }
+
+  async getAllUsers() {
+    const users = await UserModel.find();
+    return users;
   }
 }
 

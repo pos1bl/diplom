@@ -1,6 +1,6 @@
-import userService from "../service/user-service";
 import { validationResult } from "express-validator";
-import ApiError from "../exceptions/api-error";
+import userService from "../service/user-service.js";
+import ApiError from "../exceptions/api-error.js";
 
 class UserController {
   async registration(req, res, next) {
@@ -57,15 +57,19 @@ class UserController {
 
   async refresh(req, res, next) {
     try {
-
+      const { refreshToken } = req.cookies;
+      const userData = await userService.refresh(refreshToken);
+      res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
+      return res.json(userData);
     } catch (e) {
-     next(e); 
+      next(e); 
     }
   }
 
   async getUsers(req, res, next) {
     try {
-      res.json(['123',  '456'])
+      const users = await userService.getAllUsers();
+      return res.json(users);
     } catch (e) {
       next(e);
     }
