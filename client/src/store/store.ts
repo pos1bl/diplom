@@ -2,6 +2,7 @@ import axios from "axios";
 import { makeAutoObservable } from "mobx";
 import { IUser } from "../models/IUser.ts";
 import AuthService from "../services/AuthService.ts";
+import { AuthResponse } from "src/models/response/AuthResponse.ts";
 
 export default class Store {
   user = {} as IUser;
@@ -56,6 +57,21 @@ export default class Store {
       localStorage.removeItem('token');
       this.setAuth(false);
       this.setUser({} as IUser);
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        console.error(e.response?.data?.message);
+      } else {
+        console.error('Unexpected error:', e);
+      }
+    }
+  }
+
+  async checkAuth() {
+    try {
+      const response = await axios.get<AuthResponse>(`${import.meta.env.VITE_BASE_URL}/refresh`, { withCredentials: true })
+      localStorage.setItem('token', response.data.accessToken);
+      this.setAuth(true);
+      this.setUser(response.data.user);
     } catch (e) {
       if (axios.isAxiosError(e)) {
         console.error(e.response?.data?.message);

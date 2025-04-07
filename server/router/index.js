@@ -13,7 +13,7 @@ router.post('/registration',
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.get('/activate/:link', userController.activate);
-router.get('/resfresh', userController.refresh);
+router.get('/refresh', userController.refresh);
 router.get('/users', authMuddleware, userController.getUsers);
 
 export default router;

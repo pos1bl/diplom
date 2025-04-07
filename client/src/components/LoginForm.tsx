@@ -1,5 +1,6 @@
 import { useState, FC, useContext } from "react";
 import { Context } from "../main";
+import { observer } from "mobx-react-lite";
 
 const LoginForm: FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -30,4 +31,4 @@ const LoginForm: FC = () => {
   );
 };
 
-export default LoginForm;
+export default observer(LoginForm);

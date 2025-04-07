@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [react(), TanStackRouterVite()],
   server: {
     host: '127.0.0.1',
-    port: 5173
+    port: 3000
   },
   resolve: {
     alias: {

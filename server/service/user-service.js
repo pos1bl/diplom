@@ -22,7 +22,7 @@ class UserService {
     }
 
     const hashPassword = await bcrypt.hash(password, 3);
-    const activationLink = uuid.v4();
+    const activationLink = v4();
     const user = await UserModel.create({ email, password: hashPassword, activationLink });
 
     await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`);
@@ -70,11 +70,14 @@ class UserService {
 
     const userData = tokenService.validateToken(refreshToken, process.env.JWT_REFRESH_SECRET);
     const tokenFromDb = await tokenService.findToken(refreshToken);
+
+    console.log(refreshToken)
+    console.log(tokenFromDb)
     
     if (!userData || !tokenFromDb) {
       throw ApiError.UnathorizedError();
     }
-    const user = await UserModel.findByID(userData.id);
+    const user = await UserModel.findById(userData.id);
 
     return this._buildAuthResponse(user);
   }

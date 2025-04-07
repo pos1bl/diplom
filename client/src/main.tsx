@@ -25,6 +25,5 @@ createRoot(document.getElementById('root')!).render(
       <App />
       </QueryClientProvider>
     </Context.Provider>
-    
   </StrictMode>,
 )
