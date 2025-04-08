@@ -7,6 +7,7 @@ import { AuthResponse } from "src/models/response/AuthResponse.ts";
 export default class Store {
   user = {} as IUser;
   isAuth = false;
+  isLoading = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -18,6 +19,10 @@ export default class Store {
 
   setUser(user: IUser) {
     this.user = user;
+  }
+
+  setLoading(bool: boolean) {
+    this.isLoading = bool;
   }
 
   async login(email: string, password: string) {
@@ -67,8 +72,9 @@ export default class Store {
   }
 
   async checkAuth() {
+    this.setLoading(true);
     try {
-      const response = await axios.get<AuthResponse>(`${import.meta.env.VITE_BASE_URL}/refresh`, { withCredentials: true })
+      const response = await axios.get<AuthResponse>(`${import.meta.env.VITE_BASE_URL}/refresh`, { withCredentials: true });
       localStorage.setItem('token', response.data.accessToken);
       this.setAuth(true);
       this.setUser(response.data.user);
@@ -78,6 +84,8 @@ export default class Store {
       } else {
         console.error('Unexpected error:', e);
       }
+    } finally {
+      this.setLoading(false);
     }
   }
 }

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { AuthResponse } from 'src/models/response/AuthResponse';
 
 const $api = axios.create({
   withCredentials: true,
@@ -10,12 +11,22 @@ $api.interceptors.request.use((config) => {
   return config;
 });
 
-// $api.interceptors.response.use((config) => {
-//   return config;
-// }, (error => {
-//   if (error.response.status === 401) {
+$api.interceptors.response.use((config) => {
+  return config;
+}, async (error) => {
+  const originalRequest = error.config;
+  if (error.response.status === 401 && error.config && !error.config._isRetry) {
+    originalRequest._isRetry = true;
+    try {
+      const response = await axios.get<AuthResponse>(`${import.meta.env.VITE_BASE_URL}/refresh`, { withCredentials: true });
+      localStorage.setItem('token', response.data.accessToken);
+      return $api.request(originalRequest);
+    } catch (e) {
+      console.error('НЕ АВТОРИЗОВАНИЙ');
+    }
+  }
 
-//   }
-// }));
+  throw error;
+});
 
 export default $api;

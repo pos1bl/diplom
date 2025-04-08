@@ -1,6 +1,8 @@
 import { useState, FC, useContext } from "react";
-import { Context } from "../main";
+import { Context } from "../../main";
 import { observer } from "mobx-react-lite";
+import FormControl from '@mui/material/FormControl';
+import { Button, Input } from "@mui/material";
 
 const LoginForm: FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -8,26 +10,26 @@ const LoginForm: FC = () => {
   const { store } = useContext(Context);
 
   return (
-    <div>
-      <input
+    <FormControl>
+      <Input
         onChange={e => setEmail(e.target.value)}
         value={email}
         type="text"
         placeholder="Email"
       />
-      <input
+      <Input
         onChange={e => setPassword(e.target.value)}
         value={password}
         type="password"
         placeholder="Пароль"
       />
-      <button onClick={() => store.login(email, password)}>
+      <Button onClick={() => store.login(email, password)} variant="contained">
         Увійти
-      </button>
-      <button onClick={() => store.registration(email, password)}>
+      </Button>
+      {/* <button onClick={() => store.registration(email, password)}>
         Зареєструватись
-      </button>
-    </div>
+      </button> */}
+    </FormControl>
   );
 };
 

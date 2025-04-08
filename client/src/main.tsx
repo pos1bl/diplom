@@ -14,15 +14,13 @@ const store = new Store();
 
 export const Context = createContext<State>({
   store,
-})
+});
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Context.Provider value={{
-      store
-    }}>
+    <Context.Provider value={{ store }}>
       <QueryClientProvider client={queryClient}>
-      <App />
+        <App />
       </QueryClientProvider>
     </Context.Provider>
   </StrictMode>,
