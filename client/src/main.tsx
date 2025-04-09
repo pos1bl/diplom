@@ -6,7 +6,7 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import queryClient from './api/queryClient.ts'
 import Store from './store/store.ts'
 
-interface State {
+export interface State {
   store: Store,
 }
 

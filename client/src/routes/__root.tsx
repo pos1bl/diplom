@@ -1,15 +1,10 @@
-import * as React from 'react'
-import { Outlet, createRootRoute } from '@tanstack/react-router'
+import { QueryClient } from '@tanstack/react-query';
+import { createRootRouteWithContext } from '@tanstack/react-router';
+import { State } from 'src/main';
 
-export const Route = createRootRoute({
-  component: RootComponent,
-})
+type RouterContext = {
+  authContext: State;
+  queryClient: QueryClient;
+};
 
-function RootComponent() {
-  return (
-    <React.Fragment>
-      <div>Hello "__root"!</div>
-      <Outlet />
-    </React.Fragment>
-  )
-}
+export const Route = createRootRouteWithContext<RouterContext>()();

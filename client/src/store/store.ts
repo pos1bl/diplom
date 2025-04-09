@@ -3,6 +3,7 @@ import { makeAutoObservable } from "mobx";
 import { IUser } from "../models/IUser.ts";
 import AuthService from "../services/AuthService.ts";
 import { AuthResponse } from "src/models/response/AuthResponse.ts";
+import router from "@utils/Route.ts";
 
 export default class Store {
   user = {} as IUser;
@@ -28,7 +29,6 @@ export default class Store {
   async login(email: string, password: string) {
     try {
       const response = await AuthService.login(email, password);
-      console.log(response);
       localStorage.setItem('token', response.data.accessToken);
       this.setAuth(true);
       this.setUser(response.data.user);
@@ -38,13 +38,14 @@ export default class Store {
       } else {
         console.error('Unexpected error:', e);
       }
+    } finally {
+      router.invalidate();
     }
   }
 
   async registration(email: string, password: string) {
     try {
       const response = await AuthService.registration(email, password);
-      console.log(response);
       localStorage.setItem('token', response.data.accessToken);
       this.setAuth(true);
       this.setUser(response.data.user);
@@ -54,6 +55,8 @@ export default class Store {
       } else {
         console.error('Unexpected error:', e);
       }
+    } finally {
+      router.invalidate();
     }
   }
 
@@ -68,6 +71,8 @@ export default class Store {
       } else {
         console.error('Unexpected error:', e);
       }
+    } finally {
+      router.invalidate();
     }
   }
 

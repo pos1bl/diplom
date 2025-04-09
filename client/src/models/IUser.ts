@@ -4,3 +4,8 @@ export interface IUser {
   id: string;
   role: string;
 }
+
+export enum Role {
+  USER = 'user',
+  SPECIALIST = 'specialist'
+}
