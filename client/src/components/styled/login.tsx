@@ -13,7 +13,7 @@ export const LoginPage = styled('div')({
   boxSizing: 'border-box'
 });
 
-export const LoginForm = styled('form')({
+export const SigninForm = styled('form')({
   display: 'flex',
   flexDirection: 'column',
   gap: '10px'

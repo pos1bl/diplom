@@ -1,3 +1,4 @@
+import useNotifyToast from '@hooks/useNotifyToats';
 import axios from 'axios';
 import { AuthResponse } from 'src/models/response/AuthResponse';
 
@@ -6,10 +7,36 @@ const $api = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
 });
 
+const { showError, showInfo, showSuccess } = useNotifyToast();
+
+const successMessageUrls = ['access', 'login'];
+
 $api.interceptors.request.use((config) => {
   config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
   return config;
 });
+
+$api.interceptors.response.use(
+  async (response) => {
+    console.log(`test:${response.config.url}`)
+    if (response.status === 200 && response.config.url && successMessageUrls.includes(response.config.url)) {
+      showSuccess();
+    }
+
+    if (response.config.url === 'logout') {
+      showInfo();
+    }
+
+    return response;
+  },
+  async (error) => {
+    if (error.response && !error.response.config._retry) {
+      showError(error.response?.data.message);
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 $api.interceptors.response.use((config) => {
   return config;
