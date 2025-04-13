@@ -14,7 +14,7 @@ class UserService {
     return { ...tokens, user: userDto };
   }
 
-  async registration(email, password) {
+  async registration(email, name, password) {
     const candidate = await UserModel.findOne({email});
 
     if (candidate) {
@@ -23,7 +23,7 @@ class UserService {
 
     const hashPassword = await bcrypt.hash(password, 3);
     const activationLink = v4();
-    const user = await UserModel.create({ email, password: hashPassword, activationLink });
+    const user = await UserModel.create({ email, name, password: hashPassword, activationLink });
 
     await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`);
 
@@ -70,9 +70,6 @@ class UserService {
 
     const userData = tokenService.validateToken(refreshToken, process.env.JWT_REFRESH_SECRET);
     const tokenFromDb = await tokenService.findToken(refreshToken);
-
-    console.log(refreshToken)
-    console.log(tokenFromDb)
     
     if (!userData || !tokenFromDb) {
       throw ApiError.UnathorizedError();

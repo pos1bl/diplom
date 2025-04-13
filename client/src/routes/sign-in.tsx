@@ -3,8 +3,7 @@ import { DEFAULT_PAGE } from '@utils/DrawerNavigationList';
 import { Role } from '../models/IUser';
 
 import { z } from 'zod';
-import LoginForm from '@components/shared/LoginForm';
-import { LoginPage } from '@components/styled/login';
+import { AuthPage } from '@components/Authorization/AuthPage';
 
 export const Route = createFileRoute('/sign-in')({
   beforeLoad: async ({ context: { authContext }, search }) => {
@@ -21,25 +20,8 @@ export const Route = createFileRoute('/sign-in')({
       });
     }
   },
-  component: SignIn,
+  component: AuthPage,
   validateSearch: z.object({
     redirect: z.string().optional().catch('')
   })
 });
-
-function SignIn() {
-  return (
-    <LoginPage>
-      <LoginForm />
-    </LoginPage>
-  );
-}
-
-// function SignIn() {
-//   return (
-//     <LoginPage>
-//       <Logo width="200" />
-//       <SignInForm />
-//     </LoginPage>
-//   );
-// }

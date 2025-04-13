@@ -1,24 +1,28 @@
 
-import { useState, FC, useContext, FormEvent } from "react";
+import React, { useState, useContext, FormEvent } from "react";
 import { Context } from "../../main";
 import { observer } from "mobx-react-lite";
 import FormControl from '@mui/material/FormControl';
-import { Button, FormHelperText, IconButton, Input, InputAdornment, InputLabel, OutlinedInput, TextField } from "@mui/material";
-import { SigninForm } from "@components/styled/login";
+import { FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from "@mui/material";
+import { SigninForm, StyledButton } from "@components/styled/login";
 import { useForm } from '@tanstack/react-form';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { FormType } from "@utils/Auth";
 
-const LoginForm: FC = () => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+type Props = {
+  type: FormType
+};
+
+const LoginForm: React.FC<Props> = ({ type }) => {
   const { store } = useContext(Context);
 
   const { handleSubmit, Field, Subscribe } = useForm({
     defaultValues: {
       email: '',
-      password: ''
+      password: '',
+      ...(type === FormType.REIGSTER ? { name: '' } : {})
     },
-    onSubmit: ({ value }) => store.login(value.email, value.password)
+    onSubmit: ({ value }) => type === FormType.REIGSTER ? store.registration(value.email, value.name!, value.password) : store.login(value.email, value.password)
   });
 
   const [showPassword, setIsShowPassword] = useState(false);
@@ -34,7 +38,12 @@ const LoginForm: FC = () => {
       <Field
         name="email"
         validators={{
-          onSubmit: ({ value }) => !value && 'Email обов`язковий'
+          onSubmit: ({ value }) => {
+            if (!value) return 'Email обов’язковий';
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(value)) return 'Некоректний формат email';
+            return undefined;
+          }
         }}
         children={(field) => (
           <FormControl fullWidth>
@@ -51,6 +60,30 @@ const LoginForm: FC = () => {
           </FormControl>
         )}
       />
+
+      {type === FormType.REIGSTER && (
+        <Field
+          name="name"
+          validators={{
+            onSubmit: ({ value }) => !value && 'Ім’я обов’язкове'
+          }}
+          children={(field) => (
+            <FormControl fullWidth>
+              <TextField
+                size="small"
+                id="name"
+                label="Як до вас звертатись?"
+                placeholder="Введіть ім’я"
+                value={field.state.value}
+                onChange={(e) => field.handleChange(e.target.value)}
+                error={!!field.state.meta.errors.length}
+                helperText={field.state.meta.errors[0]}
+              />
+            </FormControl>
+          )}
+        />
+      )}
+
       <Field
         name="password"
         validators={{
@@ -95,34 +128,14 @@ const LoginForm: FC = () => {
       <Subscribe
         selector={({ canSubmit, isSubmitting }) => [canSubmit, isSubmitting]}
         children={([canSubmit]) => (
-          <Button
-            color="primary"
+          <StyledButton
             disabled={!canSubmit}
             variant="contained"
             type="submit">
-            Увійти
-          </Button>
+            {type === FormType.LOGIN ? 'Увійти' : 'Зареєструватись'}
+          </StyledButton>
         )}
       />
-        
-      {/* <Input
-        onChange={e => setEmail(e.target.value)}
-        value={email}
-        type="text"
-        placeholder="Email"
-      />
-      <Input
-        onChange={e => setPassword(e.target.value)}
-        value={password}
-        type="password"
-        placeholder="Пароль"
-      />
-      <Button onClick={() => store.login(email, password)} variant="contained">
-        Увійти
-      </Button>
-      <button onClick={() => store.registration(email, password)}>
-        Зареєструватись
-      </button>  */}
     </SigninForm>
   );
 };

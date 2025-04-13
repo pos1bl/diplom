@@ -3,6 +3,7 @@ export interface IUser {
   isActivated: boolean;
   id: string;
   role: string;
+  name: string;
 }
 
 export enum Role {

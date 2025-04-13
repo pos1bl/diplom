@@ -1,7 +1,9 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/')({
-  component: Test,
+  beforeLoad: async () => {
+    throw redirect({ to: '/_default' })
+  }
 });
 
 function Test() {
@@ -9,12 +11,3 @@ function Test() {
     <h1>Hello</h1>
   )
 }
-
-// function SignIn() {
-//   return (
-//     <LoginPage>
-//       <Logo width="200" />
-//       <SignInForm />
-//     </LoginPage>
-//   );
-// }
