@@ -1,12 +1,13 @@
 import { AppBar, Avatar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
-import AdbIcon from '@mui/icons-material/Adb';
+import PersonIcon from '@mui/icons-material/Person';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from "react";
-import { DRAWER_NAVIGATION_LIST } from "@utils/DrawerNavigationList";
+import { DEFAULT_PAGE, DRAWER_NAVIGATION_LIST } from "@utils/DrawerNavigationList";
 import { Link } from "@tanstack/react-router";
 import useStore from "@hooks/useStore";
 import { checkPermission } from "../../helper/checkPermission";
 import Logo from "./Logo";
+import { StyledBigHeaderLink, StyledSmallHeaderLink } from "@components/styled/base";
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -31,29 +32,17 @@ export const Header = () => {
     setAnchorElUser(null);
   };
 
+  console.log(user.name)
+  console.log(isAuth)
+  console.log(useStore())
+
   return (
     <AppBar position="static" sx={{backgroundColor: '#A891D2'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          {/* <Logo width="50"/> */}
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            LOGO
-          </Typography>
+          <StyledSmallHeaderLink to={DEFAULT_PAGE.HOME_PAGE}>
+            <Logo width="70" color="#fff" />
+          </StyledSmallHeaderLink>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -86,9 +75,9 @@ export const Header = () => {
                 if (!availableRoles.length || isAuth && checkPermission(user.role, availableRoles)) {
                   return (
                     <MenuItem key={name} onClick={handleCloseNavMenu}>
-                      <Typography sx={{ textAlign: 'center' }}>
+                      <Typography sx={{ textAlign: 'center', mr: 2, padding: 0 }}>
                         <Link
-                          to={navigateTo}
+                          to={navigateTo as '/'}
                           preload={false}
                         >
                           {name}
@@ -100,45 +89,33 @@ export const Header = () => {
               })}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            LOGO
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {DRAWER_NAVIGATION_LIST.map(({ name, navigateTo, availableRoles }) => (
-              <Button
-                key={name}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                <Link
-                  to={navigateTo}
-                  preload={false}
-                >
-                  {name}
-                </Link>
-              </Button>
-            ))}
+          <StyledBigHeaderLink to={DEFAULT_PAGE.HOME_PAGE}>
+            <Logo width="70" color="#fff" />
+          </StyledBigHeaderLink>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', gap: '20px' } }}>
+            {DRAWER_NAVIGATION_LIST.map(({ name, navigateTo, availableRoles }) => {
+              if (!availableRoles.length || isAuth && checkPermission(user.role, availableRoles)) {
+                return (
+                  <Link
+                    key={name}
+                    to={navigateTo as '/'}
+                    preload={false}
+                  >
+                    <Button
+                      sx={{ my: 2, color: 'white', display: 'block' }}
+                    >
+                      {name}
+                    </Button>
+                  </Link>
+                )
+              }
+            })}
           </Box>
-          <Box sx={{ flexGrow: 0 }}>
+          {isAuth && <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <IconButton onClick={handleOpenUserMenu} sx={{ border: '2px solid #fff', borderRadius: '8px', padding: '6px 16px', display: 'flex', gap: '8px' }}>
+                <PersonIcon sx={{ color: 'white' }} />
+                <Typography color="#fff">{user.name}</Typography>
               </IconButton>
             </Tooltip>
             <Menu
@@ -163,7 +140,10 @@ export const Header = () => {
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
+          </Box>}
+          {!isAuth && <Link to={DEFAULT_PAGE.LOGIN as '/'}>
+            <Button color="inherit">Login</Button>
+          </Link>}
         </Toolbar>
       </Container>
     </AppBar>

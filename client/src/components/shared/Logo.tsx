@@ -1,4 +1,4 @@
-const Logo = ({ width, height, style }: { width: string; height?: string; style?: object }) => {
+const Logo = ({ width, height, style, color = '#AC98D1' }: { width: string; height?: string; style?: object, color?: string }) => {
   return (
     <svg
       width={width}
@@ -7,7 +7,7 @@ const Logo = ({ width, height, style }: { width: string; height?: string; style?
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 1024 1024"
     >
-    <path fill="#AC98D1" opacity="1.000000" stroke="none" 
+    <path fill={color} opacity="1.000000" stroke="none" 
       d="
     M663.798645,411.789917 
       C628.138489,450.813538 588.144714,484.446503 546.641541,516.401184 
@@ -46,7 +46,7 @@ const Logo = ({ width, height, style }: { width: string; height?: string; style?
       C710.983398,311.266418 721.266235,280.867157 717.723083,246.976257 
       C715.686890,227.500885 709.406799,209.724136 696.880920,193.605011 
     z"/>
-    <path fill="#AC98D1" opacity="1.000000" stroke="none" 
+    <path fill={color} opacity="1.000000" stroke="none" 
       d="
     M288.739746,507.278931 
       C303.159271,527.905945 319.899475,545.876770 338.906708,561.827637 
@@ -125,7 +125,7 @@ const Logo = ({ width, height, style }: { width: string; height?: string; style?
       C285.252563,440.759308 285.021057,439.452972 283.474091,439.339874 
       C280.966339,442.356812 283.796265,445.361176 283.469879,449.104950 
     z"/>
-    <path fill="#AC98D1" opacity="1.000000" stroke="none" 
+    <path fill={color} opacity="1.000000" stroke="none" 
       d="
     M664.081177,586.919189 
       C664.416870,582.940186 666.738281,580.539001 669.208191,578.261230 
@@ -202,7 +202,7 @@ const Logo = ({ width, height, style }: { width: string; height?: string; style?
       C742.902710,443.690430 744.758545,441.251495 742.010376,438.781982 
       C739.382874,443.703491 737.470154,448.432404 735.568909,454.026123 
     z"/>
-    <path fill="#AC98D1" opacity="1.000000" stroke="none" 
+    <path fill={color} opacity="1.000000" stroke="none" 
       d="
     M593.896240,422.640808 
       C586.846375,439.413361 575.048706,449.062531 556.731689,449.261017 
@@ -314,7 +314,7 @@ const Logo = ({ width, height, style }: { width: string; height?: string; style?
       C427.285767,396.185760 428.288574,393.794739 428.576508,391.314270 
       C429.227448,385.707001 431.545471,380.792297 434.890198,375.483612 
     z"/>
-    <path fill="#AC98D1" opacity="1.000000" stroke="none" 
+    <path fill={color} opacity="1.000000" stroke="none" 
       d="
     M547.444092,402.608429 
       C551.944580,407.053375 554.920105,401.979614 559.103638,400.802338 
@@ -324,7 +324,7 @@ const Logo = ({ width, height, style }: { width: string; height?: string; style?
       C546.797424,390.894043 552.032104,390.705933 555.405762,393.836395 
       C552.165527,396.152313 547.619629,397.279053 547.444092,402.608429 
     z"/>
-    <path fill="#AC98D1" opacity="1.000000" stroke="none" 
+    <path fill={color} opacity="1.000000" stroke="none" 
       d="
     M487.727753,403.503357 
       C486.022614,408.893616 482.544617,410.426788 477.542816,409.564331 
