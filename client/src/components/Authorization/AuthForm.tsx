@@ -13,7 +13,7 @@ type Props = {
   type: FormType
 };
 
-const LoginForm: React.FC<Props> = ({ type }) => {
+const AuthForm: React.FC<Props> = ({ type }) => {
   const { store } = useContext(Context);
 
   const { handleSubmit, Field, Subscribe } = useForm({
@@ -140,4 +140,4 @@ const LoginForm: React.FC<Props> = ({ type }) => {
   );
 };
 
-export default observer(LoginForm);
+export default observer(AuthForm);

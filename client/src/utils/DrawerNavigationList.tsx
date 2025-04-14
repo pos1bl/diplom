@@ -1,27 +1,40 @@
-import { Role } from '../models/IUser';
-
 export const enum DEFAULT_PAGE {
   SPECIALIST = '/specialist',
   USER = '/user',
   LOGIN = '/sign-in',
   SETTINGS = '/settings',
-  HOME_PAGE = '/'
+  HOME_PAGE = '/',
+  FORM = '/form',
+  GIFTS = '/gifts',
+  ABOUT = '/about',
+  HELP = '/help',
+  CAREER = '/career',
 }
 
 export const DRAWER_NAVIGATION_LIST = [
   {
-    name: 'Specialist',
-    navigateTo: DEFAULT_PAGE.SPECIALIST,
-    availableRoles: [Role.SPECIALIST]
+    name: 'Наші спеціалісти',
+    navigateTo: DEFAULT_PAGE.FORM,
+    availableRoles: []
   },
   {
-    name: 'User',
-    navigateTo: DEFAULT_PAGE.USER,
-    availableRoles: [Role.USER]
+    name: 'Подарункові сертифікати',
+    navigateTo: DEFAULT_PAGE.GIFTS,
+    availableRoles: []
   },
   {
-    name: 'Settings',
-    navigateTo: DEFAULT_PAGE.SETTINGS,
+    name: 'Про нас',
+    navigateTo: DEFAULT_PAGE.ABOUT,
+    availableRoles: []
+  },
+  {
+    name: 'Точка опори',
+    navigateTo: DEFAULT_PAGE.HELP,
+    availableRoles: []
+  },
+  {
+    name: 'Спеціалістам',
+    navigateTo: DEFAULT_PAGE.CAREER,
     availableRoles: []
   },
 ];

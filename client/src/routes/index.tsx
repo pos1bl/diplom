@@ -2,12 +2,6 @@ import { createFileRoute, redirect } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/')({
   beforeLoad: async () => {
-    throw redirect({ to: '/_default' })
+    throw redirect({ to: '/homepage' })
   }
 });
-
-function Test() {
-  return (
-    <h1>Hello</h1>
-  )
-}

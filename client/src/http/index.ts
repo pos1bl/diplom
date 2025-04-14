@@ -18,7 +18,6 @@ $api.interceptors.request.use((config) => {
 
 $api.interceptors.response.use(
   async (response) => {
-    console.log(`test:${response.config.url}`)
     if (response.status === 200 && response.config.url && successMessageUrls.includes(response.config.url)) {
       showSuccess();
     }

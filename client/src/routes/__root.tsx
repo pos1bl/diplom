@@ -8,3 +8,9 @@ type RouterContext = {
 };
 
 export const Route = createRootRouteWithContext<RouterContext>()();
+
+declare module '@tanstack/react-router' {
+  interface Register {
+    routerContext: RouterContext;
+  }
+}

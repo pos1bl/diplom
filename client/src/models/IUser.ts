@@ -2,11 +2,12 @@ export interface IUser {
   email: string;
   isActivated: boolean;
   id: string;
-  role: string;
+  role: Role;
   name: string;
 }
 
 export enum Role {
   USER = 'user',
-  SPECIALIST = 'specialist'
+  SPECIALIST = 'specialist',
+  ADMIN = 'admin'
 }

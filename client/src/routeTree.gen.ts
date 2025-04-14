@@ -15,6 +15,7 @@ import { Route as SignInImport } from './routes/sign-in'
 import { Route as DefaultRouteImport } from './routes/_default/route'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated/route'
 import { Route as IndexImport } from './routes/index'
+import { Route as DefaultHomepageRouteImport } from './routes/_default/homepage/route'
 import { Route as AuthenticatedUserRouteImport } from './routes/_authenticated/user/route'
 
 // Create/Update Routes
@@ -39,6 +40,12 @@ const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const DefaultHomepageRouteRoute = DefaultHomepageRouteImport.update({
+  id: '/homepage',
+  path: '/homepage',
+  getParentRoute: () => DefaultRouteRoute,
 } as any)
 
 const AuthenticatedUserRouteRoute = AuthenticatedUserRouteImport.update({
@@ -86,6 +93,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedUserRouteImport
       parentRoute: typeof AuthenticatedRouteImport
     }
+    '/_default/homepage': {
+      id: '/_default/homepage'
+      path: '/homepage'
+      fullPath: '/homepage'
+      preLoaderRoute: typeof DefaultHomepageRouteImport
+      parentRoute: typeof DefaultRouteImport
+    }
   }
 }
 
@@ -102,34 +116,49 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface DefaultRouteRouteChildren {
+  DefaultHomepageRouteRoute: typeof DefaultHomepageRouteRoute
+}
+
+const DefaultRouteRouteChildren: DefaultRouteRouteChildren = {
+  DefaultHomepageRouteRoute: DefaultHomepageRouteRoute,
+}
+
+const DefaultRouteRouteWithChildren = DefaultRouteRoute._addFileChildren(
+  DefaultRouteRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '': typeof DefaultRouteRoute
+  '': typeof DefaultRouteRouteWithChildren
   '/sign-in': typeof SignInRoute
   '/user': typeof AuthenticatedUserRouteRoute
+  '/homepage': typeof DefaultHomepageRouteRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '': typeof DefaultRouteRoute
+  '': typeof DefaultRouteRouteWithChildren
   '/sign-in': typeof SignInRoute
   '/user': typeof AuthenticatedUserRouteRoute
+  '/homepage': typeof DefaultHomepageRouteRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/_default': typeof DefaultRouteRoute
+  '/_default': typeof DefaultRouteRouteWithChildren
   '/sign-in': typeof SignInRoute
   '/_authenticated/user': typeof AuthenticatedUserRouteRoute
+  '/_default/homepage': typeof DefaultHomepageRouteRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/sign-in' | '/user'
+  fullPaths: '/' | '' | '/sign-in' | '/user' | '/homepage'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/sign-in' | '/user'
+  to: '/' | '' | '/sign-in' | '/user' | '/homepage'
   id:
     | '__root__'
     | '/'
@@ -137,20 +166,21 @@ export interface FileRouteTypes {
     | '/_default'
     | '/sign-in'
     | '/_authenticated/user'
+    | '/_default/homepage'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
-  DefaultRouteRoute: typeof DefaultRouteRoute
+  DefaultRouteRoute: typeof DefaultRouteRouteWithChildren
   SignInRoute: typeof SignInRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
-  DefaultRouteRoute: DefaultRouteRoute,
+  DefaultRouteRoute: DefaultRouteRouteWithChildren,
   SignInRoute: SignInRoute,
 }
 
@@ -180,7 +210,10 @@ export const routeTree = rootRoute
       ]
     },
     "/_default": {
-      "filePath": "_default/route.tsx"
+      "filePath": "_default/route.tsx",
+      "children": [
+        "/_default/homepage"
+      ]
     },
     "/sign-in": {
       "filePath": "sign-in.tsx"
@@ -188,6 +221,10 @@ export const routeTree = rootRoute
     "/_authenticated/user": {
       "filePath": "_authenticated/user/route.tsx",
       "parent": "/_authenticated"
+    },
+    "/_default/homepage": {
+      "filePath": "_default/homepage/route.tsx",
+      "parent": "/_default"
     }
   }
 }
