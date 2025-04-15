@@ -1,4 +1,4 @@
-import { Role } from '../models/IUser';
+import { Role } from '@models/IUser';
 
 export const checkPermission = (role: Role, avilableRoles: Role[] = []) => {
   if (!role) return false;

@@ -35,3 +35,9 @@ export const StyledBigHeaderLink = styled(StyledHeaderLink)(({ theme }) => ({
     display: 'none',
   },
 }));
+
+export const StyledPageWrapper = styled('div')({
+  maxWidth: '1600px',
+  margin: '0 auto',
+  padding: '24px 0 80px',
+});

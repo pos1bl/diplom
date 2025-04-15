@@ -31,7 +31,10 @@
       "@dashboardComponents/*": ["src/components/Dashboard/*"],
       "@helpers/*": ["src/helpers/*"],
       "@utilities/*": ["src/assets/styles/utilities/*"],
-      "@hooks/*": ["src/hooks/*"]
+      "@hooks/*": ["src/hooks/*"],
+      "@models/*": ["src/models/*"],
+      "@store/*": ["src/store/*"],
+      "@images/*": ["src/assets/images/*"],
     }
   },
   "include": ["src"],

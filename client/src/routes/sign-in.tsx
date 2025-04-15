@@ -1,6 +1,6 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
-import { DEFAULT_PAGE } from '@utils/DrawerNavigationList';
-import { Role } from '../models/IUser';
+import { DEFAULT_PAGE } from '@utils/NavigationList';
+import { Role } from '@models/IUser';
 
 import { z } from 'zod';
 import { AuthPage } from '@components/Authorization/AuthPage';

@@ -19,7 +19,10 @@ export default defineConfig({
       '@components': path.resolve(__dirname, 'src/components'),
       '@helpers': path.resolve(__dirname, 'src/helpers'),
       '@utilities': path.resolve(__dirname, 'src/assets/styles/utilities'),
-      '@hooks': path.resolve(__dirname, 'src/hooks')
+      '@hooks': path.resolve(__dirname, 'src/hooks'),
+      '@models': path.resolve(__dirname, 'src/models'),
+      '@store': path.resolve(__dirname, 'src/store'),
+      '@images': path.resolve(__dirname, 'src/assets/images'),
     }
   }
 })

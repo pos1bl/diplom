@@ -16,7 +16,9 @@ import { Route as DefaultRouteImport } from './routes/_default/route'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as DefaultHomepageRouteImport } from './routes/_default/homepage/route'
+import { Route as DefaultCareerRouteImport } from './routes/_default/career/route'
 import { Route as AuthenticatedUserRouteImport } from './routes/_authenticated/user/route'
+import { Route as AuthenticatedSpecialistRouteImport } from './routes/_authenticated/specialist/route'
 
 // Create/Update Routes
 
@@ -48,11 +50,24 @@ const DefaultHomepageRouteRoute = DefaultHomepageRouteImport.update({
   getParentRoute: () => DefaultRouteRoute,
 } as any)
 
+const DefaultCareerRouteRoute = DefaultCareerRouteImport.update({
+  id: '/career',
+  path: '/career',
+  getParentRoute: () => DefaultRouteRoute,
+} as any)
+
 const AuthenticatedUserRouteRoute = AuthenticatedUserRouteImport.update({
   id: '/user',
   path: '/user',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+
+const AuthenticatedSpecialistRouteRoute =
+  AuthenticatedSpecialistRouteImport.update({
+    id: '/specialist',
+    path: '/specialist',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -86,12 +101,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignInImport
       parentRoute: typeof rootRoute
     }
+    '/_authenticated/specialist': {
+      id: '/_authenticated/specialist'
+      path: '/specialist'
+      fullPath: '/specialist'
+      preLoaderRoute: typeof AuthenticatedSpecialistRouteImport
+      parentRoute: typeof AuthenticatedRouteImport
+    }
     '/_authenticated/user': {
       id: '/_authenticated/user'
       path: '/user'
       fullPath: '/user'
       preLoaderRoute: typeof AuthenticatedUserRouteImport
       parentRoute: typeof AuthenticatedRouteImport
+    }
+    '/_default/career': {
+      id: '/_default/career'
+      path: '/career'
+      fullPath: '/career'
+      preLoaderRoute: typeof DefaultCareerRouteImport
+      parentRoute: typeof DefaultRouteImport
     }
     '/_default/homepage': {
       id: '/_default/homepage'
@@ -106,10 +135,12 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedSpecialistRouteRoute: typeof AuthenticatedSpecialistRouteRoute
   AuthenticatedUserRouteRoute: typeof AuthenticatedUserRouteRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedSpecialistRouteRoute: AuthenticatedSpecialistRouteRoute,
   AuthenticatedUserRouteRoute: AuthenticatedUserRouteRoute,
 }
 
@@ -117,10 +148,12 @@ const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface DefaultRouteRouteChildren {
+  DefaultCareerRouteRoute: typeof DefaultCareerRouteRoute
   DefaultHomepageRouteRoute: typeof DefaultHomepageRouteRoute
 }
 
 const DefaultRouteRouteChildren: DefaultRouteRouteChildren = {
+  DefaultCareerRouteRoute: DefaultCareerRouteRoute,
   DefaultHomepageRouteRoute: DefaultHomepageRouteRoute,
 }
 
@@ -132,7 +165,9 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof DefaultRouteRouteWithChildren
   '/sign-in': typeof SignInRoute
+  '/specialist': typeof AuthenticatedSpecialistRouteRoute
   '/user': typeof AuthenticatedUserRouteRoute
+  '/career': typeof DefaultCareerRouteRoute
   '/homepage': typeof DefaultHomepageRouteRoute
 }
 
@@ -140,7 +175,9 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof DefaultRouteRouteWithChildren
   '/sign-in': typeof SignInRoute
+  '/specialist': typeof AuthenticatedSpecialistRouteRoute
   '/user': typeof AuthenticatedUserRouteRoute
+  '/career': typeof DefaultCareerRouteRoute
   '/homepage': typeof DefaultHomepageRouteRoute
 }
 
@@ -150,22 +187,33 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_default': typeof DefaultRouteRouteWithChildren
   '/sign-in': typeof SignInRoute
+  '/_authenticated/specialist': typeof AuthenticatedSpecialistRouteRoute
   '/_authenticated/user': typeof AuthenticatedUserRouteRoute
+  '/_default/career': typeof DefaultCareerRouteRoute
   '/_default/homepage': typeof DefaultHomepageRouteRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/sign-in' | '/user' | '/homepage'
+  fullPaths:
+    | '/'
+    | ''
+    | '/sign-in'
+    | '/specialist'
+    | '/user'
+    | '/career'
+    | '/homepage'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/sign-in' | '/user' | '/homepage'
+  to: '/' | '' | '/sign-in' | '/specialist' | '/user' | '/career' | '/homepage'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/_default'
     | '/sign-in'
+    | '/_authenticated/specialist'
     | '/_authenticated/user'
+    | '/_default/career'
     | '/_default/homepage'
   fileRoutesById: FileRoutesById
 }
@@ -206,21 +254,31 @@ export const routeTree = rootRoute
     "/_authenticated": {
       "filePath": "_authenticated/route.tsx",
       "children": [
+        "/_authenticated/specialist",
         "/_authenticated/user"
       ]
     },
     "/_default": {
       "filePath": "_default/route.tsx",
       "children": [
+        "/_default/career",
         "/_default/homepage"
       ]
     },
     "/sign-in": {
       "filePath": "sign-in.tsx"
     },
+    "/_authenticated/specialist": {
+      "filePath": "_authenticated/specialist/route.tsx",
+      "parent": "/_authenticated"
+    },
     "/_authenticated/user": {
       "filePath": "_authenticated/user/route.tsx",
       "parent": "/_authenticated"
+    },
+    "/_default/career": {
+      "filePath": "_default/career/route.tsx",
+      "parent": "/_default"
     },
     "/_default/homepage": {
       "filePath": "_default/homepage/route.tsx",

@@ -1,6 +1,6 @@
 import useNotifyToast from '@hooks/useNotifyToats';
 import axios from 'axios';
-import { AuthResponse } from 'src/models/response/AuthResponse';
+import { AuthResponse } from '@models/response/AuthResponse';
 
 const $api = axios.create({
   withCredentials: true,

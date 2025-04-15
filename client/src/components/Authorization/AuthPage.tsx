@@ -5,6 +5,8 @@ import { StyledAuthPage, StyledTab, StyledTabs } from "@components/styled/login"
 import Logo from "@components/shared/Logo";
 import AuthForm from "./AuthForm";
 import { FormType } from "@utils/Auth";
+import { Link } from "@tanstack/react-router";
+import { DEFAULT_PAGE } from "@utils/NavigationList";
 
 export const AuthPage = () => {
   const [value, setValue] = useState(0);
@@ -14,7 +16,9 @@ export const AuthPage = () => {
 
   return (
     <StyledAuthPage>
-      <Logo width="300" />
+      <Link to={DEFAULT_PAGE.HOME_PAGE as '/'}>
+        <Logo width="300" />
+      </Link>
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <StyledTabs value={value} onChange={handleChange}>

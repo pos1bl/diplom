@@ -2,7 +2,7 @@ import axios from "axios";
 import { makeAutoObservable } from "mobx";
 import { IUser } from "../models/IUser.ts";
 import AuthService from "../services/AuthService.ts";
-import { AuthResponse } from "src/models/response/AuthResponse.ts";
+import { AuthResponse } from "@models/response/AuthResponse.ts";
 import router from "@utils/Route.ts";
 
 export default class Store {
@@ -26,7 +26,7 @@ export default class Store {
     this.isLoading = bool;
   }
 
-  async login(email: string, password: string) {
+  login = async (email: string, password: string) => {
     try {
       const response = await AuthService.login(email, password);
       localStorage.setItem('token', response.data.accessToken);
@@ -43,7 +43,7 @@ export default class Store {
     }
   }
 
-  async registration(email: string, name: string, password: string) {
+  registration = async (email: string, name: string, password: string) => {
     try {
       const response = await AuthService.registration(email, name, password);
       localStorage.setItem('token', response.data.accessToken);
@@ -60,7 +60,7 @@ export default class Store {
     }
   }
 
-  async logout() {
+  logout = async() => {
     try {
       localStorage.removeItem('token');
       this.setAuth(false);

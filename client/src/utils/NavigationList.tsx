@@ -1,3 +1,5 @@
+import { Role } from "@models/IUser";
+
 export const enum DEFAULT_PAGE {
   SPECIALIST = '/specialist',
   USER = '/user',
@@ -5,13 +7,14 @@ export const enum DEFAULT_PAGE {
   SETTINGS = '/settings',
   HOME_PAGE = '/',
   FORM = '/form',
+  ALL_SPECIALISTS = '/specialists',
   GIFTS = '/gifts',
   ABOUT = '/about',
   HELP = '/help',
   CAREER = '/career',
 }
 
-export const DRAWER_NAVIGATION_LIST = [
+export const HEADER_NAVIGATION_LIST = [
   {
     name: 'Наші спеціалісти',
     navigateTo: DEFAULT_PAGE.FORM,
@@ -37,4 +40,22 @@ export const DRAWER_NAVIGATION_LIST = [
     navigateTo: DEFAULT_PAGE.CAREER,
     availableRoles: []
   },
+];
+
+export const USER_NAVIGATION_LIST = [
+  {
+    name: 'Мій акаунт',
+    navigateTo: DEFAULT_PAGE.USER,
+    availableRoles: [Role.USER]
+  },
+  {
+    name: 'Сеанси',
+    navigateTo: DEFAULT_PAGE.USER,
+    availableRoles: [Role.USER]
+  },
+  {
+    name: 'Налаштування',
+    navigateTo: DEFAULT_PAGE.USER,
+    availableRoles: [Role.USER]
+  }
 ];
