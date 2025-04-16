@@ -8,6 +8,8 @@ import router from '@utils/Route'
 import { ToastContainer } from 'react-toastify';
 
 import './assets/styles/index.scss';
+import { ThemeProvider } from '@mui/material'
+import { theme } from '@utils/Theme'
 function App() {
   const queryClient = useQueryClient();
   const authContext = useContext(Context);
@@ -23,13 +25,13 @@ function App() {
   }
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <ToastContainer />
       <RouterProvider
         router={router}
         context={{ authContext, queryClient }}
       />
-    </>
+    </ThemeProvider>
     
   );
 }

@@ -39,5 +39,31 @@ export const StyledBigHeaderLink = styled(StyledHeaderLink)(({ theme }) => ({
 export const StyledPageWrapper = styled('div')({
   maxWidth: '1600px',
   margin: '0 auto',
-  padding: '24px 0 80px',
+  padding: '50px 0 80px',
 });
+
+export const StyledGlobalPageWrapper = styled('div')({
+  overflowY: 'auto',
+  minHeight: 'inherit',
+  maxHeight: 'calc(100dvh - 70px)',
+
+  '&::-webkit-scrollbar': {
+    width: '7px',
+    height: '7px',
+    background: 'rgba(172, 152, 209, 0.5)'
+  },
+
+  '&::-webkit-scrollbar-track': {
+    backdropFilter: 'blur(10px)',
+    background: 'rgba(172, 152, 209, 0.5)'
+  },
+
+  '&::-webkit-scrollbar-thumb': {
+    background: '#2D2046',
+    borderRadius: '10px',
+
+    '&:hover': {
+      background: '#1B132A'
+    }
+  }
+})

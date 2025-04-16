@@ -1,5 +1,5 @@
 import { Header } from '@components/shared/Header';
-import { StyledPageWrapper } from '@components/styled/base';
+import { StyledGlobalPageWrapper, StyledPageWrapper } from '@components/styled/base';
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_default')({
@@ -10,9 +10,11 @@ function RouteComponent() {
   return(
     <>
       <Header />
-      <StyledPageWrapper>
-        <Outlet />
-      </StyledPageWrapper>
+      <StyledGlobalPageWrapper>
+        <StyledPageWrapper>
+          <Outlet />
+        </StyledPageWrapper>
+      </StyledGlobalPageWrapper>
     </>
   );
 }

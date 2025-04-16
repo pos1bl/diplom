@@ -1,23 +1,55 @@
-import { Box, styled } from '@mui/material';
+import { Box, Button, styled } from '@mui/material';
 
-export const StyledHero = styled('section')({
-  gap: '10px',
-  width: '100%',
+export const StyledMain = styled('main')({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  gap: "80px"
+});
+
+export const StyledSection = styled('section')({
   display: 'flex',
-  padding: '5px 10px',
   alignItems: 'center',
-  borderRadius: '20px',
-  backgroundColor: '#fff',
   justifyContent: 'center'
+})
+
+export const StyledHero = styled(StyledSection)({
+  gap: '40px',
+});
+
+export const StyledAbout = styled(StyledSection)({
+  flexDirection: 'column',
+  gap: '20px',
+});
+
+export const StyledHowItWorks = styled(StyledSection)({
+  flexDirection: 'column',
+  gap: '40px',
+});
+
+export const StyledHeroInfoBlock = styled(Box)({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '20px'
+});
+
+export const StyledTitle = styled('h1')({
+  fontSize: '48px',
+  color: '#AC98D1'
+});
+
+export const StyledSubtitle = styled('h2')({
+  fontSize: '40px',
+  color: '#AC98D1'
+});
+
+export const StyledHeroButton = styled(Button)({
+  backgroundColor: '#AC98D1',
 });
 
 export const StyledImageBox = styled(Box)({
-  gap: '10px',
-  width: '100%',
-  display: 'flex',
-  padding: '5px 10px',
-  alignItems: 'center',
-  borderRadius: '20px',
-  backgroundColor: '#fff',
-  justifyContent: 'center'
+  width: '450px',
+  height: '550px',
+  borderRadius: '5%',
+  overflow: 'hidden'
 });
