@@ -10,20 +10,24 @@ export const StyledMain = styled('main')({
 export const StyledSection = styled('section')({
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center'
+  justifyContent: 'center',
+  flexDirection: 'column',
 })
 
 export const StyledHero = styled(StyledSection)({
   gap: '40px',
+  flexDirection: 'row',
 });
 
 export const StyledAbout = styled(StyledSection)({
-  flexDirection: 'column',
   gap: '20px',
 });
 
 export const StyledHowItWorks = styled(StyledSection)({
-  flexDirection: 'column',
+  gap: '40px',
+});
+
+export const StyledPsychologistShowCase = styled(StyledSection)({
   gap: '40px',
 });
 

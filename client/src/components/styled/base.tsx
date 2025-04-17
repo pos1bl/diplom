@@ -1,4 +1,4 @@
-import { styled } from '@mui/material';
+import { Button, styled } from '@mui/material';
 import { Link } from '@tanstack/react-router';
 
 export const StyledActionBar = styled('div')({
@@ -67,3 +67,7 @@ export const StyledGlobalPageWrapper = styled('div')({
     }
   }
 })
+
+export const StyledButton = styled(Button)({
+  backgroundColor: "#A891D2"
+});

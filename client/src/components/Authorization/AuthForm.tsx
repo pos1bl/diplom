@@ -4,10 +4,11 @@ import { Context } from "../../main";
 import { observer } from "mobx-react-lite";
 import FormControl from '@mui/material/FormControl';
 import { FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from "@mui/material";
-import { SigninForm, StyledButton } from "@components/styled/login";
+import { SigninForm } from "@components/styled/login";
 import { useForm } from '@tanstack/react-form';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { FormType } from "@utils/Auth";
+import { StyledButton } from "@components/styled/base";
 
 type Props = {
   type: FormType

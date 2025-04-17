@@ -17,10 +17,6 @@ export const SigninForm = styled('form')({
   gap: '10px'
 });
 
-export const StyledButton = styled(Button)({
-  backgroundColor: "#A891D2"
-});
-
 export const StyledTabs = styled(Tabs) ({
   '& .MuiTabs-indicator': {
     backgroundColor: '#A891D2'

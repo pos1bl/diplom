@@ -1,38 +1,42 @@
 // components/FreeHelpSection.tsx
-import { Box, Container, Typography, Button, Paper } from '@mui/material';
+import { StyledButton } from '@components/styled/base';
+import { StyledSection, StyledSubtitle } from '@components/styled/homepage';
+import { Container, Typography, Paper } from '@mui/material';
 
-export const FreeHelpSection = () => {
+export const FreeHelp = () => {
   return (
-    <Box sx={{ backgroundColor: '#eef1f6', py: 8 }}>
+    <StyledSection>
       <Container maxWidth="md">
         <Paper
           elevation={3}
           sx={{
             p: { xs: 3, md: 5 },
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '20px',
             borderRadius: 4,
             textAlign: 'center',
-            backgroundColor: '#ffffff',
           }}
         >
-          <Typography variant="h4" component="h2" gutterBottom>
+          <StyledSubtitle>
             Безкоштовна допомога для військових та постраждалих від війни
-          </Typography>
+          </StyledSubtitle>
 
-          <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
+          <Typography variant="body1" color="text.secondary">
             Ми дбаємо про тих, хто постраждав внаслідок війни. Платформа надає безкоштовну психологічну допомогу для військових, ветеранів, переселенців та всіх, хто пережив травматичні події.
             Звернення конфіденційне, підбір фахівця — швидкий і турботливий.
           </Typography>
 
-          <Button
+          <StyledButton
             variant="contained"
             color="primary"
             size="large"
-            sx={{ borderRadius: 8, px: 4, textTransform: 'none' }}
+            sx={{ borderRadius: 8, px: 4, textTransform: 'none', width: 'fit-content', mx: 'auto' }}
           >
             Отримати безкоштовну підтримку
-          </Button>
+          </StyledButton>
         </Paper>
       </Container>
-    </Box>
+    </StyledSection>
   );
 };

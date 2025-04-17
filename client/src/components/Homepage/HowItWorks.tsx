@@ -7,7 +7,7 @@ export const HowItWorks = () => (
     <StyledSubtitle>Як це працює?</StyledSubtitle>
     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4, justifyContent: 'center'}}>
       {HOWITWORKS_LIST.map(({ step, title, description }) => (
-        <Paper elevation={3} sx={{ p: 4, height: '100%', borderRadius: 3, width: "700px"}}>
+        <Paper key={step} elevation={3} sx={{ p: 4, height: '100%', borderRadius: 3, width: "700px"}}>
           <Typography variant="h5" gutterBottom>
             {step}. {title}
           </Typography>
