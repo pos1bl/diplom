@@ -73,6 +73,11 @@ export const Header = () => {
                         <Link
                           to={navigateTo as '/'}
                           preload={false}
+                          activeProps={{
+                            style: {
+                              borderBottom: '1px solid black',
+                            },
+                          }}
                         >
                           {name}
                         </Link>
@@ -94,6 +99,11 @@ export const Header = () => {
                     key={name}
                     to={navigateTo as '/'}
                     preload={false}
+                    activeProps={{
+                      style: {
+                        borderBottom: '2px solid white',
+                      },
+                    }}
                   >
                     <Button sx={{ my: 2, color: 'white', display: 'block' }}>
                       {name}

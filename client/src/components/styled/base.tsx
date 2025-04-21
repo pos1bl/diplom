@@ -68,6 +68,21 @@ export const StyledGlobalPageWrapper = styled('div')({
   }
 })
 
-export const StyledButton = styled(Button)({
-  backgroundColor: "#A891D2"
+export const StyledMain = styled('main')({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  gap: "80px"
+});
+
+export const StyledTitle = styled('h1')({
+  fontSize: '48px',
+  color: '#AC98D1'
+});
+
+export const StyledSection = styled('section')({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexDirection: 'column',
 });

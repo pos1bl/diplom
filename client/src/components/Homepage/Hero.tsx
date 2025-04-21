@@ -1,8 +1,10 @@
-import { StyledHero, StyledHeroButton, StyledHeroInfoBlock, StyledTitle, StyledImageBox } from "@components/styled/homepage";
+import { StyledHero, StyledHeroInfoBlock, StyledImageBox } from "@components/styled/homepage";
+import { StyledTitle } from "@components/styled/base";
 import { Box } from "@mui/material";
 import { Link } from "@tanstack/react-router";
 import { DEFAULT_PAGE } from "@utils/NavigationList";
 import hero from "@images/homepage/hero.png"
+import { ContainedButton } from "@components/shared/ContainedButton";
 
 export const Hero = () => (
   <StyledHero>
@@ -18,14 +20,14 @@ export const Hero = () => (
       </p>
       <Box display="flex" gap="20px">
         <Link to={DEFAULT_PAGE.FORM as "/"}>
-          <StyledHeroButton variant="contained">
+          <ContainedButton>
             Знайти саме свого спеціаліста
-          </StyledHeroButton>
+          </ContainedButton>
         </Link>
         <Link to={DEFAULT_PAGE.HELP as "/"}>
-          <StyledHeroButton variant="contained"> 
+          <ContainedButton> 
             Безкоштовна підтримка для військових і постраждалих
-          </StyledHeroButton>
+          </ContainedButton>
         </Link>
       </Box>
     </StyledHeroInfoBlock>

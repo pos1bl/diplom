@@ -9,7 +9,6 @@ export const enum DEFAULT_PAGE {
   FORM = '/form',
   ALL_SPECIALISTS = '/specialists',
   GIFTS = '/gifts',
-  ABOUT = '/about',
   HELP = '/help',
   CAREER = '/career',
 }
@@ -23,11 +22,6 @@ export const HEADER_NAVIGATION_LIST = [
   {
     name: 'Подарункові сертифікати',
     navigateTo: DEFAULT_PAGE.GIFTS,
-    availableRoles: []
-  },
-  {
-    name: 'Про нас',
-    navigateTo: DEFAULT_PAGE.ABOUT,
     availableRoles: []
   },
   {

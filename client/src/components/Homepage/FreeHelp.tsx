@@ -1,7 +1,7 @@
-// components/FreeHelpSection.tsx
-import { StyledButton } from '@components/styled/base';
-import { StyledSection, StyledSubtitle } from '@components/styled/homepage';
+import { StyledSubtitle } from '@components/styled/homepage';
+import { StyledSection } from '@components/styled/base';
 import { Container, Typography, Paper } from '@mui/material';
+import { ContainedButton } from '@components/shared/ContainedButton';
 
 export const FreeHelp = () => {
   return (
@@ -27,14 +27,9 @@ export const FreeHelp = () => {
             Звернення конфіденційне, підбір фахівця — швидкий і турботливий.
           </Typography>
 
-          <StyledButton
-            variant="contained"
-            color="primary"
-            size="large"
-            sx={{ borderRadius: 8, px: 4, textTransform: 'none', width: 'fit-content', mx: 'auto' }}
-          >
+          <ContainedButton sx={{ width: 'fit-content', mx: 'auto' }}>
             Отримати безкоштовну підтримку
-          </StyledButton>
+          </ContainedButton>
         </Paper>
       </Container>
     </StyledSection>

@@ -1,14 +1,15 @@
 
 import React, { useState, useContext, FormEvent } from "react";
-import { Context } from "../../main";
 import { observer } from "mobx-react-lite";
+
 import FormControl from '@mui/material/FormControl';
-import { FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from "@mui/material";
+import { Button, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from "@mui/material";
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+
+import { Context } from "../../main";
 import { SigninForm } from "@components/styled/login";
 import { useForm } from '@tanstack/react-form';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { FormType } from "@utils/Auth";
-import { StyledButton } from "@components/styled/base";
 
 type Props = {
   type: FormType
@@ -129,12 +130,17 @@ const AuthForm: React.FC<Props> = ({ type }) => {
       <Subscribe
         selector={({ canSubmit, isSubmitting }) => [canSubmit, isSubmitting]}
         children={([canSubmit]) => (
-          <StyledButton
-            disabled={!canSubmit}
+          <Button
             variant="contained"
-            type="submit">
+            disabled={!canSubmit}
+            type="submit"
+            sx={{
+              backgroundColor: "#A891D2",
+              color: "fff"
+            }}
+          >
             {type === FormType.LOGIN ? 'Увійти' : 'Зареєструватись'}
-          </StyledButton>
+          </Button>
         )}
       />
     </SigninForm>

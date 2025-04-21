@@ -3,7 +3,7 @@ import { TabPanel, TabContext } from '@mui/lab';
 import { useState } from "react";
 import { StyledAuthPage, StyledTab, StyledTabs } from "@components/styled/login";
 import Logo from "@components/shared/Logo";
-import AuthForm from "./AuthForm";
+import AuthForm from "@components/Authorization/AuthForm";
 import { FormType } from "@utils/Auth";
 import { Link } from "@tanstack/react-router";
 import { DEFAULT_PAGE } from "@utils/NavigationList";

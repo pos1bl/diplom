@@ -3,7 +3,7 @@ import { DEFAULT_PAGE } from '@utils/NavigationList';
 import { Role } from '@models/IUser';
 
 import { z } from 'zod';
-import { AuthPage } from '@components/Authorization/AuthPage';
+import { AuthPage } from '@pages/AuthPage';
 
 export const Route = createFileRoute('/sign-in')({
   beforeLoad: async ({ context: { authContext }, search }) => {

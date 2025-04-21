@@ -1,28 +1,9 @@
 import { Box, Typography, Card, CardContent, Avatar } from '@mui/material';
-import { StyledButton } from '@components/styled/base';
-import { StyledSection, StyledSubtitle } from '@components/styled/homepage';
+import { StyledSubtitle } from '@components/styled/homepage';
+import { StyledSection } from '@components/styled/base';
 import { Link } from '@tanstack/react-router';
-
-const psychologists = [
-  {
-    name: 'Олена Іваненко',
-    specialization: 'Когнітивно-поведінкова терапія',
-    experience: '7 років досвіду',
-    avatar: '/images/psychologists/ivanenko.png',
-  },
-  {
-    name: 'Максим Руденко',
-    specialization: 'Травматерапія, EMDR',
-    experience: '10 років досвіду',
-    avatar: '/images/psychologists/rudenko.png',
-  },
-  {
-    name: 'Наталія Шевченко',
-    specialization: 'Психоаналітичний підхід',
-    experience: '5 років досвіду',
-    avatar: '/images/psychologists/shevchenko.png',
-  },
-];
+import { PSYCHOLOGIST_LIST } from '@utils/Homepage';
+import { ContainedButton } from '@components/shared/ContainedButton';
 
 export const PsychologistShowcase = () => {
   return (
@@ -41,9 +22,9 @@ export const PsychologistShowcase = () => {
             justifyContent: 'center',
         }}
       >
-        {psychologists.map((psych, idx) => (
+        {PSYCHOLOGIST_LIST.map(({ name, specialization, experience, avatar }) => (
             <Card
-              key={idx}
+              key={name}
               sx={{
                 width: { xs: '100%', sm: '45%', md: '30%' },
                 minWidth: '260px',
@@ -62,17 +43,17 @@ export const PsychologistShowcase = () => {
               }}
             >
               <Avatar
-                src={psych.avatar}
-                alt={psych.name}
+                src={avatar}
+                alt={name}
                 sx={{ width: 100, height: 100, mb: 2,  }}
               />
               <CardContent sx={{ textAlign: 'center' }}>
-                <Typography variant="h6">{psych.name}</Typography>
+                <Typography variant="h6">{name}</Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {psych.specialization}
+                  {specialization}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {psych.experience}
+                  {experience}
                 </Typography>
               </CardContent>
             </Card>
@@ -80,15 +61,8 @@ export const PsychologistShowcase = () => {
       </Box>
 
       <Box mt={5} display="flex" justifyContent="center">
-        <Link>
-          <StyledButton
-            variant="contained"
-            color="primary"
-            size="large"
-            sx={{ px: 4, borderRadius: 8, textTransform: 'none' }}
-          >
-            Переглянути всіх
-          </StyledButton>
+        <Link to="/">
+          <ContainedButton>Переглянути всіх</ContainedButton>
         </Link>
       </Box>
     </StyledSection>

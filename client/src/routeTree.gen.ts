@@ -16,6 +16,7 @@ import { Route as DefaultRouteImport } from './routes/_default/route'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as DefaultHomepageRouteImport } from './routes/_default/homepage/route'
+import { Route as DefaultGiftsRouteImport } from './routes/_default/gifts/route'
 import { Route as DefaultCareerRouteImport } from './routes/_default/career/route'
 import { Route as AuthenticatedUserRouteImport } from './routes/_authenticated/user/route'
 import { Route as AuthenticatedSpecialistRouteImport } from './routes/_authenticated/specialist/route'
@@ -47,6 +48,12 @@ const IndexRoute = IndexImport.update({
 const DefaultHomepageRouteRoute = DefaultHomepageRouteImport.update({
   id: '/homepage',
   path: '/homepage',
+  getParentRoute: () => DefaultRouteRoute,
+} as any)
+
+const DefaultGiftsRouteRoute = DefaultGiftsRouteImport.update({
+  id: '/gifts',
+  path: '/gifts',
   getParentRoute: () => DefaultRouteRoute,
 } as any)
 
@@ -122,6 +129,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DefaultCareerRouteImport
       parentRoute: typeof DefaultRouteImport
     }
+    '/_default/gifts': {
+      id: '/_default/gifts'
+      path: '/gifts'
+      fullPath: '/gifts'
+      preLoaderRoute: typeof DefaultGiftsRouteImport
+      parentRoute: typeof DefaultRouteImport
+    }
     '/_default/homepage': {
       id: '/_default/homepage'
       path: '/homepage'
@@ -149,11 +163,13 @@ const AuthenticatedRouteRouteWithChildren =
 
 interface DefaultRouteRouteChildren {
   DefaultCareerRouteRoute: typeof DefaultCareerRouteRoute
+  DefaultGiftsRouteRoute: typeof DefaultGiftsRouteRoute
   DefaultHomepageRouteRoute: typeof DefaultHomepageRouteRoute
 }
 
 const DefaultRouteRouteChildren: DefaultRouteRouteChildren = {
   DefaultCareerRouteRoute: DefaultCareerRouteRoute,
+  DefaultGiftsRouteRoute: DefaultGiftsRouteRoute,
   DefaultHomepageRouteRoute: DefaultHomepageRouteRoute,
 }
 
@@ -168,6 +184,7 @@ export interface FileRoutesByFullPath {
   '/specialist': typeof AuthenticatedSpecialistRouteRoute
   '/user': typeof AuthenticatedUserRouteRoute
   '/career': typeof DefaultCareerRouteRoute
+  '/gifts': typeof DefaultGiftsRouteRoute
   '/homepage': typeof DefaultHomepageRouteRoute
 }
 
@@ -178,6 +195,7 @@ export interface FileRoutesByTo {
   '/specialist': typeof AuthenticatedSpecialistRouteRoute
   '/user': typeof AuthenticatedUserRouteRoute
   '/career': typeof DefaultCareerRouteRoute
+  '/gifts': typeof DefaultGiftsRouteRoute
   '/homepage': typeof DefaultHomepageRouteRoute
 }
 
@@ -190,6 +208,7 @@ export interface FileRoutesById {
   '/_authenticated/specialist': typeof AuthenticatedSpecialistRouteRoute
   '/_authenticated/user': typeof AuthenticatedUserRouteRoute
   '/_default/career': typeof DefaultCareerRouteRoute
+  '/_default/gifts': typeof DefaultGiftsRouteRoute
   '/_default/homepage': typeof DefaultHomepageRouteRoute
 }
 
@@ -202,9 +221,18 @@ export interface FileRouteTypes {
     | '/specialist'
     | '/user'
     | '/career'
+    | '/gifts'
     | '/homepage'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/sign-in' | '/specialist' | '/user' | '/career' | '/homepage'
+  to:
+    | '/'
+    | ''
+    | '/sign-in'
+    | '/specialist'
+    | '/user'
+    | '/career'
+    | '/gifts'
+    | '/homepage'
   id:
     | '__root__'
     | '/'
@@ -214,6 +242,7 @@ export interface FileRouteTypes {
     | '/_authenticated/specialist'
     | '/_authenticated/user'
     | '/_default/career'
+    | '/_default/gifts'
     | '/_default/homepage'
   fileRoutesById: FileRoutesById
 }
@@ -262,6 +291,7 @@ export const routeTree = rootRoute
       "filePath": "_default/route.tsx",
       "children": [
         "/_default/career",
+        "/_default/gifts",
         "/_default/homepage"
       ]
     },
@@ -278,6 +308,10 @@ export const routeTree = rootRoute
     },
     "/_default/career": {
       "filePath": "_default/career/route.tsx",
+      "parent": "/_default"
+    },
+    "/_default/gifts": {
+      "filePath": "_default/gifts/route.tsx",
       "parent": "/_default"
     },
     "/_default/homepage": {
