@@ -1,4 +1,5 @@
-import { StyledAbout, StyledSubtitle } from '@components/styled/homepage';
+import { StyledAbout } from '@components/styled/homepage';
+import { StyledSubtitle } from '@components/styled/base';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Box, List, ListItem } from '@mui/material';
 

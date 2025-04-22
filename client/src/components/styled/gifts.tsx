@@ -9,6 +9,17 @@ export const StyledHero = styled(StyledSection)({
   padding: '40px'
 });
 
+export const StyledSteps = styled(StyledSection)({
+  gap: '40px',
+});
+
+export const StyledOptions = styled(StyledSection)({
+  backgroundColor: '#f9f9f9',
+  borderRadius: '5%',
+  gap: '40px',
+  padding: '40px',
+});
+
 export const StyledHeroInfoBlock = styled(Box)({
   maxWidth: '650px',
   display: 'flex',

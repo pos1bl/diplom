@@ -1,4 +1,4 @@
-import { Box, Button, styled } from '@mui/material';
+import { Box, styled } from '@mui/material';
 import { StyledSection } from './base';
 
 export const StyledHero = styled(StyledSection)({
@@ -22,11 +22,6 @@ export const StyledHeroInfoBlock = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   gap: '20px'
-});
-
-export const StyledSubtitle = styled('h2')({
-  fontSize: '40px',
-  color: '#AC98D1'
 });
 
 export const StyledImageBox = styled(Box)({

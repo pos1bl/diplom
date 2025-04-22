@@ -1,4 +1,5 @@
-import { StyledHowItWorks, StyledSubtitle } from "@components/styled/homepage";
+import { StyledHowItWorks } from "@components/styled/homepage";
+import { StyledSubtitle } from '@components/styled/base';
 import { Box, Typography, Paper } from "@mui/material";
 import { HOWITWORKS_LIST } from "@utils/Homepage";
 

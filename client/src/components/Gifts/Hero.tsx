@@ -3,8 +3,12 @@ import { StyledTitle } from "@components/styled/base";
 import { Link } from "@tanstack/react-router";
 import { DEFAULT_PAGE } from "@utils/NavigationList";
 import { ContainedButton } from "@components/shared/ContainedButton";
+import { FC } from "react";
+type Props = {
+  onScrollToOptions: () => void
+};
 
-export const Hero = () => (
+export const Hero:FC<Props> = ({ onScrollToOptions }) => (
   <StyledHero>
     <StyledHeroInfoBlock>
       <StyledTitle>
@@ -12,7 +16,7 @@ export const Hero = () => (
       </StyledTitle>
       <p>Замість матеріального подарунка — допомога тим, хто цього найбільше потребує</p>
       <Link to={DEFAULT_PAGE.GIFTS as "/"}>
-        <ContainedButton>
+        <ContainedButton onClick={onScrollToOptions}>
           Подарувати сертифікат
         </ContainedButton>
       </Link>

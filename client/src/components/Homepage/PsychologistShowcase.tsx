@@ -1,6 +1,5 @@
 import { Box, Typography, Card, CardContent, Avatar } from '@mui/material';
-import { StyledSubtitle } from '@components/styled/homepage';
-import { StyledSection } from '@components/styled/base';
+import { StyledSection, StyledSubtitle } from '@components/styled/base';
 import { Link } from '@tanstack/react-router';
 import { PSYCHOLOGIST_LIST } from '@utils/Homepage';
 import { ContainedButton } from '@components/shared/ContainedButton';

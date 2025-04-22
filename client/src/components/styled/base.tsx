@@ -80,6 +80,11 @@ export const StyledTitle = styled('h1')({
   color: '#AC98D1'
 });
 
+export const StyledSubtitle = styled('h2')({
+  fontSize: '40px',
+  color: '#AC98D1'
+});
+
 export const StyledSection = styled('section')({
   display: 'flex',
   alignItems: 'center',

@@ -1,7 +1,6 @@
 import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Typography } from '@mui/material';
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
-import { StyledSubtitle } from '@components/styled/homepage';
-import { StyledSection } from '@components/styled/base';
+import { StyledSection, StyledSubtitle } from '@components/styled/base';
 import { FAQ_ITEMS } from '@utils/Homepage';
 
 export const FAQ = () => {

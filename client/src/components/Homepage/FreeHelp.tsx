@@ -1,5 +1,4 @@
-import { StyledSubtitle } from '@components/styled/homepage';
-import { StyledSection } from '@components/styled/base';
+import { StyledSection, StyledSubtitle } from '@components/styled/base';
 import { Container, Typography, Paper } from '@mui/material';
 import { ContainedButton } from '@components/shared/ContainedButton';
 
