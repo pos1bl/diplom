@@ -1,4 +1,4 @@
-import { Box, styled } from "@mui/material";
+import { Box, Paper, styled } from "@mui/material";
 import { StyledSection } from "./base";
 
 export const StyledHero = styled(StyledSection)({
@@ -20,6 +20,12 @@ export const StyledOptions = styled(StyledSection)({
   padding: '40px',
 });
 
+export const StyledInfo = styled(StyledSection)({
+  flexDirection: 'row',
+  gap: '40px',
+  padding: '40px',
+});
+
 export const StyledHeroInfoBlock = styled(Box)({
   maxWidth: '650px',
   display: 'flex',
@@ -33,3 +39,10 @@ export const StyledImageBox = styled(Box)({
   borderRadius: '5%',
   overflow: 'hidden'
 });
+
+export const StyledInfoPaper = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(3),
+  backgroundColor: '#F5F1FA',
+  borderRadius: theme.shape.borderRadius * 2,
+  maxWidth: '80%'
+}));

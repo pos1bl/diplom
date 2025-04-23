@@ -1,3 +1,5 @@
+import {CertificateHelps} from "@components/Gifts/GiftCertificateHelps";
+import { Info } from "@components/Gifts/GiftInfo";
 import { Options } from "@components/Gifts/GiftOptions";
 import { Steps } from "@components/Gifts/GiftSteps";
 import { Hero } from "@components/Gifts/Hero";
@@ -16,6 +18,8 @@ export const GiftsPage = () => {
       <Hero onScrollToOptions={handleScrollToOptions} />
       <Steps onScrollToOptions={handleScrollToOptions} />
       <Options ref={giftOptionsRef} />
+      <Info />
+      <CertificateHelps />
     </StyledMain>
   )
 }

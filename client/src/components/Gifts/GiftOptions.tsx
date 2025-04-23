@@ -2,7 +2,9 @@ import { ContainedButton } from '@components/shared/ContainedButton';
 import { StyledSubtitle } from '@components/styled/base';
 import { StyledOptions } from '@components/styled/gifts';
 import { Box, Typography, Grid, Card, CardContent } from '@mui/material';
+import { Link } from '@tanstack/react-router';
 import { getPrice, GIFT_OPTIONS } from '@utils/Giftspage';
+import { DEFAULT_PAGE } from '@utils/NavigationList';
 import { FC, Ref } from 'react';
 
 type Props = {
@@ -50,12 +52,15 @@ export const Options: FC<Props> = ({ ref }) => (
               </Typography>
             </CardContent>
             <Box px={2} pb={3}>
-              <ContainedButton
-                fullWidth
-                sx={{ fontWeight: 'bold' }}
-              >
-                Подарувати
-              </ContainedButton>
+              <Link to={DEFAULT_PAGE.GIFTS as '/'}>
+                <ContainedButton
+                  fullWidth
+                  sx={{ fontWeight: 'bold' }}
+                >
+                  Подарувати
+                </ContainedButton>
+              </Link>
+              
             </Box>
           </Card>
         </Grid>
