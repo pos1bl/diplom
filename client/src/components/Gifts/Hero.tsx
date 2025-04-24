@@ -4,11 +4,9 @@ import { Link } from "@tanstack/react-router";
 import { DEFAULT_PAGE } from "@utils/NavigationList";
 import { ContainedButton } from "@components/shared/ContainedButton";
 import { FC } from "react";
-type Props = {
-  onScrollToOptions: () => void
-};
+import { SectionProps } from "@utils/Giftspage";
 
-export const Hero:FC<Props> = ({ onScrollToOptions }) => (
+export const Hero:FC<SectionProps> = ({ onScrollToOptions }) => (
   <StyledHero>
     <StyledHeroInfoBlock>
       <StyledTitle>

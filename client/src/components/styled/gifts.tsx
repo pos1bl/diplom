@@ -26,6 +26,11 @@ export const StyledInfo = styled(StyledSection)({
   padding: '40px',
 });
 
+export const StyledCertificateHelps = styled(StyledSection)({
+  gap: '40px',
+  padding: '40px',
+});
+
 export const StyledHeroInfoBlock = styled(Box)({
   maxWidth: '650px',
   display: 'flex',

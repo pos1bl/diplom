@@ -2,14 +2,10 @@ import { ContainedButton } from '@components/shared/ContainedButton';
 import { StyledSubtitle } from '@components/styled/base';
 import { StyledSteps } from '@components/styled/gifts';
 import { Box, Typography, Grid, useMediaQuery } from '@mui/material';
-import { STEPS_LIST } from '@utils/Giftspage';
+import { SectionProps, STEPS_LIST } from '@utils/Giftspage';
 import { FC } from 'react';
 
-type Props = {
-  onScrollToOptions: () => void
-}
-
-export const Steps:FC<Props> = ({onScrollToOptions}) => {
+export const Steps:FC<SectionProps> = ({onScrollToOptions}) => {
   const isArrows = useMediaQuery('(min-width:900px)');
 
   return (

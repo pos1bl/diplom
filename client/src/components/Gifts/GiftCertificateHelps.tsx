@@ -1,39 +1,37 @@
-import { Box, Typography, Grid, Paper, Button } from '@mui/material';
+import { ContainedButton } from '@components/shared/ContainedButton';
+import { StyledSubtitle } from '@components/styled/base';
+import { StyledCertificateHelps } from '@components/styled/gifts';
+import { Typography, Grid, Paper, useMediaQuery } from '@mui/material';
+import { CERIFICATE_HELPS_LIST, SectionProps } from '@utils/Giftspage';
+import { FC } from 'react';
 
-const items = [
-  { emoji: '🧘‍♀️', text: 'Знайти внутрішній спокій та знизити тривожність' },
-  { emoji: '🚀', text: 'Повернути мотивацію та почати діяти' },
-  { emoji: '💖', text: 'Навчитись приймати себе без осуду' },
-  { emoji: '🤝', text: 'Покращити відносини та встановити здорові межі' },
-  { emoji: '💪', text: 'Бути стійким у змінах та протистояти стресу' },
-  { emoji: '🎯', text: 'Усвідомити свої бажання і не жити «чужим життям»' }
-];
+export const CertificateHelps:FC<SectionProps> = ({ onScrollToOptions }) => {
+  const isBig = useMediaQuery('(min-width:900px)');
 
-export const CertificateHelps = () => {
   return (
-    <Box component="section" sx={{ py: 10, px: 2, textAlign: 'center' }}>
-      <Typography variant="h4" fontWeight="bold" color="#AC98D1" mb={6}>
+    <StyledCertificateHelps>
+      <StyledSubtitle>
         Чим може допомогти подарунковий сертифікат?
-      </Typography>
+      </StyledSubtitle>
 
-      <Grid container spacing={3} columns={2} justifyContent="center">
-        {items.map((item, index) => (
-          <Grid key={index}>
+      <Grid container spacing={4} columns={2} justifyContent="center" maxWidth="1300px">
+        {CERIFICATE_HELPS_LIST.map(item => (
+          <Grid key={item.id} size={isBig ? 1 : 2}>
             <Paper
               elevation={0}
               sx={{
                 backgroundColor: '#F5F1FA',
                 borderRadius: 2,
                 px: 3,
-                py: 2.5,
+                py: 3,
                 display: 'flex',
-                alignItems: 'flex-start',
+                alignItems: 'center',
                 gap: 2,
                 height: '100%',
               }}
             >
-              <Typography fontSize={26}>{item.emoji}</Typography>
-              <Typography textAlign="left" variant="body1" fontWeight={500}>
+              <Typography fontSize={36}>{item.emoji}</Typography>
+              <Typography textAlign="center" variant="h5" width="100%">
                 {item.text}
               </Typography>
             </Paper>
@@ -41,22 +39,9 @@ export const CertificateHelps = () => {
         ))}
       </Grid>
 
-      <Box mt={6}>
-        <Button
-          variant="contained"
-          sx={{
-            backgroundColor: '#AC98D1',
-            px: 5,
-            py: 1.5,
-            borderRadius: '24px',
-            fontWeight: 'bold',
-            fontSize: '1rem',
-            '&:hover': { backgroundColor: '#9678C1' },
-          }}
-        >
-          Обрати сертифікат
-        </Button>
-      </Box>
-    </Box>
+      <ContainedButton onClick={onScrollToOptions}>
+        Обрати сертифікат
+      </ContainedButton>
+    </StyledCertificateHelps>
   );
 };

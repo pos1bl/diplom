@@ -19,7 +19,7 @@ export const GiftsPage = () => {
       <Steps onScrollToOptions={handleScrollToOptions} />
       <Options ref={giftOptionsRef} />
       <Info />
-      <CertificateHelps />
+      <CertificateHelps onScrollToOptions={handleScrollToOptions}/>
     </StyledMain>
   )
 }
