@@ -9,7 +9,7 @@ import { FC, Ref } from 'react';
 
 type Props = {
   ref: Ref<HTMLDivElement>
-}
+};
 
 export const Options: FC<Props> = ({ ref }) => (
   <StyledOptions ref={ref}>
@@ -31,9 +31,31 @@ export const Options: FC<Props> = ({ ref }) => (
               borderRadius: '16px',
               px: 2,
               pt: 3,
-              maxWidth: '330px'
+              maxWidth: '330px',
+              position: 'relative'
             }}
           >
+            {option.discount > 0 && (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: 0,
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  backgroundColor: '#D1C4E9',
+                  color: '#6A1B9A',
+                  px: 2,
+                  py: 0.5,
+                  borderBottomLeftRadius: '16px',
+                  borderBottomRightRadius: '16px',
+                  fontWeight: 'bold',
+                  fontSize: '1.25rem',
+                  width: "60%"
+                }}
+              >
+                -{option.discount}%
+              </Box>
+            )}
             <CardContent>
             <Typography variant="h1" fontWeight="bold" color="#AC98D1">
                 {option.amount}

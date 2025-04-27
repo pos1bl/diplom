@@ -24,6 +24,7 @@ export default defineConfig({
       '@models': path.resolve(__dirname, 'src/models'),
       '@store': path.resolve(__dirname, 'src/store'),
       '@images': path.resolve(__dirname, 'src/assets/images'),
+      '@services': path.resolve(__dirname, 'src/services'),
     }
   }
 })

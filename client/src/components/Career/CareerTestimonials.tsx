@@ -10,68 +10,46 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import CircleIcon from "@mui/icons-material/Circle";
 import { useSwipeable } from "react-swipeable";
-
-const testimonials = [
-  {
-    name: "Олена К.",
-    role: "Психолог",
-    text: "Я вперше працюю в місці, де відчувається цінність того, що ти робиш. Команда надихає, а клієнти — мотивують.",
-    avatar: "/avatars/olena.jpg",
-  },
-  {
-    name: "Марко Л.",
-    role: "Кризовий консультант",
-    text: "Платформа дуже зручна, підтримка команди на рівні. Є відчуття, що я на своєму місці.",
-    avatar: "/avatars/marko.jpg",
-  },
-  {
-    name: "Ірина М.",
-    role: "Психотерапевт",
-    text: "Супервізії та відкритість команди — це те, чого не вистачало мені в попередніх місцях роботи.",
-    avatar: "/avatars/iryna.jpg",
-  },
-];
-
-const ROTATION_INTERVAL = 7000;
+import CircleIcon from "@mui/icons-material/Circle";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { StyleddTestimonials } from "@components/styled/career";
+import { StyledSubtitle } from "@components/styled/base";
+import { ROTATION_INTERVAL, TESTIMONIALS_LIST } from "@utils/Careerpage";
 
 export const Testimonials = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const prevIndex = (activeIndex - 1 + testimonials.length) % testimonials.length;
-  const nextIndex = (activeIndex + 1) % testimonials.length;
+  const prevIndex = (activeIndex - 1 + TESTIMONIALS_LIST.length) % TESTIMONIALS_LIST.length;
+  const nextIndex = (activeIndex + 1) % TESTIMONIALS_LIST.length;
 
   const goToIndex = (index: number) => setActiveIndex(index);
-
-  const next = () => setActiveIndex((prev) => (prev + 1) % testimonials.length);
-  const prev = () => setActiveIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  const goNext = () => setActiveIndex((prev) => (prev + 1) % TESTIMONIALS_LIST.length);
+  const goPrev = () => setActiveIndex((prev) => (prev - 1 + TESTIMONIALS_LIST.length) % TESTIMONIALS_LIST.length);
 
   const swipeHandlers = useSwipeable({
-    onSwipedLeft: next,
-    onSwipedRight: prev,
+    onSwipedLeft: goNext,
+    onSwipedRight: goPrev,
     trackMouse: true,
   });
 
   useEffect(() => {
     if (!isHovered) {
-      intervalRef.current = setInterval(next, ROTATION_INTERVAL);
+      intervalRef.current = setInterval(goNext, ROTATION_INTERVAL);
     }
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
   }, [activeIndex, isHovered]);
 
-  const renderCard = (
-    index: number,
-    isActive = false,
-    blur = false
-  ) => {
-    const item = testimonials[index];
+  const renderCard = (index: number, isActive = false, isBlur = false) => {
+    const item = TESTIMONIALS_LIST[index];
 
     return (
       <Paper
@@ -81,24 +59,20 @@ export const Testimonials = () => {
           p: 4,
           mx: 1,
           flex: isActive ? "0 0 60%" : "0 0 20%",
-          opacity: isActive ? 1 : 0.6,
-          filter: blur ? "blur(2px)" : "none",
-          transform: isActive ? "scale(1)" : "scale(0.95)",
+          opacity: isActive ? 1 : 0.5,
+          filter: isBlur ? "blur(2px)" : "none",
           borderRadius: 3,
           bgcolor: "#F5F1FA",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           textAlign: "center",
-          transition: "all 0.5s ease",
+          transition: "all 0.3s ease",
+          maxHeight: 320,
           minWidth: isMobile ? "100%" : "auto",
         }}
       >
-        <Avatar
-          src={item.avatar}
-          alt={item.name}
-          sx={{ width: 64, height: 64, mb: 2 }}
-        />
+        <Avatar src={item.avatar} alt={item.name} sx={{ width: 100, height: 100, mb: 4 }} />
         <Typography variant="body1" color="text.primary" mb={2}>
           "{item.text}"
         </Typography>
@@ -110,22 +84,17 @@ export const Testimonials = () => {
   };
 
   return (
-    <Box
-      sx={{ py: { xs: 8, md: 10 }, bgcolor: "#ffffff", overflow: "hidden" }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <StyleddTestimonials sx={{ position: "relative" }}>
       <Container maxWidth="md">
         <Stack spacing={4} textAlign="center" mb={4}>
-          <Typography variant="h4" fontWeight={600} color="primary">
-            Що кажуть наші спеціалісти
-          </Typography>
+          <StyledSubtitle>
+            Що кажуть наші спеціалісти?
+          </StyledSubtitle>
           <Typography variant="body1" color="text.secondary">
             Відгуки тих, хто вже допомагає людям разом з нами
           </Typography>
         </Stack>
 
-        {/* Swipeable wrapper */}
         <Box
           {...swipeHandlers}
           sx={{
@@ -135,16 +104,51 @@ export const Testimonials = () => {
             flexWrap: "nowrap",
             overflow: "hidden",
             px: 2,
+            py: 1,
+            position: "relative",
           }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
           {renderCard(prevIndex, false, true)}
-          {renderCard(activeIndex, true, false)}
+          {renderCard(activeIndex, true)}
           {renderCard(nextIndex, false, true)}
         </Box>
 
-        {/* Індикатори */}
+        {/* Стрілки навігації */}
+        {!isMobile && (
+          <>
+            <IconButton
+              onClick={goPrev}
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: 16,
+                transform: "translateY(-50%)",
+                bgcolor: "#ffffffdd",
+                "&:hover": { bgcolor: "#ffffff" },
+              }}
+            >
+              <ArrowBackIosNewIcon fontSize="small" />
+            </IconButton>
+            <IconButton
+              onClick={goNext}
+              sx={{
+                position: "absolute",
+                top: "50%",
+                right: 16,
+                transform: "translateY(-50%)",
+                bgcolor: "#ffffffdd",
+                "&:hover": { bgcolor: "#ffffff" },
+              }}
+            >
+              <ArrowForwardIosIcon fontSize="small" />
+            </IconButton>
+          </>
+        )}
+
         <Stack direction="row" spacing={1} justifyContent="center" mt={4}>
-          {testimonials.map((_, index) => (
+          {TESTIMONIALS_LIST.map((_, index) => (
             <IconButton
               key={index}
               size="small"
@@ -156,6 +160,6 @@ export const Testimonials = () => {
           ))}
         </Stack>
       </Container>
-    </Box>
+    </StyleddTestimonials>
   );
 };

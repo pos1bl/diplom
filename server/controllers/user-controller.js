@@ -1,6 +1,7 @@
 import { validationResult } from "express-validator";
 import userService from "../service/user-service.js";
 import ApiError from "../exceptions/api-error.js";
+import resumeService from "../service/resume-service.js";
 
 class UserController {
   async registration(req, res, next) {
@@ -34,10 +35,10 @@ class UserController {
   async logout(req, res, next) {
     try {
       const { refreshToken } = req.cookies;
-      const token = await userService.logout(refreshToken);
+      await userService.logout(refreshToken);
       res.clearCookie('refreshToken');
 
-      return res.status(200);
+      return res.json({ message: "Ви успішно вийшли" });
     } catch (e) {
       next(e);
     }
@@ -70,6 +71,17 @@ class UserController {
     try {
       const users = await userService.getAllUsers();
       return res.json(users);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async sendResume(req, res, next) {
+    try {
+      const { formResponse } = req.body;
+      const resumeData = await resumeService.sendResume(formResponse);
+      console.log(resumeData)
+      return res.json(resumeData);
     } catch (e) {
       next(e);
     }

@@ -65,6 +65,7 @@ export default class Store {
       localStorage.removeItem('token');
       this.setAuth(false);
       this.setUser({} as IUser);
+      await AuthService.logout();
     } catch (e) {
       if (axios.isAxiosError(e)) {
         console.error(e.response?.data?.message);

@@ -29,6 +29,42 @@ class MailService {
       `
     })
   }
+
+  async sendResume(formResponse) {
+    const {
+      fullName,
+      phone,
+      email,
+      experienceYears,
+      education,
+      about,
+      availability,
+      profileLink,
+      motivation
+    } = formResponse;
+
+    await this.transporter.sendMail({
+      from: process.env.SMTP_USER,
+      to: email,
+      subject: `Нове заявка на працевлаштування від ${fullName}`,
+      text: '',
+      html:
+      `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+          <h2>Нова заявка на працевлаштування</h2>
+          <p><strong>ПІБ:</strong> ${fullName}</p>
+          <p><strong>Телефон:</strong> ${phone}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Досвід роботи (років):</strong> ${experienceYears}</p>
+          <p><strong>Освіта:</strong> ${education}</p>
+          <p><strong>Про себе:</strong> ${about}</p>
+          <p><strong>Бажання працювати:</strong> ${availability}</p>
+          <p><strong>Посилання на профіль/резюме:</strong> <a href="${profileLink}" target="_blank">${profileLink}</a></p>
+          <p><strong>Мотивація:</strong> ${motivation}</p>
+        </div>
+      `
+    })
+  }
 }
 
 export default new MailService();
