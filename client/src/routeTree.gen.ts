@@ -15,6 +15,7 @@ import { Route as SignInImport } from './routes/sign-in'
 import { Route as DefaultRouteImport } from './routes/_default/route'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated/route'
 import { Route as IndexImport } from './routes/index'
+import { Route as DefaultSupportRouteImport } from './routes/_default/support/route'
 import { Route as DefaultHomepageRouteImport } from './routes/_default/homepage/route'
 import { Route as DefaultGiftsRouteImport } from './routes/_default/gifts/route'
 import { Route as DefaultCareerRouteImport } from './routes/_default/career/route'
@@ -43,6 +44,12 @@ const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const DefaultSupportRouteRoute = DefaultSupportRouteImport.update({
+  id: '/support',
+  path: '/support',
+  getParentRoute: () => DefaultRouteRoute,
 } as any)
 
 const DefaultHomepageRouteRoute = DefaultHomepageRouteImport.update({
@@ -143,6 +150,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DefaultHomepageRouteImport
       parentRoute: typeof DefaultRouteImport
     }
+    '/_default/support': {
+      id: '/_default/support'
+      path: '/support'
+      fullPath: '/support'
+      preLoaderRoute: typeof DefaultSupportRouteImport
+      parentRoute: typeof DefaultRouteImport
+    }
   }
 }
 
@@ -165,12 +179,14 @@ interface DefaultRouteRouteChildren {
   DefaultCareerRouteRoute: typeof DefaultCareerRouteRoute
   DefaultGiftsRouteRoute: typeof DefaultGiftsRouteRoute
   DefaultHomepageRouteRoute: typeof DefaultHomepageRouteRoute
+  DefaultSupportRouteRoute: typeof DefaultSupportRouteRoute
 }
 
 const DefaultRouteRouteChildren: DefaultRouteRouteChildren = {
   DefaultCareerRouteRoute: DefaultCareerRouteRoute,
   DefaultGiftsRouteRoute: DefaultGiftsRouteRoute,
   DefaultHomepageRouteRoute: DefaultHomepageRouteRoute,
+  DefaultSupportRouteRoute: DefaultSupportRouteRoute,
 }
 
 const DefaultRouteRouteWithChildren = DefaultRouteRoute._addFileChildren(
@@ -186,6 +202,7 @@ export interface FileRoutesByFullPath {
   '/career': typeof DefaultCareerRouteRoute
   '/gifts': typeof DefaultGiftsRouteRoute
   '/homepage': typeof DefaultHomepageRouteRoute
+  '/support': typeof DefaultSupportRouteRoute
 }
 
 export interface FileRoutesByTo {
@@ -197,6 +214,7 @@ export interface FileRoutesByTo {
   '/career': typeof DefaultCareerRouteRoute
   '/gifts': typeof DefaultGiftsRouteRoute
   '/homepage': typeof DefaultHomepageRouteRoute
+  '/support': typeof DefaultSupportRouteRoute
 }
 
 export interface FileRoutesById {
@@ -210,6 +228,7 @@ export interface FileRoutesById {
   '/_default/career': typeof DefaultCareerRouteRoute
   '/_default/gifts': typeof DefaultGiftsRouteRoute
   '/_default/homepage': typeof DefaultHomepageRouteRoute
+  '/_default/support': typeof DefaultSupportRouteRoute
 }
 
 export interface FileRouteTypes {
@@ -223,6 +242,7 @@ export interface FileRouteTypes {
     | '/career'
     | '/gifts'
     | '/homepage'
+    | '/support'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -233,6 +253,7 @@ export interface FileRouteTypes {
     | '/career'
     | '/gifts'
     | '/homepage'
+    | '/support'
   id:
     | '__root__'
     | '/'
@@ -244,6 +265,7 @@ export interface FileRouteTypes {
     | '/_default/career'
     | '/_default/gifts'
     | '/_default/homepage'
+    | '/_default/support'
   fileRoutesById: FileRoutesById
 }
 
@@ -292,7 +314,8 @@ export const routeTree = rootRoute
       "children": [
         "/_default/career",
         "/_default/gifts",
-        "/_default/homepage"
+        "/_default/homepage",
+        "/_default/support"
       ]
     },
     "/sign-in": {
@@ -316,6 +339,10 @@ export const routeTree = rootRoute
     },
     "/_default/homepage": {
       "filePath": "_default/homepage/route.tsx",
+      "parent": "/_default"
+    },
+    "/_default/support": {
+      "filePath": "_default/support/route.tsx",
       "parent": "/_default"
     }
   }

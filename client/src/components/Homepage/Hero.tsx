@@ -24,7 +24,7 @@ export const Hero = () => (
             Знайти саме свого спеціаліста
           </ContainedButton>
         </Link>
-        <Link to={DEFAULT_PAGE.HELP as "/"}>
+        <Link to={DEFAULT_PAGE.SUPPORT as "/"}>
           <ContainedButton> 
             Безкоштовна підтримка для військових і постраждалих
           </ContainedButton>

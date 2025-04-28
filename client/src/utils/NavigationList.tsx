@@ -9,7 +9,7 @@ export const enum DEFAULT_PAGE {
   FORM = '/form',
   ALL_SPECIALISTS = '/specialists',
   GIFTS = '/gifts',
-  HELP = '/help',
+  SUPPORT = '/support',
   CAREER = '/career',
 }
 
@@ -26,7 +26,7 @@ export const HEADER_NAVIGATION_LIST = [
   },
   {
     name: 'Точка опори',
-    navigateTo: DEFAULT_PAGE.HELP,
+    navigateTo: DEFAULT_PAGE.SUPPORT,
     availableRoles: []
   },
   {
