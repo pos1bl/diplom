@@ -2,20 +2,24 @@ import { FC } from "react";
 import { Button } from "@mui/material";
 import { ButtonProps } from "@utils/shared";
 
-export const ContainedButton:FC<ButtonProps> = ({ children, sx, ...props }) => (
+export const OutlinedButton:FC<ButtonProps> = ({ children, sx, ...props }) => (
   <Button
-    variant="contained"
+    variant="outlined"
     size="large"
     sx={{
       px: 5,
       py: 1.5,
       borderRadius: 8,
       textTransform: 'none',
-      backgroundColor: "#A891D2",
+      borderColor: "#A891D2",
       textDecoration: 'none',
+      color: "#9678C1",
       fontWeight: 'bold',
       fontSize: '1rem',
-      '&:hover': { backgroundColor: '#9678C1' },
+      '&:hover': {
+        backgroundColor: '#9678C1',
+        color: '#fff',
+      },
       ...sx
     }}
     {...props}

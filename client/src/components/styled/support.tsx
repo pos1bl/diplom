@@ -9,6 +9,11 @@ export const StyledHero = styled(StyledSection)({
   padding: '40px'
 });
 
+export const StyledSelfHelpMethods = styled(StyledSection)({
+  gap: '40px',
+  padding: '40px'
+});
+
 export const StyledHeroInfoBlock = styled(Box)({
   maxWidth: '900px',
   display: 'flex',

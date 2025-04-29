@@ -1,9 +1,7 @@
-import {CertificateHelps} from "@components/Gifts/GiftCertificateHelps";
-import { Info } from "@components/Gifts/GiftInfo";
-import { Options } from "@components/Gifts/GiftOptions";
-import { FAQ } from "@components/Gifts/GiftsFaq";
-import { Steps } from "@components/Gifts/GiftSteps";
+import { EmergencyContacts } from "@components/Support/EmergencyContacts";
+import { SelfHelpMethods } from "@components/Support/SelfHelpMethods";
 import { Hero } from "@components/Support/SupportHero";
+import { Info } from "@components/Support/SupportInfo";
 import { StyledMain } from "@components/styled/base";
 import { useRef } from "react";
 
@@ -17,6 +15,9 @@ export const SupportPage = () => {
   return (
     <StyledMain>
       <Hero onScrollToSupport={handleScrollToSupport} />
+      <Info />
+      <EmergencyContacts />
+      <SelfHelpMethods />
     </StyledMain>
   )
 }

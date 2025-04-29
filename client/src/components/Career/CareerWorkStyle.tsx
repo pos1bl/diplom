@@ -1,6 +1,5 @@
 import { Box, Typography, Paper, Stack } from "@mui/material";
-import { StyledBackgroundSection } from "@components/styled/career";
-import { StyledSubtitle } from "@components/styled/base";
+import { StyledBackgroundSection, StyledSubtitle } from "@components/styled/base";
 import { FEATURES_LIST } from "@utils/Careerpage";
 
 export const WorkStyle = () => (

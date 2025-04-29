@@ -1,6 +1,5 @@
 import { ContainedButton } from "@components/shared/ContainedButton";
-import { StyledSubtitle } from "@components/styled/base";
-import { StyledBackgroundSection } from "@components/styled/career";
+import { StyledSubtitle, StyledBackgroundSection } from "@components/styled/base";
 import { Box, Container, Typography, Stack, Paper } from "@mui/material";
 import { JOIN_STEPS_LIST, SectionProps } from "@utils/Careerpage";
 import { FC } from "react";

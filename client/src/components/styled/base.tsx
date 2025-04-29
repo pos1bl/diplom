@@ -91,3 +91,10 @@ export const StyledSection = styled('section')({
   justifyContent: 'center',
   flexDirection: 'column',
 });
+
+export const StyledBackgroundSection = styled(StyledSection)({
+  backgroundColor: '#F5F1FA',
+  borderRadius: '15px',
+  gap: '40px',
+  padding: '40px',
+});

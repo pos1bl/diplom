@@ -14,7 +14,7 @@ export const Hero:FC<SectionProps> = ({ onScrollToSupport }) => (
         місце, де починається шлях до зцілення
       </StyledTitle>
       <Typography variant="h6" color="text.secondary" style={{ fontStyle: 'italic' }}>Ми поруч, щоб допомогти вам знайти спокій і силу навіть у найтемніші часи.</Typography>
-      <ContainedButton onClick={onScrollToSupport}>
+      <ContainedButton sx={{ width: 'fit-content' }} onClick={onScrollToSupport}>
         Отримати допомогу!
       </ContainedButton>
     </StyledHeroInfoBlock>

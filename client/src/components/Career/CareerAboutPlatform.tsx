@@ -1,5 +1,4 @@
-import { StyledSubtitle } from "@components/styled/base";
-import { StyledBackgroundSection } from "@components/styled/career";
+import { StyledSubtitle, StyledBackgroundSection } from "@components/styled/base";
 import { Container, Typography, Stack, Divider } from "@mui/material";
 
 export const AboutPlatform = () => (

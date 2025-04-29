@@ -6,13 +6,6 @@ export const StyledHero = styled(StyledSection)({
   flexDirection: 'row',
 });
 
-export const StyledBackgroundSection = styled(StyledSection)({
-  backgroundColor: '#F5F1FA',
-  borderRadius: '15px',
-  gap: '40px',
-  padding: '40px',
-});
-
 export const StyledWhoWeNeed = styled(StyledSection)({
   gap: '40px',
   padding: '40px',
