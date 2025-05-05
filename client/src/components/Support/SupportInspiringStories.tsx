@@ -1,84 +1,73 @@
-import { FC } from "react";
-import { Box, Typography, Stack, Paper } from "@mui/material";
+import { Container, Paper, Typography, Stack } from "@mui/material";
+import { BlurCarousel } from "@components/shared/BlurCarousel";
+import { StyledBackgroundSection, StyledSubtitle } from "@components/styled/base";
 
 const stories = [
   {
     id: 1,
     name: "Анонім, 34 роки",
-    content:
-      "Після втрати дому й евакуації я почувався повністю розбитим. Спочатку не вірив, що психологічна допомога щось змінить. Але вже після кількох сесій я відчув, що знову можу дихати. Вдячний за підтримку.",
+    text: "Після втрати дому й евакуації я почувався повністю розбитим. Але після кількох сесій я знову відчув, що можу дихати.",
   },
   {
     id: 2,
     name: "Військовий, 29 років",
-    content:
-      "Повернувшись з фронту, я не міг спати, тримався від усіх подалі. Завдяки фахівцю, до якого мене скерували через платформу, я знову навчився довіряти людям і говорити про те, що відчуваю.",
+    text: "Повернувшись з фронту, я не міг спати. Допомога психолога дала мені можливість знову довіряти і бути відкритим.",
   },
   {
     id: 3,
     name: "Марина, волонтерка",
-    content:
-      "Працюючи волонтером, я виснажувалась емоційно. Звернення по допомогу було нелегким, але правильним кроком. Тепер я краще розумію свої межі й відновлююся без почуття провини.",
+    text: "Звернення по допомогу було нелегким, але правильним кроком. Тепер я краще відновлююся після навантаження.",
+  },
+  {
+    id: 4,
+    name: "Софія, 41 рік",
+    text: "Мої діти боялися кожного гучного звуку після окупації. Завдяки психологу я навчилась бути для них стабільною опорою.",
   },
 ];
 
-export const InspiringStories: FC = () => (
-  <Box
-    component="section"
-    sx={{
-      py: 8,
-      px: { xs: 2, md: 6 },
-      backgroundColor: "#f5f5fa",
-    }}
-  >
-    <Typography
-      variant="h4"
-      component="h2"
-      sx={{
-        textAlign: "center",
-        color: "#A891D2",
-        fontWeight: 600,
-        mb: 6,
-      }}
-    >
-      Надихаючі історії
-    </Typography>
-
-    <Stack
-      direction="row"
-      spacing={3}
-      sx={{
-        overflowX: "auto",
-        pb: 2,
-        "&::-webkit-scrollbar": { display: "none" },
-      }}
-    >
-      {stories.map((story) => (
-        <Paper
-          key={story.id}
-          sx={{
-            minWidth: 300,
-            maxWidth: 360,
-            px: 3,
-            py: 4,
-            flexShrink: 0,
-            borderRadius: 3,
-            backgroundColor: "#fff",
-            boxShadow: 3,
-          }}
-        >
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            “{story.content}”
-          </Typography>
-          <Typography
-            variant="subtitle2"
-            color="text.secondary"
-            sx={{ fontStyle: "italic", textAlign: "right" }}
+export const InspiringStories = () => (
+  <StyledBackgroundSection>
+    <Container maxWidth="md">
+      <Stack spacing={4} textAlign="center" mb={4}>
+        <StyledSubtitle>Надихаючі історії</StyledSubtitle>
+      </Stack>
+        
+      <BlurCarousel
+        items={stories}
+        renderItem={(item, isActive, isBlur) => (
+          <Paper
+            key={item.id}
+            elevation={3}
+            sx={{
+              p: 4,
+              mx: 1,
+              flex: isActive ? "0 0 60%" : "0 0 20%",
+              opacity: isActive ? 1 : 0.5,
+              filter: isBlur ? "blur(2px)" : "none",
+              borderRadius: 3,
+              bgcolor: "#ffffff",
+              textAlign: "center",
+              transition: "all 0.3s ease",
+              maxHeight: 280,
+              minWidth: "auto",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
           >
-            — {story.name}
-          </Typography>
-        </Paper>
-      ))}
-    </Stack>
-  </Box>
+            <Typography variant="body1" mb={2}>
+              “{item.text}”
+            </Typography>
+            <Typography
+              variant="subtitle2"
+              color="text.secondary"
+              fontStyle="italic"
+            >
+              — {item.name}
+            </Typography>
+          </Paper>
+        )}
+      />
+    </Container>
+  </StyledBackgroundSection>
 );
