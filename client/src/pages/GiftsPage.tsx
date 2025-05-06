@@ -1,11 +1,11 @@
 import {CertificateHelps} from "@components/Gifts/GiftCertificateHelps";
 import { Info } from "@components/Gifts/GiftInfo";
-import { Options } from "@components/Gifts/GiftOptions";
 import { FAQ } from "@components/Gifts/GiftsFaq";
 import { Steps } from "@components/Gifts/GiftSteps";
 import { Hero } from "@components/Gifts/GiftsHero";
 import { StyledMain } from "@components/styled/base";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { Flow } from "@components/Gifts/GiftFlow";
 
 export const GiftsPage = () => {
   const giftOptionsRef = useRef<HTMLDivElement>(null);
@@ -14,11 +14,21 @@ export const GiftsPage = () => {
     giftOptionsRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  useEffect(() => {
+    const scrollTarget = sessionStorage.getItem('afterLoginScrollTo');
+    if (scrollTarget === 'gift-options') {
+      sessionStorage.removeItem('afterLoginScrollTo');
+      setTimeout(() => {
+        giftOptionsRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  }, []);
+
   return (
     <StyledMain>
       <Hero onScrollToOptions={handleScrollToOptions} />
       <Steps onScrollToOptions={handleScrollToOptions} />
-      <Options ref={giftOptionsRef} />
+      <Flow ref={giftOptionsRef} />
       <Info />
       <CertificateHelps onScrollToOptions={handleScrollToOptions}/>
       <FAQ />

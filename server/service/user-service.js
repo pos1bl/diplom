@@ -83,6 +83,29 @@ class UserService {
     const users = await UserModel.find();
     return users;
   }
+
+  async resendActivation(email) {
+    const user = await UserModel.findOne({ email });
+  
+    if (!user) {
+      throw ApiError.BadRequest('Користувача з таким email не знайдено');
+    }
+  
+    if (user.isActivated) {
+      throw ApiError.BadRequest('Цей email вже підтверджено');
+    }
+  
+    const activationLink = v4();
+    user.activationLink = activationLink;
+    await user.save();
+  
+    await mailService.sendActivationMail(
+      email,
+      `${process.env.API_URL}/api/activate/${activationLink}`
+    );
+  
+    return { message: 'Активаційний лист надіслано' };
+  }
 }
 
 export default new UserService();

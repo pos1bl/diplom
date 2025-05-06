@@ -94,4 +94,14 @@ export default class Store {
       this.setLoading(false);
     }
   }
+
+  updateUserInfo = async () => {
+    try {
+      const response = await axios.get<AuthResponse>(`${import.meta.env.VITE_BASE_URL}/refresh`, { withCredentials: true });
+      this.setUser(response.data.user);
+      return response.data.user
+    } catch (e) {
+      console.error('❌ Не вдалося оновити інформацію про користувача');
+    }
+  };
 }

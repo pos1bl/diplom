@@ -80,8 +80,17 @@ class UserController {
     try {
       const { formResponse } = req.body;
       const resumeData = await resumeService.sendResume(formResponse);
-      console.log(resumeData)
       return res.json(resumeData);
+    } catch (e) {
+      next(e);
+    }
+  }
+  
+  async resendActivation(req, res, next) {
+    try {
+      const { email } = req.body;
+      const result = await userService.resendActivation(email);
+      res.json(result);
     } catch (e) {
       next(e);
     }

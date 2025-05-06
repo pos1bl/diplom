@@ -32,7 +32,16 @@ export const getPrice = (amount: number, discount: number) => {
   return startPrice - startPrice / 100 * discount
 };
 
-export const GIFT_OPTIONS = [
+export type GiftOption = {
+  id: number;
+  amount: number;
+  discount: number;
+  title: string;
+  subtitle: string;
+  description: string;
+}
+
+export const GIFT_OPTIONS: GiftOption[] = [
   {
     id: 1,
     amount: 1,

@@ -29,5 +29,6 @@ router.post('/send_resume',
   ],
   userController.sendResume
 );
+router.post('/resend_activation', userController.resendActivation);
 
 export default router;
