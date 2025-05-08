@@ -16,6 +16,7 @@ import { Route as DefaultRouteImport } from './routes/_default/route'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as DefaultSupportRouteImport } from './routes/_default/support/route'
+import { Route as DefaultPaymentSuccessRouteImport } from './routes/_default/payment-success/route'
 import { Route as DefaultHomepageRouteImport } from './routes/_default/homepage/route'
 import { Route as DefaultGiftsRouteImport } from './routes/_default/gifts/route'
 import { Route as DefaultCareerRouteImport } from './routes/_default/career/route'
@@ -51,6 +52,14 @@ const DefaultSupportRouteRoute = DefaultSupportRouteImport.update({
   path: '/support',
   getParentRoute: () => DefaultRouteRoute,
 } as any)
+
+const DefaultPaymentSuccessRouteRoute = DefaultPaymentSuccessRouteImport.update(
+  {
+    id: '/payment-success',
+    path: '/payment-success',
+    getParentRoute: () => DefaultRouteRoute,
+  } as any,
+)
 
 const DefaultHomepageRouteRoute = DefaultHomepageRouteImport.update({
   id: '/homepage',
@@ -150,6 +159,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DefaultHomepageRouteImport
       parentRoute: typeof DefaultRouteImport
     }
+    '/_default/payment-success': {
+      id: '/_default/payment-success'
+      path: '/payment-success'
+      fullPath: '/payment-success'
+      preLoaderRoute: typeof DefaultPaymentSuccessRouteImport
+      parentRoute: typeof DefaultRouteImport
+    }
     '/_default/support': {
       id: '/_default/support'
       path: '/support'
@@ -179,6 +195,7 @@ interface DefaultRouteRouteChildren {
   DefaultCareerRouteRoute: typeof DefaultCareerRouteRoute
   DefaultGiftsRouteRoute: typeof DefaultGiftsRouteRoute
   DefaultHomepageRouteRoute: typeof DefaultHomepageRouteRoute
+  DefaultPaymentSuccessRouteRoute: typeof DefaultPaymentSuccessRouteRoute
   DefaultSupportRouteRoute: typeof DefaultSupportRouteRoute
 }
 
@@ -186,6 +203,7 @@ const DefaultRouteRouteChildren: DefaultRouteRouteChildren = {
   DefaultCareerRouteRoute: DefaultCareerRouteRoute,
   DefaultGiftsRouteRoute: DefaultGiftsRouteRoute,
   DefaultHomepageRouteRoute: DefaultHomepageRouteRoute,
+  DefaultPaymentSuccessRouteRoute: DefaultPaymentSuccessRouteRoute,
   DefaultSupportRouteRoute: DefaultSupportRouteRoute,
 }
 
@@ -202,6 +220,7 @@ export interface FileRoutesByFullPath {
   '/career': typeof DefaultCareerRouteRoute
   '/gifts': typeof DefaultGiftsRouteRoute
   '/homepage': typeof DefaultHomepageRouteRoute
+  '/payment-success': typeof DefaultPaymentSuccessRouteRoute
   '/support': typeof DefaultSupportRouteRoute
 }
 
@@ -214,6 +233,7 @@ export interface FileRoutesByTo {
   '/career': typeof DefaultCareerRouteRoute
   '/gifts': typeof DefaultGiftsRouteRoute
   '/homepage': typeof DefaultHomepageRouteRoute
+  '/payment-success': typeof DefaultPaymentSuccessRouteRoute
   '/support': typeof DefaultSupportRouteRoute
 }
 
@@ -228,6 +248,7 @@ export interface FileRoutesById {
   '/_default/career': typeof DefaultCareerRouteRoute
   '/_default/gifts': typeof DefaultGiftsRouteRoute
   '/_default/homepage': typeof DefaultHomepageRouteRoute
+  '/_default/payment-success': typeof DefaultPaymentSuccessRouteRoute
   '/_default/support': typeof DefaultSupportRouteRoute
 }
 
@@ -242,6 +263,7 @@ export interface FileRouteTypes {
     | '/career'
     | '/gifts'
     | '/homepage'
+    | '/payment-success'
     | '/support'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -253,6 +275,7 @@ export interface FileRouteTypes {
     | '/career'
     | '/gifts'
     | '/homepage'
+    | '/payment-success'
     | '/support'
   id:
     | '__root__'
@@ -265,6 +288,7 @@ export interface FileRouteTypes {
     | '/_default/career'
     | '/_default/gifts'
     | '/_default/homepage'
+    | '/_default/payment-success'
     | '/_default/support'
   fileRoutesById: FileRoutesById
 }
@@ -315,6 +339,7 @@ export const routeTree = rootRoute
         "/_default/career",
         "/_default/gifts",
         "/_default/homepage",
+        "/_default/payment-success",
         "/_default/support"
       ]
     },
@@ -339,6 +364,10 @@ export const routeTree = rootRoute
     },
     "/_default/homepage": {
       "filePath": "_default/homepage/route.tsx",
+      "parent": "/_default"
+    },
+    "/_default/payment-success": {
+      "filePath": "_default/payment-success/route.tsx",
       "parent": "/_default"
     },
     "/_default/support": {

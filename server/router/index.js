@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, raw } from 'express';
 import { body } from 'express-validator';
 import userController from '../controllers/user-controller.js';
 import authMuddleware from '../middlewares/auth-muddleware.js';
@@ -31,7 +31,7 @@ router.post('/send_resume',
   userController.sendResume
 );
 router.post('/resend_activation', userController.resendActivation);
-router.post('/create_payment_link', json(), giftController.createPaymentLink);
-router.post('/webhook', raw({ type: 'application/json' }), giftController.handleWebhook);
+router.post('/create_payment_link', giftController.createPaymentLink);
+// router.post('/webhook', raw({ type: 'application/json' }), giftController.handleWebhook);
 
 export default router;

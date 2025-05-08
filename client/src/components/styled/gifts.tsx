@@ -31,6 +31,10 @@ export const StyledCertificateHelps = styled(StyledSection)({
   padding: '40px',
 });
 
+export const StyledPaymentSuccess = styled(StyledSection)({
+  gap: '40px',
+});
+
 export const StyledHeroInfoBlock = styled(Box)({
   maxWidth: '650px',
   display: 'flex',
@@ -38,10 +42,15 @@ export const StyledHeroInfoBlock = styled(Box)({
   gap: '20px'
 });
 
-export const StyledImageBox = styled(Box)({
+export const StyledHeroImageBox = styled(Box)({
   width: '500px',
   height: '500px',
   borderRadius: '5%',
+  overflow: 'hidden'
+});
+
+export const StyledSuccessImageBox = styled(Box)({
+  width: '250px',
   overflow: 'hidden'
 });
 

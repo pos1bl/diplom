@@ -39,6 +39,7 @@ export type GiftOption = {
   title: string;
   subtitle: string;
   description: string;
+  priceId: string;
 }
 
 export const GIFT_OPTIONS: GiftOption[] = [
@@ -48,7 +49,8 @@ export const GIFT_OPTIONS: GiftOption[] = [
     discount: 0,
     title: 'Індивідуальний сеанс',
     subtitle: 'Знайомство зі спеціалістом',
-    description: 'Перший крок до покращення самопочуття — обговорити запит з фахівцем і визначити план дій.'
+    description: 'Перший крок до покращення самопочуття — обговорити запит з фахівцем і визначити план дій.',
+    priceId: 'price_1RMERH1F5X1CXToisddCJ89X',
   },
   {
     id: 2,
@@ -56,7 +58,8 @@ export const GIFT_OPTIONS: GiftOption[] = [
     discount: 5,
     title: 'Індивідуальних сеанси',
     subtitle: 'Початок шляху',
-    description: 'Цей формат дозволить створити довіру, зануритися в процес і відчути перші зрушення.'
+    description: 'Цей формат дозволить створити довіру, зануритися в процес і відчути перші зрушення.',
+    priceId: 'price_1RMESI1F5X1CXToig4gntGdm',
   },
   {
     id: 3,
@@ -64,7 +67,8 @@ export const GIFT_OPTIONS: GiftOption[] = [
     discount: 10,
     title: 'Індивідуальних сеансів',
     subtitle: 'Перші результати',
-    description: 'Регулярна робота з фахівцем допоможе краще зрозуміти себе та стабілізувати емоційний стан.'
+    description: 'Регулярна робота з фахівцем допоможе краще зрозуміти себе та стабілізувати емоційний стан.',
+    priceId: 'price_1RMESq1F5X1CXToi5vNT3oR6',
   },
   {
     id: 4,
@@ -72,7 +76,8 @@ export const GIFT_OPTIONS: GiftOption[] = [
     discount: 15,
     title: 'Індивідуальних сеансів',
     subtitle: 'Найвигідніші умови',
-    description: 'Повноцінний цикл роботи з спеціалістом для глибокого пропрацювання запиту і закріплення змін.'
+    description: 'Повноцінний цикл роботи з спеціалістом для глибокого пропрацювання запиту і закріплення змін.',
+    priceId: 'price_1RMET71F5X1CXToiMvRHUN6L',
   },
 ];
 

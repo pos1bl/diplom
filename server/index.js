@@ -5,11 +5,17 @@ import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 import router from './router/index.js';
 import errorMiddleware from './middlewares/error-middleware.js';
+import giftController from './controllers/gift-controller.js';
 
 const PORT = process.env.PORT || 5000;
 const app = express();
 dotenv.config();
 
+app.post(
+  '/api/webhook',
+  express.raw({ type: 'application/json' }),
+  giftController.handleWebhook
+);
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({

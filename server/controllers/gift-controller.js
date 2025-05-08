@@ -1,18 +1,19 @@
 import giftService from "../service/gift-service.js";
+import stripe from '../service/stripe-client.js';
 
 class GiftController {
   async createPaymentLink(req, res, next) {
     try {
-      const { to, from, priceId, email, expirationDate } = req.body;
-      const link = await giftService.createPaymentLink({ to, from, priceId, email, expirationDate })
-      return res.json({ url: link.url });;
+      const { payload } = req.body;
+      const link = await giftService.createPaymentLink(payload);
+
+      return res.json({ url: link.url });
     } catch (e) {
       next(e);
     }
   }
 
   async handleWebhook(req, res, next) {
-    const stripe = giftService.stripe;
     const sig = req.headers['stripe-signature'];
     
     try {
@@ -20,14 +21,11 @@ class GiftController {
 
       if (event.type === 'checkout.session.completed') {
         const session = event.data.object;
-        const { to, from, message, email, amount } = session.metadata;
-        // …генеруємо PDF і відсилаємо лист…
+        await giftService.sendGift(session.metadata)
       }
       
       return res.json({ received: true });
     } catch (e) {
-      console.error('Webhook error:', e);
-      res.status(400).send(`Webhook Error: ${e.message}`);
       next(e);
     }
   }

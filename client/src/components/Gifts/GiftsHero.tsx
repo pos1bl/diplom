@@ -1,4 +1,4 @@
-import { StyledHero, StyledHeroInfoBlock, StyledImageBox } from "@components/styled/gifts";
+import { StyledHero, StyledHeroInfoBlock, StyledHeroImageBox } from "@components/styled/gifts";
 import { StyledTitle } from "@components/styled/base";
 import { ContainedButton } from "@components/shared/ContainedButton";
 import { FC } from "react";
@@ -18,8 +18,8 @@ export const Hero:FC<SectionProps> = ({ onScrollToOptions }) => (
         </ContainedButton>
       </Box>
     </StyledHeroInfoBlock>
-    <StyledImageBox>
+    <StyledHeroImageBox>
       <img width="100%" src="/images/gifts/otter-gift.png" alt="otter with gift" />
-    </StyledImageBox>
+    </StyledHeroImageBox>
   </StyledHero>
 )
