@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { body } from 'express-validator';
 import userController from '../controllers/user-controller.js';
 import authMuddleware from '../middlewares/auth-muddleware.js';
+import giftController from '../controllers/gift-controller.js';
 
 const router = new Router();
 
@@ -30,5 +31,7 @@ router.post('/send_resume',
   userController.sendResume
 );
 router.post('/resend_activation', userController.resendActivation);
+router.post('/create_payment_link', json(), giftController.createPaymentLink);
+router.post('/webhook', raw({ type: 'application/json' }), giftController.handleWebhook);
 
 export default router;
