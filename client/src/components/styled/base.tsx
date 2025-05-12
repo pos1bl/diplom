@@ -92,7 +92,33 @@ export const StyledMobileAuthenticatedPageWrapper = styled('div')({
       background: '#1B132A'
     }
   }
-})
+});
+
+export const StyledDesktopAuthenticatedPageWrapper = styled('div')({
+  overflowY: 'auto',
+  minHeight: 'inherit',
+  maxHeight: '100dvh',
+
+  '&::-webkit-scrollbar': {
+    width: '7px',
+    height: '7px',
+    background: 'rgba(172, 152, 209, 0.5)'
+  },
+
+  '&::-webkit-scrollbar-track': {
+    backdropFilter: 'blur(10px)',
+    background: 'rgba(172, 152, 209, 0.5)'
+  },
+
+  '&::-webkit-scrollbar-thumb': {
+    background: '#2D2046',
+    borderRadius: '10px',
+
+    '&:hover': {
+      background: '#1B132A'
+    }
+  }
+});
 
 export const StyledMain = styled('main')({
   display: "flex",

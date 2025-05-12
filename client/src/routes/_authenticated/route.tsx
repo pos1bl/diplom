@@ -1,6 +1,6 @@
 import { BottomBar } from '@components/shared/BottomBar';
 import { Sidebar } from '@components/shared/Sidebar';
-import { StyledMobileAuthenticatedPageWrapper } from '@components/styled/base';
+import { StyledDesktopAuthenticatedPageWrapper, StyledMobileAuthenticatedPageWrapper } from '@components/styled/base';
 import { Box, useMediaQuery, useTheme } from '@mui/material';
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 
@@ -31,12 +31,12 @@ const MobileLayout = () => (
 );
 
 const DesktopLayout = () => (
-  <Box sx={{ display: 'flex', height: '100%' }}>
+  <StyledDesktopAuthenticatedPageWrapper sx={{ display: 'flex' }}>
     <Sidebar />
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
       <Outlet />
     </Box>
-  </Box>
+  </StyledDesktopAuthenticatedPageWrapper>
 )
 
 function AuthLayout() {
