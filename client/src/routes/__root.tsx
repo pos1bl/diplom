@@ -1,9 +1,9 @@
 import { QueryClient } from '@tanstack/react-query';
 import { createRootRouteWithContext } from '@tanstack/react-router';
-import { State } from 'src/main';
+import { Stores } from 'src/main'
 
 type RouterContext = {
-  authContext: State;
+  stores: Stores;
   queryClient: QueryClient;
 };
 

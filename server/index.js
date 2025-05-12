@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 import router from './router/index.js';
 import errorMiddleware from './middlewares/error-middleware.js';
+import logMiddleware from './middlewares/log-middleware.js';
 import giftController from './controllers/gift-controller.js';
 
 const PORT = process.env.PORT || 5000;
@@ -17,10 +18,12 @@ app.post(
   giftController.handleWebhook
 );
 app.use(express.json());
+// app.use(logMiddleware);
 app.use(cookieParser());
 app.use(cors({
   credentials: true,
-  origin: process.env.CLIENT_URL
+  // origin: process.env.CLIENT_URL
+  origin: true,
 }));
 app.use('/api', router);
 app.use(errorMiddleware);

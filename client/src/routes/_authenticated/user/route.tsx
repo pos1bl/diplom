@@ -1,9 +1,13 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { checkPermission } from '@helpers/checkPermission';
+import { Role } from '@models/IUser';
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_authenticated/user')({
-  component: RouteComponent,
+  beforeLoad: async ({ context }) => {
+    const { user, isAuth } = context.stores.authStore;
+    if (!isAuth || (user?.role && !checkPermission(user.role, [Role.USER]))) {
+      throw redirect({ to: '/' });
+    }
+  },
+  component: Outlet,
 })
-
-function RouteComponent() {
-  return <div>Hello "/_authenticated/user"!</div>
-}

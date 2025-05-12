@@ -95,6 +95,53 @@ class UserController {
       next(e);
     }
   }
+
+  async getSessions(req, res, next) {
+    try {
+      const { id } = req.params;
+      const sessions = await userService.getServices(id, req.query);
+      return res.json(sessions);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async changeName(req, res, next) {
+    try {
+      const { userId, name } = req.body;
+      await userService.changeName(userId, name);
+      return res.json({ message: "Ім'я успішно змінене" });
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async changeEmail(req, res, next) {
+    try {
+      const { userId, email } = req.body;
+      await userService.changeEmail(userId, email);
+      return res.json({ message: "Email успішно змінено" });
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async changePassword(req, res, next) {
+    try {
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+        return next(ApiError.BadRequest('Помилка при валідації', errors.array()));
+      }
+
+      const { userId, curPass, newPass } = req.body;
+
+      await userService.changePassword(userId, curPass, newPass);
+      return res.json({ message: "Пароль успішно змінено" });
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 export default new UserController();

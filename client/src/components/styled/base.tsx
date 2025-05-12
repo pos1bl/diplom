@@ -1,4 +1,4 @@
-import { Button, styled } from '@mui/material';
+import { styled } from '@mui/material';
 import { Link } from '@tanstack/react-router';
 
 export const StyledActionBar = styled('div')({
@@ -46,6 +46,32 @@ export const StyledGlobalPageWrapper = styled('div')({
   overflowY: 'auto',
   minHeight: 'inherit',
   maxHeight: 'calc(100dvh - 70px)',
+
+  '&::-webkit-scrollbar': {
+    width: '7px',
+    height: '7px',
+    background: 'rgba(172, 152, 209, 0.5)'
+  },
+
+  '&::-webkit-scrollbar-track': {
+    backdropFilter: 'blur(10px)',
+    background: 'rgba(172, 152, 209, 0.5)'
+  },
+
+  '&::-webkit-scrollbar-thumb': {
+    background: '#2D2046',
+    borderRadius: '10px',
+
+    '&:hover': {
+      background: '#1B132A'
+    }
+  }
+})
+
+export const StyledMobileAuthenticatedPageWrapper = styled('div')({
+  overflowY: 'auto',
+  minHeight: 'inherit',
+  maxHeight: 'calc(100dvh - 56px)',
 
   '&::-webkit-scrollbar': {
     width: '7px',

@@ -3,14 +3,14 @@ import { Link } from "@tanstack/react-router";
 import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
 import PersonIcon from '@mui/icons-material/Person';
 import MenuIcon from '@mui/icons-material/Menu';
-import { DEFAULT_PAGE, HEADER_NAVIGATION_LIST, USER_NAVIGATION_LIST } from "@utils/NavigationList";
-import useStore from "@hooks/useStore";
+import { DEFAULT_PAGES, HEADER_NAVIGATION_LIST, USER_NAVIGATION_LIST } from "@utils/NavigationList";
+import { useAuthStore } from "@hooks/useStore";
 import { checkPermission } from "@helpers/checkPermission";
 import { StyledBigHeaderLink, StyledSmallHeaderLink } from "@components/styled/base";
 import Logo from "./Logo";
 
 export const Header = () => {
-  const { isAuth, user, logout } = useStore();
+  const { isAuth, user, logout } = useAuthStore();
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -34,7 +34,7 @@ export const Header = () => {
     <AppBar position="static" sx={{backgroundColor: '#A891D2'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <StyledSmallHeaderLink to={DEFAULT_PAGE.HOME_PAGE}>
+          <StyledSmallHeaderLink to={DEFAULT_PAGES.HOME_PAGE}>
             <Logo width="70" color="#fff" />
           </StyledSmallHeaderLink>
 
@@ -88,7 +88,7 @@ export const Header = () => {
               })}
             </Menu>
           </Box>
-          <StyledBigHeaderLink to={DEFAULT_PAGE.HOME_PAGE}>
+          <StyledBigHeaderLink to={DEFAULT_PAGES.HOME_PAGE}>
             <Logo width="70" color="#fff" />
           </StyledBigHeaderLink>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', gap: '20px' } }}>
@@ -140,7 +140,7 @@ export const Header = () => {
                 {USER_NAVIGATION_LIST.map(({ name, navigateTo, availableRoles }) => {
                   if (!availableRoles.length || isAuth && checkPermission(user.role, availableRoles)) {
                     return (
-                      <Link to={navigateTo as "/"} key={name}>
+                      <Link to={navigateTo as unknown as "/"} key={name}>
                         <MenuItem onClick={handleCloseUserMenu}>
                           <Typography sx={{ textAlign: 'center' }}>{name}</Typography>
                         </MenuItem>
@@ -158,7 +158,7 @@ export const Header = () => {
             </Box>
           )}
           {!isAuth && (
-            <Link to={DEFAULT_PAGE.LOGIN as '/'}>
+            <Link to={DEFAULT_PAGES.LOGIN as '/'}>
               <Button color="inherit" sx={{ my: 2, color: 'white', display: 'block' }}>Увійти</Button>
             </Link>
           )}

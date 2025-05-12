@@ -1,6 +1,7 @@
 export interface IUser {
   email: string;
   isActivated: boolean;
+  isVictim: boolean;
   id: string;
   role: Role;
   name: string;

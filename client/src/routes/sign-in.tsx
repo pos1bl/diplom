@@ -1,18 +1,18 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
-import { DEFAULT_PAGE } from '@utils/NavigationList';
+import { DEFAULT_PAGES } from '@utils/NavigationList';
 import { Role } from '@models/IUser';
 
 import { z } from 'zod';
-import { AuthPage } from '@pages/AuthPage';
+import { AuthPage } from '@pages/default/AuthPage';
 
 export const Route = createFileRoute('/sign-in')({
-  beforeLoad: async ({ context: { authContext }, search }) => {
-    const { isAuth, user } = authContext.store;
+  beforeLoad: async ({ context, search }) => {
+    const { isAuth, user } = context.stores.authStore;
     if (isAuth) {
       const redirectPath = search.redirect ||
           (user?.role === Role.SPECIALIST
-            ? DEFAULT_PAGE.SPECIALIST
-            : DEFAULT_PAGE.USER)
+            ? DEFAULT_PAGES.SPECIALIST
+            : DEFAULT_PAGES.USER)
 
       throw redirect({
         to: redirectPath,

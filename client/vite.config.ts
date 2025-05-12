@@ -7,8 +7,12 @@ import path from 'path';
 export default defineConfig({
   plugins: [react(), TanStackRouterVite()],
   server: {
-    host: '127.0.0.1',
-    port: 3000
+    host: true,
+    port: 3000,
+    allowedHosts: [
+      'localhost',
+      'warm-walls-return.loca.lt',
+    ],
   },
   resolve: {
     alias: {

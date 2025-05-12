@@ -19,9 +19,15 @@ import { Route as DefaultSupportRouteImport } from './routes/_default/support/ro
 import { Route as DefaultPaymentSuccessRouteImport } from './routes/_default/payment-success/route'
 import { Route as DefaultHomepageRouteImport } from './routes/_default/homepage/route'
 import { Route as DefaultGiftsRouteImport } from './routes/_default/gifts/route'
+import { Route as DefaultFormRouteImport } from './routes/_default/form/route'
 import { Route as DefaultCareerRouteImport } from './routes/_default/career/route'
 import { Route as AuthenticatedUserRouteImport } from './routes/_authenticated/user/route'
 import { Route as AuthenticatedSpecialistRouteImport } from './routes/_authenticated/specialist/route'
+import { Route as AuthenticatedUserIndexImport } from './routes/_authenticated/user/index'
+import { Route as AuthenticatedUserSupportRouteImport } from './routes/_authenticated/user/support/route'
+import { Route as AuthenticatedUserSpecialistsRouteImport } from './routes/_authenticated/user/specialists/route'
+import { Route as AuthenticatedUserSettingsRouteImport } from './routes/_authenticated/user/settings/route'
+import { Route as AuthenticatedUserAppointmentsRouteImport } from './routes/_authenticated/user/appointments/route'
 
 // Create/Update Routes
 
@@ -73,6 +79,12 @@ const DefaultGiftsRouteRoute = DefaultGiftsRouteImport.update({
   getParentRoute: () => DefaultRouteRoute,
 } as any)
 
+const DefaultFormRouteRoute = DefaultFormRouteImport.update({
+  id: '/form',
+  path: '/form',
+  getParentRoute: () => DefaultRouteRoute,
+} as any)
+
 const DefaultCareerRouteRoute = DefaultCareerRouteImport.update({
   id: '/career',
   path: '/career',
@@ -90,6 +102,40 @@ const AuthenticatedSpecialistRouteRoute =
     id: '/specialist',
     path: '/specialist',
     getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+
+const AuthenticatedUserIndexRoute = AuthenticatedUserIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedUserRouteRoute,
+} as any)
+
+const AuthenticatedUserSupportRouteRoute =
+  AuthenticatedUserSupportRouteImport.update({
+    id: '/support',
+    path: '/support',
+    getParentRoute: () => AuthenticatedUserRouteRoute,
+  } as any)
+
+const AuthenticatedUserSpecialistsRouteRoute =
+  AuthenticatedUserSpecialistsRouteImport.update({
+    id: '/specialists',
+    path: '/specialists',
+    getParentRoute: () => AuthenticatedUserRouteRoute,
+  } as any)
+
+const AuthenticatedUserSettingsRouteRoute =
+  AuthenticatedUserSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedUserRouteRoute,
+  } as any)
+
+const AuthenticatedUserAppointmentsRouteRoute =
+  AuthenticatedUserAppointmentsRouteImport.update({
+    id: '/appointments',
+    path: '/appointments',
+    getParentRoute: () => AuthenticatedUserRouteRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -145,6 +191,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DefaultCareerRouteImport
       parentRoute: typeof DefaultRouteImport
     }
+    '/_default/form': {
+      id: '/_default/form'
+      path: '/form'
+      fullPath: '/form'
+      preLoaderRoute: typeof DefaultFormRouteImport
+      parentRoute: typeof DefaultRouteImport
+    }
     '/_default/gifts': {
       id: '/_default/gifts'
       path: '/gifts'
@@ -173,19 +226,78 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DefaultSupportRouteImport
       parentRoute: typeof DefaultRouteImport
     }
+    '/_authenticated/user/appointments': {
+      id: '/_authenticated/user/appointments'
+      path: '/appointments'
+      fullPath: '/user/appointments'
+      preLoaderRoute: typeof AuthenticatedUserAppointmentsRouteImport
+      parentRoute: typeof AuthenticatedUserRouteImport
+    }
+    '/_authenticated/user/settings': {
+      id: '/_authenticated/user/settings'
+      path: '/settings'
+      fullPath: '/user/settings'
+      preLoaderRoute: typeof AuthenticatedUserSettingsRouteImport
+      parentRoute: typeof AuthenticatedUserRouteImport
+    }
+    '/_authenticated/user/specialists': {
+      id: '/_authenticated/user/specialists'
+      path: '/specialists'
+      fullPath: '/user/specialists'
+      preLoaderRoute: typeof AuthenticatedUserSpecialistsRouteImport
+      parentRoute: typeof AuthenticatedUserRouteImport
+    }
+    '/_authenticated/user/support': {
+      id: '/_authenticated/user/support'
+      path: '/support'
+      fullPath: '/user/support'
+      preLoaderRoute: typeof AuthenticatedUserSupportRouteImport
+      parentRoute: typeof AuthenticatedUserRouteImport
+    }
+    '/_authenticated/user/': {
+      id: '/_authenticated/user/'
+      path: '/'
+      fullPath: '/user/'
+      preLoaderRoute: typeof AuthenticatedUserIndexImport
+      parentRoute: typeof AuthenticatedUserRouteImport
+    }
   }
 }
 
 // Create and export the route tree
 
+interface AuthenticatedUserRouteRouteChildren {
+  AuthenticatedUserAppointmentsRouteRoute: typeof AuthenticatedUserAppointmentsRouteRoute
+  AuthenticatedUserSettingsRouteRoute: typeof AuthenticatedUserSettingsRouteRoute
+  AuthenticatedUserSpecialistsRouteRoute: typeof AuthenticatedUserSpecialistsRouteRoute
+  AuthenticatedUserSupportRouteRoute: typeof AuthenticatedUserSupportRouteRoute
+  AuthenticatedUserIndexRoute: typeof AuthenticatedUserIndexRoute
+}
+
+const AuthenticatedUserRouteRouteChildren: AuthenticatedUserRouteRouteChildren =
+  {
+    AuthenticatedUserAppointmentsRouteRoute:
+      AuthenticatedUserAppointmentsRouteRoute,
+    AuthenticatedUserSettingsRouteRoute: AuthenticatedUserSettingsRouteRoute,
+    AuthenticatedUserSpecialistsRouteRoute:
+      AuthenticatedUserSpecialistsRouteRoute,
+    AuthenticatedUserSupportRouteRoute: AuthenticatedUserSupportRouteRoute,
+    AuthenticatedUserIndexRoute: AuthenticatedUserIndexRoute,
+  }
+
+const AuthenticatedUserRouteRouteWithChildren =
+  AuthenticatedUserRouteRoute._addFileChildren(
+    AuthenticatedUserRouteRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedSpecialistRouteRoute: typeof AuthenticatedSpecialistRouteRoute
-  AuthenticatedUserRouteRoute: typeof AuthenticatedUserRouteRoute
+  AuthenticatedUserRouteRoute: typeof AuthenticatedUserRouteRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSpecialistRouteRoute: AuthenticatedSpecialistRouteRoute,
-  AuthenticatedUserRouteRoute: AuthenticatedUserRouteRoute,
+  AuthenticatedUserRouteRoute: AuthenticatedUserRouteRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -193,6 +305,7 @@ const AuthenticatedRouteRouteWithChildren =
 
 interface DefaultRouteRouteChildren {
   DefaultCareerRouteRoute: typeof DefaultCareerRouteRoute
+  DefaultFormRouteRoute: typeof DefaultFormRouteRoute
   DefaultGiftsRouteRoute: typeof DefaultGiftsRouteRoute
   DefaultHomepageRouteRoute: typeof DefaultHomepageRouteRoute
   DefaultPaymentSuccessRouteRoute: typeof DefaultPaymentSuccessRouteRoute
@@ -201,6 +314,7 @@ interface DefaultRouteRouteChildren {
 
 const DefaultRouteRouteChildren: DefaultRouteRouteChildren = {
   DefaultCareerRouteRoute: DefaultCareerRouteRoute,
+  DefaultFormRouteRoute: DefaultFormRouteRoute,
   DefaultGiftsRouteRoute: DefaultGiftsRouteRoute,
   DefaultHomepageRouteRoute: DefaultHomepageRouteRoute,
   DefaultPaymentSuccessRouteRoute: DefaultPaymentSuccessRouteRoute,
@@ -216,12 +330,18 @@ export interface FileRoutesByFullPath {
   '': typeof DefaultRouteRouteWithChildren
   '/sign-in': typeof SignInRoute
   '/specialist': typeof AuthenticatedSpecialistRouteRoute
-  '/user': typeof AuthenticatedUserRouteRoute
+  '/user': typeof AuthenticatedUserRouteRouteWithChildren
   '/career': typeof DefaultCareerRouteRoute
+  '/form': typeof DefaultFormRouteRoute
   '/gifts': typeof DefaultGiftsRouteRoute
   '/homepage': typeof DefaultHomepageRouteRoute
   '/payment-success': typeof DefaultPaymentSuccessRouteRoute
   '/support': typeof DefaultSupportRouteRoute
+  '/user/appointments': typeof AuthenticatedUserAppointmentsRouteRoute
+  '/user/settings': typeof AuthenticatedUserSettingsRouteRoute
+  '/user/specialists': typeof AuthenticatedUserSpecialistsRouteRoute
+  '/user/support': typeof AuthenticatedUserSupportRouteRoute
+  '/user/': typeof AuthenticatedUserIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -229,12 +349,17 @@ export interface FileRoutesByTo {
   '': typeof DefaultRouteRouteWithChildren
   '/sign-in': typeof SignInRoute
   '/specialist': typeof AuthenticatedSpecialistRouteRoute
-  '/user': typeof AuthenticatedUserRouteRoute
   '/career': typeof DefaultCareerRouteRoute
+  '/form': typeof DefaultFormRouteRoute
   '/gifts': typeof DefaultGiftsRouteRoute
   '/homepage': typeof DefaultHomepageRouteRoute
   '/payment-success': typeof DefaultPaymentSuccessRouteRoute
   '/support': typeof DefaultSupportRouteRoute
+  '/user/appointments': typeof AuthenticatedUserAppointmentsRouteRoute
+  '/user/settings': typeof AuthenticatedUserSettingsRouteRoute
+  '/user/specialists': typeof AuthenticatedUserSpecialistsRouteRoute
+  '/user/support': typeof AuthenticatedUserSupportRouteRoute
+  '/user': typeof AuthenticatedUserIndexRoute
 }
 
 export interface FileRoutesById {
@@ -244,12 +369,18 @@ export interface FileRoutesById {
   '/_default': typeof DefaultRouteRouteWithChildren
   '/sign-in': typeof SignInRoute
   '/_authenticated/specialist': typeof AuthenticatedSpecialistRouteRoute
-  '/_authenticated/user': typeof AuthenticatedUserRouteRoute
+  '/_authenticated/user': typeof AuthenticatedUserRouteRouteWithChildren
   '/_default/career': typeof DefaultCareerRouteRoute
+  '/_default/form': typeof DefaultFormRouteRoute
   '/_default/gifts': typeof DefaultGiftsRouteRoute
   '/_default/homepage': typeof DefaultHomepageRouteRoute
   '/_default/payment-success': typeof DefaultPaymentSuccessRouteRoute
   '/_default/support': typeof DefaultSupportRouteRoute
+  '/_authenticated/user/appointments': typeof AuthenticatedUserAppointmentsRouteRoute
+  '/_authenticated/user/settings': typeof AuthenticatedUserSettingsRouteRoute
+  '/_authenticated/user/specialists': typeof AuthenticatedUserSpecialistsRouteRoute
+  '/_authenticated/user/support': typeof AuthenticatedUserSupportRouteRoute
+  '/_authenticated/user/': typeof AuthenticatedUserIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -261,22 +392,33 @@ export interface FileRouteTypes {
     | '/specialist'
     | '/user'
     | '/career'
+    | '/form'
     | '/gifts'
     | '/homepage'
     | '/payment-success'
     | '/support'
+    | '/user/appointments'
+    | '/user/settings'
+    | '/user/specialists'
+    | '/user/support'
+    | '/user/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | ''
     | '/sign-in'
     | '/specialist'
-    | '/user'
     | '/career'
+    | '/form'
     | '/gifts'
     | '/homepage'
     | '/payment-success'
     | '/support'
+    | '/user/appointments'
+    | '/user/settings'
+    | '/user/specialists'
+    | '/user/support'
+    | '/user'
   id:
     | '__root__'
     | '/'
@@ -286,10 +428,16 @@ export interface FileRouteTypes {
     | '/_authenticated/specialist'
     | '/_authenticated/user'
     | '/_default/career'
+    | '/_default/form'
     | '/_default/gifts'
     | '/_default/homepage'
     | '/_default/payment-success'
     | '/_default/support'
+    | '/_authenticated/user/appointments'
+    | '/_authenticated/user/settings'
+    | '/_authenticated/user/specialists'
+    | '/_authenticated/user/support'
+    | '/_authenticated/user/'
   fileRoutesById: FileRoutesById
 }
 
@@ -337,6 +485,7 @@ export const routeTree = rootRoute
       "filePath": "_default/route.tsx",
       "children": [
         "/_default/career",
+        "/_default/form",
         "/_default/gifts",
         "/_default/homepage",
         "/_default/payment-success",
@@ -352,10 +501,21 @@ export const routeTree = rootRoute
     },
     "/_authenticated/user": {
       "filePath": "_authenticated/user/route.tsx",
-      "parent": "/_authenticated"
+      "parent": "/_authenticated",
+      "children": [
+        "/_authenticated/user/appointments",
+        "/_authenticated/user/settings",
+        "/_authenticated/user/specialists",
+        "/_authenticated/user/support",
+        "/_authenticated/user/"
+      ]
     },
     "/_default/career": {
       "filePath": "_default/career/route.tsx",
+      "parent": "/_default"
+    },
+    "/_default/form": {
+      "filePath": "_default/form/route.tsx",
       "parent": "/_default"
     },
     "/_default/gifts": {
@@ -373,6 +533,26 @@ export const routeTree = rootRoute
     "/_default/support": {
       "filePath": "_default/support/route.tsx",
       "parent": "/_default"
+    },
+    "/_authenticated/user/appointments": {
+      "filePath": "_authenticated/user/appointments/route.tsx",
+      "parent": "/_authenticated/user"
+    },
+    "/_authenticated/user/settings": {
+      "filePath": "_authenticated/user/settings/route.tsx",
+      "parent": "/_authenticated/user"
+    },
+    "/_authenticated/user/specialists": {
+      "filePath": "_authenticated/user/specialists/route.tsx",
+      "parent": "/_authenticated/user"
+    },
+    "/_authenticated/user/support": {
+      "filePath": "_authenticated/user/support/route.tsx",
+      "parent": "/_authenticated/user"
+    },
+    "/_authenticated/user/": {
+      "filePath": "_authenticated/user/index.tsx",
+      "parent": "/_authenticated/user"
     }
   }
 }

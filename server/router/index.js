@@ -1,8 +1,9 @@
 import { Router, raw } from 'express';
 import { body } from 'express-validator';
 import userController from '../controllers/user-controller.js';
-import authMuddleware from '../middlewares/auth-muddleware.js';
+import authMiddleware from '../middlewares/auth-middleware.js';
 import giftController from '../controllers/gift-controller.js';
+import specialistController from '../controllers/specialist-controller.js';
 
 const router = new Router();
 
@@ -15,7 +16,7 @@ router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.get('/activate/:link', userController.activate);
 router.get('/refresh', userController.refresh);
-router.get('/users', authMuddleware, userController.getUsers);
+router.get('/users', authMiddleware, userController.getUsers);
 router.post('/send_resume',
   [
     body('formResponse.fullName').notEmpty().withMessage('Ім\'я обов\'язкове'),
@@ -32,6 +33,10 @@ router.post('/send_resume',
 );
 router.post('/resend_activation', userController.resendActivation);
 router.post('/create_payment_link', giftController.createPaymentLink);
-// router.post('/webhook', raw({ type: 'application/json' }), giftController.handleWebhook);
+router.get('/users/:id/sessions', authMiddleware, userController.getSessions);
+router.get('/specialists/:id/sessions', authMiddleware, specialistController.getSessions);
+router.post('/change_name', userController.changeName)
+router.post('/change_email', userController.changeEmail)
+router.post('/change_password', body('newPass').isLength({ min: 3, max: 32 }), userController.changePassword)
 
 export default router;

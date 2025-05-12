@@ -1,10 +1,12 @@
 import bcrypt from "bcrypt";
 import { v4 } from 'uuid';
 import UserModel from "../models/user-model.js";
+import SessionModel from "../models/session-model.js";
 import mailService from "./mail-service.js";
 import tokenService from "./token-service.js";
 import UserDto from "../dtos/user-dto.js";
 import ApiError from "../exceptions/api-error.js";
+import { buildSessionFilter, SESSIONS_ROLES } from "../utils/sessionsHelpers.js";
 
 class UserService {
   _buildAuthResponse(user) {
@@ -84,6 +86,14 @@ class UserService {
     return users;
   }
 
+  async getServices(id, query) {
+    const { filter, options } = buildSessionFilter({ roleField: SESSIONS_ROLES.USER, id, query });
+    const sessions = await SessionModel.find(filter, null, options)
+      .populate({ path: 'specialist', populate: { path: 'user', model: 'User', select: 'name' } });
+
+    return sessions;
+  }
+
   async resendActivation(email) {
     const user = await UserModel.findOne({ email });
   
@@ -105,6 +115,59 @@ class UserService {
     );
   
     return { message: 'Активаційний лист надіслано' };
+  }
+
+  async changeName(userId, newName) {
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      throw ApiError.BadRequest('Такого юзера не знайдено');
+    }
+
+    user.name = newName;
+    await user.save();
+  }
+
+  async changeEmail(userId, newEmail) {
+    const candidate = await UserModel.findOne({ email: newEmail });
+
+    if (candidate) {
+      throw ApiError.BadRequest(`Користувач з таким поштовим адресом ${newEmail} вже існує`);
+    }
+
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      throw ApiError.BadRequest('Такого юзера не знайдено');
+    }
+
+    const activationLink = v4();
+    user.activationLink = activationLink;
+    user.isActivated = false;
+    user.email = newEmail;
+
+    await user.save();
+    await mailService.sendActivationMail(newEmail, `${process.env.API_URL}/api/activate/${activationLink}`);
+  }
+
+  async changePassword(userId, curPass, newPass) {
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      throw ApiError.BadRequest('Такого юзера не знайдено');
+    }
+
+    const isPassEquals = await bcrypt.compare(curPass, user.password);
+
+    if (!isPassEquals) {
+      throw ApiError.BadRequest('Неправильний поточний пароль');
+    }
+
+    const hashPassword = await bcrypt.hash(newPass, 3);
+
+    user.password = hashPassword;
+
+    await user.save();
   }
 }
 

@@ -18,4 +18,8 @@ export default class AuthService {
   static async resendActivation(email: string): Promise<void> {
     return $api.post('resend_activation', { email });
   }
+
+  static async refresh(): Promise<AxiosResponse<AuthResponse>> {
+    return $api.get('refresh');
+  }
 }

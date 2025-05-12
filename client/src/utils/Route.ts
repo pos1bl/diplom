@@ -1,5 +1,4 @@
-// import Loader from '@components/shared/Loader';
-// import { NotFoundPage } from '@components/shared/NotFoundPage';
+import NotFoundPage from '@components/shared/NotFoundPage';
 import { createRouter } from '@tanstack/react-router';
 
 import { routeTree } from '../routeTree.gen';
@@ -12,9 +11,8 @@ declare module '@tanstack/react-router' {
 
 export const router = createRouter({
   routeTree,
-  context: { authContext: undefined!, queryClient: undefined! },
-  // defaultNotFoundComponent: NotFoundPage,
-  // defaultPendingComponent: Loader
+  context: { stores: undefined!, queryClient: undefined! },
+  defaultNotFoundComponent: NotFoundPage,
 });
 
 export default router;

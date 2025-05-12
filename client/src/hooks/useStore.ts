@@ -1,4 +1,5 @@
 import { useContext } from "react";
-import { Context } from "../../src/main";
+import { StoresContext } from "../../src/main";
 
-export default function useStore(){ return useContext(Context).store }
+export const useAuthStore = () => { return useContext(StoresContext).authStore };
+export const useSessionStore = () => { return useContext(StoresContext).sessionStore };
