@@ -24,7 +24,12 @@ export const enum USER_PAGES {
   SPECIALISTS = '/user/specialists',
   SUPPORT = '/user/support',
   SETTINGS = '/user/settings',
-}
+};
+
+export const enum ADMIN_PAGES {
+  HOME = '/admin',
+  ADD_SPECIALIST = '/admin/add-specialist',
+};
 
 export const HEADER_NAVIGATION_LIST = [
   {

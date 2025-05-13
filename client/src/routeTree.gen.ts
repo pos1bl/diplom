@@ -23,7 +23,9 @@ import { Route as DefaultFormRouteImport } from './routes/_default/form/route'
 import { Route as DefaultCareerRouteImport } from './routes/_default/career/route'
 import { Route as AuthenticatedUserRouteImport } from './routes/_authenticated/user/route'
 import { Route as AuthenticatedSpecialistRouteImport } from './routes/_authenticated/specialist/route'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin/route'
 import { Route as AuthenticatedUserIndexImport } from './routes/_authenticated/user/index'
+import { Route as AuthenticatedAdminIndexImport } from './routes/_authenticated/admin/index'
 import { Route as AuthenticatedUserSupportRouteImport } from './routes/_authenticated/user/support/route'
 import { Route as AuthenticatedUserSpecialistsRouteImport } from './routes/_authenticated/user/specialists/route'
 import { Route as AuthenticatedUserSettingsRouteImport } from './routes/_authenticated/user/settings/route'
@@ -104,10 +106,22 @@ const AuthenticatedSpecialistRouteRoute =
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
+const AuthenticatedAdminRouteRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+
 const AuthenticatedUserIndexRoute = AuthenticatedUserIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AuthenticatedUserRouteRoute,
+} as any)
+
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRouteRoute,
 } as any)
 
 const AuthenticatedUserSupportRouteRoute =
@@ -169,6 +183,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/sign-in'
       preLoaderRoute: typeof SignInImport
       parentRoute: typeof rootRoute
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteImport
     }
     '/_authenticated/specialist': {
       id: '/_authenticated/specialist'
@@ -254,6 +275,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedUserSupportRouteImport
       parentRoute: typeof AuthenticatedUserRouteImport
     }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexImport
+      parentRoute: typeof AuthenticatedAdminRouteImport
+    }
     '/_authenticated/user/': {
       id: '/_authenticated/user/'
       path: '/'
@@ -265,6 +293,20 @@ declare module '@tanstack/react-router' {
 }
 
 // Create and export the route tree
+
+interface AuthenticatedAdminRouteRouteChildren {
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+}
+
+const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren =
+  {
+    AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  }
+
+const AuthenticatedAdminRouteRouteWithChildren =
+  AuthenticatedAdminRouteRoute._addFileChildren(
+    AuthenticatedAdminRouteRouteChildren,
+  )
 
 interface AuthenticatedUserRouteRouteChildren {
   AuthenticatedUserAppointmentsRouteRoute: typeof AuthenticatedUserAppointmentsRouteRoute
@@ -291,11 +333,13 @@ const AuthenticatedUserRouteRouteWithChildren =
   )
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRouteRoute: typeof AuthenticatedAdminRouteRouteWithChildren
   AuthenticatedSpecialistRouteRoute: typeof AuthenticatedSpecialistRouteRoute
   AuthenticatedUserRouteRoute: typeof AuthenticatedUserRouteRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRouteRoute: AuthenticatedAdminRouteRouteWithChildren,
   AuthenticatedSpecialistRouteRoute: AuthenticatedSpecialistRouteRoute,
   AuthenticatedUserRouteRoute: AuthenticatedUserRouteRouteWithChildren,
 }
@@ -329,6 +373,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof DefaultRouteRouteWithChildren
   '/sign-in': typeof SignInRoute
+  '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/specialist': typeof AuthenticatedSpecialistRouteRoute
   '/user': typeof AuthenticatedUserRouteRouteWithChildren
   '/career': typeof DefaultCareerRouteRoute
@@ -341,6 +386,7 @@ export interface FileRoutesByFullPath {
   '/user/settings': typeof AuthenticatedUserSettingsRouteRoute
   '/user/specialists': typeof AuthenticatedUserSpecialistsRouteRoute
   '/user/support': typeof AuthenticatedUserSupportRouteRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
   '/user/': typeof AuthenticatedUserIndexRoute
 }
 
@@ -359,6 +405,7 @@ export interface FileRoutesByTo {
   '/user/settings': typeof AuthenticatedUserSettingsRouteRoute
   '/user/specialists': typeof AuthenticatedUserSpecialistsRouteRoute
   '/user/support': typeof AuthenticatedUserSupportRouteRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
   '/user': typeof AuthenticatedUserIndexRoute
 }
 
@@ -368,6 +415,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_default': typeof DefaultRouteRouteWithChildren
   '/sign-in': typeof SignInRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/_authenticated/specialist': typeof AuthenticatedSpecialistRouteRoute
   '/_authenticated/user': typeof AuthenticatedUserRouteRouteWithChildren
   '/_default/career': typeof DefaultCareerRouteRoute
@@ -380,6 +428,7 @@ export interface FileRoutesById {
   '/_authenticated/user/settings': typeof AuthenticatedUserSettingsRouteRoute
   '/_authenticated/user/specialists': typeof AuthenticatedUserSpecialistsRouteRoute
   '/_authenticated/user/support': typeof AuthenticatedUserSupportRouteRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/user/': typeof AuthenticatedUserIndexRoute
 }
 
@@ -389,6 +438,7 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/sign-in'
+    | '/admin'
     | '/specialist'
     | '/user'
     | '/career'
@@ -401,6 +451,7 @@ export interface FileRouteTypes {
     | '/user/settings'
     | '/user/specialists'
     | '/user/support'
+    | '/admin/'
     | '/user/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -418,6 +469,7 @@ export interface FileRouteTypes {
     | '/user/settings'
     | '/user/specialists'
     | '/user/support'
+    | '/admin'
     | '/user'
   id:
     | '__root__'
@@ -425,6 +477,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/_default'
     | '/sign-in'
+    | '/_authenticated/admin'
     | '/_authenticated/specialist'
     | '/_authenticated/user'
     | '/_default/career'
@@ -437,6 +490,7 @@ export interface FileRouteTypes {
     | '/_authenticated/user/settings'
     | '/_authenticated/user/specialists'
     | '/_authenticated/user/support'
+    | '/_authenticated/admin/'
     | '/_authenticated/user/'
   fileRoutesById: FileRoutesById
 }
@@ -477,6 +531,7 @@ export const routeTree = rootRoute
     "/_authenticated": {
       "filePath": "_authenticated/route.tsx",
       "children": [
+        "/_authenticated/admin",
         "/_authenticated/specialist",
         "/_authenticated/user"
       ]
@@ -494,6 +549,13 @@ export const routeTree = rootRoute
     },
     "/sign-in": {
       "filePath": "sign-in.tsx"
+    },
+    "/_authenticated/admin": {
+      "filePath": "_authenticated/admin/route.tsx",
+      "parent": "/_authenticated",
+      "children": [
+        "/_authenticated/admin/"
+      ]
     },
     "/_authenticated/specialist": {
       "filePath": "_authenticated/specialist/route.tsx",
@@ -549,6 +611,10 @@ export const routeTree = rootRoute
     "/_authenticated/user/support": {
       "filePath": "_authenticated/user/support/route.tsx",
       "parent": "/_authenticated/user"
+    },
+    "/_authenticated/admin/": {
+      "filePath": "_authenticated/admin/index.tsx",
+      "parent": "/_authenticated/admin"
     },
     "/_authenticated/user/": {
       "filePath": "_authenticated/user/index.tsx",

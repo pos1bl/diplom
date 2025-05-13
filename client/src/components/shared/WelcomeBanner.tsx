@@ -1,13 +1,12 @@
-import { Box, Typography, Avatar, Theme, useTheme, Tooltip } from '@mui/material';
+import { Box, Typography, Avatar, useTheme, Tooltip } from '@mui/material';
 import { useAuthStore } from '@hooks/useStore';
 import { getVictimOptions } from '@utils/user/Homepage';
 
 export const WelcomeBanner = () => {
   const theme = useTheme();
   const { user } = useAuthStore();
-  const { isVictim, name } = user;
 
-  const { StatusIcon, statusText } = getVictimOptions(isVictim);
+  const { StatusIcon, statusText } = getVictimOptions(user);
 
   return (
     <Box
@@ -24,8 +23,9 @@ export const WelcomeBanner = () => {
     >
       <Box>
         <Typography variant="h4" component="h1">
-          Привіт, {name}!
-          <Tooltip title={statusText} arrow>
+          Привіт, {user.name}!
+          {!!StatusIcon && (
+            <Tooltip title={statusText} arrow>
             <StatusIcon
               sx={{ 
                 color: "#AC98D1",
@@ -34,6 +34,7 @@ export const WelcomeBanner = () => {
               }}
             />
           </Tooltip>
+          )}
         </Typography>
         <Typography variant="subtitle1" color="text.secondary">
           Раді бачити тебе на платформі!
@@ -41,7 +42,7 @@ export const WelcomeBanner = () => {
       </Box>
 
       <Avatar sx={{ bgcolor: "#AC98D1", width: 56, height: 56, fontSize: '1.25rem' }}>
-        {name.charAt(0).toUpperCase()}
+        {user.name.charAt(0).toUpperCase()}
       </Avatar>
     </Box>
   );

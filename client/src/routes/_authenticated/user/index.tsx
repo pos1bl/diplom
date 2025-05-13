@@ -13,4 +13,4 @@ export const Route = createFileRoute('/_authenticated/user/')({
       search
     )
   },
-})
+});

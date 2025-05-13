@@ -1,7 +1,7 @@
 import { NextSessionSection } from '@components/user/Homepage/NextSessionSection';
 import { PromoSections } from '@components/user/Homepage/PromoSections';
 import { RepeatBookingSection } from '@components/user/Homepage/RepeatBookingSection';
-import { WelcomeBanner } from '@components/user/Homepage/WelcomeBanner';
+import { WelcomeBanner } from '@components/shared/WelcomeBanner';
 import { useSessionStore } from '@hooks/useStore';
 import { Box } from '@mui/material';
 import { getSessionsOverview } from '@utils/user/Homepage';

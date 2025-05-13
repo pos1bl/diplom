@@ -1,10 +1,27 @@
 import PaidIcon from '@mui/icons-material/Paid'
-import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism'
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount'
 import { SESSION_STATUSES, ISession } from '@models/ISession'
+import { IUser, Role } from '@models/IUser';
 
-export const getVictimOptions = (isVictim: boolean) => {
-   const statusText = isVictim ? 'Безкоштовний акаунт' : 'Звичайний акаунт';
-   const StatusIcon = isVictim ? VolunteerActivismIcon : PaidIcon
+export const getVictimOptions = (user: IUser) => {
+  const { role, isVictim } = user;
+
+  let statusText = '';
+  let StatusIcon: React.ElementType | undefined;
+
+  if (role === Role.USER) {
+    if (isVictim) {
+      statusText = 'Безкоштовний акаунт';
+      StatusIcon = VolunteerActivismIcon;
+    } else {
+      statusText = 'Звичайний акаунт';
+      StatusIcon = PaidIcon;
+    }
+  } else if (role === Role.ADMIN) {
+    statusText = 'Адмін';
+    StatusIcon = SupervisorAccountIcon;
+  }
   
   return {
     StatusIcon,
