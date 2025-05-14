@@ -55,6 +55,7 @@ export const BottomBar = () => {
           />
           {USER_NAVIGATION_LIST.map(({ name, navigateTo, icon }) => (
             <BottomNavigationAction
+              key={name}
               label={name}
               value={navigateTo}
               to={navigateTo}

@@ -1,6 +1,6 @@
 import { IUser } from "./IUser";
 
-type DayOfWeek =
+export type DayOfWeek =
   | 'monday'
   | 'tuesday'
   | 'wednesday'
@@ -9,12 +9,12 @@ type DayOfWeek =
   | 'saturday'
   | 'sunday';
 
-enum Gender {
+export enum Gender {
   MALE = 'male',
   FEMALE = 'female'
 }
 
-interface AvailabilitySlot {
+export interface AvailabilitySlot {
   dayOfWeek: DayOfWeek;
   from: string;
   to: string;
@@ -24,12 +24,12 @@ export interface ISpecialist {
   dateOfBirth: string;
   gender: Gender;
   bio: string;
-  yearsOfExperience: Number;
+  yearsOfExperience: number;
   mainAreas: string[];
   secondaryAreas: string[];
   excludedAreas: string[];
   methods: string[];
-  languages: string[];
+  specialNeeds: string[];
   availability: AvailabilitySlot[];
   avatarUrl: string;
   userId: string;

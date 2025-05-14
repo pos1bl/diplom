@@ -46,7 +46,7 @@ export const PromoSections = () => (
         Хочеш обрати психотерапевта самостійно?
       </Typography>
       <Typography variant="body2" sx={{ mb: 2 }}>
-        Ознайомся з каталогом спеціалістів і обери який терапевт підійде саме тобі
+        Ознайомся з каталогом фахівців і обери який терапевт підійде саме тобі
       </Typography>
       <OutlinedButton component={Link} to="/specialists">
         Переглянути каталог

@@ -4,6 +4,7 @@ import userController from '../controllers/user-controller.js';
 import authMiddleware from '../middlewares/auth-middleware.js';
 import giftController from '../controllers/gift-controller.js';
 import specialistController from '../controllers/specialist-controller.js';
+import adminController from '../controllers/admin-controller.js';
 
 const router = new Router();
 
@@ -37,6 +38,7 @@ router.get('/users/:id/sessions', authMiddleware, userController.getSessions);
 router.get('/specialists/:id/sessions', authMiddleware, specialistController.getSessions);
 router.post('/change_name', userController.changeName)
 router.post('/change_email', userController.changeEmail)
-router.post('/change_password', body('newPass').isLength({ min: 3, max: 32 }), userController.changePassword)
+router.post('/change_password', body('newPass').isLength({ min: 3, max: 32 }), userController.changePassword);
+router.post('/add_specialist', adminController.addSpecialist);
 
 export default router;

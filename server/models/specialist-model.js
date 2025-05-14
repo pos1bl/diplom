@@ -31,18 +31,15 @@ const SpecialistSchema = new Schema({
   yearsOfExperience:    { type: Number, default: 0 },
   mainAreas:            { type: [String], default: [] },
   secondaryAreas:       { type: [String], default: [] },
-  methods:              { type: [String], default: [] },
   excludedAreas:        { type: [String], default: [] },
-
-  // мови
-  languages:            { type: [String], default: [] },
+  methods:              { type: [String], default: [] },
+  specialNeeds:         { type: [String], default: [] },
 
   // availability як масив слотів
   availability:         { type: [AvailabilitySlotSchema], default: [] },
 
   // аватар, верифікація
   avatarUrl:            { type: String, default: '' },
-  isVerified:           { type: Boolean, default: false },
 });
 
 SpecialistSchema.pre('save', async function(next) {

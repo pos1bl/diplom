@@ -3,11 +3,13 @@ import HomeIcon from '@mui/icons-material/Home';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import HelpIcon from '@mui/icons-material/Help';
 
 export const enum DEFAULT_PAGES {
   SPECIALIST = '/specialist',
   USER = '/user',
+  ADMIN = '/admin',
   LOGIN = '/sign-in',
   SETTINGS = '/settings',
   HOME_PAGE = '/',
@@ -33,7 +35,7 @@ export const enum ADMIN_PAGES {
 
 export const HEADER_NAVIGATION_LIST = [
   {
-    name: 'Наші спеціалісти',
+    name: 'Наші фахівці',
     navigateTo: DEFAULT_PAGES.FORM,
     availableRoles: []
   },
@@ -48,7 +50,7 @@ export const HEADER_NAVIGATION_LIST = [
     availableRoles: []
   },
   {
-    name: 'Спеціалістам',
+    name: 'Фахівцям',
     navigateTo: DEFAULT_PAGES.CAREER,
     availableRoles: []
   },
@@ -68,7 +70,7 @@ export const USER_NAVIGATION_LIST = [
     availableRoles: [Role.USER]
   },
   {
-    name: 'Мої спеціалісти',
+    name: 'Мої фахівці',
     navigateTo: USER_PAGES.SPECIALISTS,
     icon: <PeopleIcon sx={{ color: "#AC98D1" }} />,
     availableRoles: [Role.USER]
@@ -86,3 +88,27 @@ export const USER_NAVIGATION_LIST = [
     availableRoles: [Role.USER]
   }
 ];
+
+export const ADMIN_NAVIGATION_LIST = [
+  {
+    name: 'Головна',
+    navigateTo: ADMIN_PAGES.HOME,
+    icon: <HomeIcon sx={{ color: "#AC98D1" }} />,
+    availableRoles: [Role.ADMIN]
+  },
+  {
+    name: 'Додати фахівця',
+    navigateTo: ADMIN_PAGES.ADD_SPECIALIST,
+    icon: <PersonAddIcon sx={{ color: "#AC98D1" }} />,
+    availableRoles: [Role.ADMIN]
+  },
+];
+
+export const getNavigationList = (role: Role) => {
+  switch(role) {
+    case Role.ADMIN:
+      return ADMIN_NAVIGATION_LIST;
+    default:
+      return USER_NAVIGATION_LIST;
+  }
+}

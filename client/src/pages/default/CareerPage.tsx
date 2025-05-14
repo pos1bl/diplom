@@ -9,8 +9,7 @@ import { Testimonials } from "@components/default/Career/CareerTestimonials"
 import { WhoWeNeed } from "@components/default/Career/CareerWhoWeNeed"
 import { WorkStyle } from "@components/default/Career/CareerWorkStyle"
 import { StyledMain } from "@components/styled/base"
-import { useRef } from "react"
-
+import { useEffect, useRef } from "react"
 
 export const CareerPage = () => {
   const careerFormRef = useRef<HTMLDivElement>(null);
@@ -19,11 +18,21 @@ export const CareerPage = () => {
     careerFormRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  useEffect(() => {
+    const scrollTarget = sessionStorage.getItem('afterLoginScrollTo');
+    if (scrollTarget === 'career-form') {
+      sessionStorage.removeItem('afterLoginScrollTo');
+      setTimeout(() => {
+        careerFormRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  }, []);
+
   return (
     <StyledMain>
       <Hero onScrollToForm={handleScrollToForm} />
       <AboutPlatform />
-      <WhoWeNeed />
+      <WhoWeNeed onScrollToForm={handleScrollToForm} />
       <WorkStyle />
       <Testimonials />
       <JoinSteps onScrollToForm={handleScrollToForm} />

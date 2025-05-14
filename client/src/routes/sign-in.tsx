@@ -10,8 +10,10 @@ export const Route = createFileRoute('/sign-in')({
     const { isAuth, user } = context.stores.authStore;
     if (isAuth) {
       const redirectPath = search.redirect ||
-          (user?.role === Role.SPECIALIST
-            ? DEFAULT_PAGES.SPECIALIST
+        (user.role === Role.SPECIALIST
+          ? DEFAULT_PAGES.SPECIALIST
+          : user.role === Role.ADMIN
+            ? DEFAULT_PAGES.ADMIN
             : DEFAULT_PAGES.USER)
 
       throw redirect({

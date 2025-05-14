@@ -5,12 +5,27 @@ import { FormControl, FormControlLabel, FormHelperText, Paper, Radio, RadioGroup
 import { useForm } from "@tanstack/react-form";
 import { FC, Ref } from "react";
 import ResumeService from "@services/ResumeService";
+import { useAuthStore } from "@hooks/useStore";
+import { useNavigate } from "@tanstack/react-router";
+import { DEFAULT_PAGES } from "@utils/NavigationList";
 
 type Props = {
   ref: Ref<HTMLDivElement>
 };
 
+
 export const ApplicationForm: FC<Props> = ({ ref }) => {
+  const { isAuth } = useAuthStore();
+  const navigate = useNavigate();
+
+  const redirectToLogin = () => {
+    sessionStorage.setItem('afterLoginScrollTo', 'career-form');
+    navigate({
+      to: DEFAULT_PAGES.LOGIN as '/sign-in',
+      search: { redirect: DEFAULT_PAGES.CAREER as '/career' }
+    });
+  }
+
   const { Field, Subscribe, handleSubmit } = useForm({
     defaultValues: {
       fullName: "",
@@ -24,13 +39,18 @@ export const ApplicationForm: FC<Props> = ({ ref }) => {
       motivation: "",
     },
     onSubmit: async ({ value, formApi }) => {
+      if (!isAuth) {
+        redirectToLogin();
+        return;
+      }
+
       await ResumeService.sendResume(value);
       formApi.reset();
     },
   });
 
   return (
-    <StyleddAppForm sx={{ py: { xs: 8, md: 10 } }} ref={ref}>
+    <StyleddAppForm sx={{ py: { xs: 8, md: 10 } }} ref={ref} data-scroll-target="career-form">
       <Stack spacing={3} textAlign="center" mb={2}>
         <StyledSubtitle>
           Подати заявку
@@ -279,6 +299,11 @@ export const ApplicationForm: FC<Props> = ({ ref }) => {
                 <ContainedButton
                   type="submit"
                   disabled={!canSubmit || isSubmitting}
+                  onClick={() => {
+                    if (!isAuth) {
+                      redirectToLogin();
+                    }
+                  }}
                 >
                   Надіслати заявку
                 </ContainedButton>

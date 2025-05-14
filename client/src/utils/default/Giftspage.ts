@@ -48,7 +48,7 @@ export const GIFT_OPTIONS: GiftOption[] = [
     amount: 1,
     discount: 0,
     title: 'Індивідуальний сеанс',
-    subtitle: 'Знайомство зі спеціалістом',
+    subtitle: 'Знайомство зі фахівцем',
     description: 'Перший крок до покращення самопочуття — обговорити запит з фахівцем і визначити план дій.',
     priceId: 'price_1RMERH1F5X1CXToisddCJ89X',
   },
@@ -76,7 +76,7 @@ export const GIFT_OPTIONS: GiftOption[] = [
     discount: 15,
     title: 'Індивідуальних сеансів',
     subtitle: 'Найвигідніші умови',
-    description: 'Повноцінний цикл роботи з спеціалістом для глибокого пропрацювання запиту і закріплення змін.',
+    description: 'Повноцінний цикл роботи з фахівцем для глибокого пропрацювання запиту і закріплення змін.',
     priceId: 'price_1RMET71F5X1CXToiMvRHUN6L',
   },
 ];

@@ -99,7 +99,7 @@ export const CertificateExample: FC<Props> = ({ expirationDate, amount, to, from
           Як скористатися сертифікатом:
         </Typography>
         <Typography variant="caption" display="block">
-          • Заповни анкету та обери спеціаліста на сайті
+          • Заповни анкету та обери фахівця на сайті
         </Typography>
         <Typography variant="caption" display="block">
           • Вибери дату та час сеансу
@@ -108,7 +108,7 @@ export const CertificateExample: FC<Props> = ({ expirationDate, amount, to, from
           • Під час бронювання введи код активації
         </Typography>
         <Typography variant="caption" display="block" mb={1}>
-          • Підключись на сеанс та довірся спеціалісту
+          • Підключись на сеанс та довірся фахівцю
         </Typography>
         <Typography variant="caption" color="text.secondary">
           Сертифікат дійсний до {expirationDate}

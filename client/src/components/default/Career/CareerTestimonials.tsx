@@ -9,7 +9,7 @@ export const Testimonials: FC = () => (
   <StyleddTestimonials>
     <Container maxWidth="md">
       <Stack spacing={4} textAlign="center" mb={4}>
-        <StyledSubtitle>Що кажуть наші спеціалісти?</StyledSubtitle>
+        <StyledSubtitle>Що кажуть наші фахівці?</StyledSubtitle>
         <Typography variant="body1" color="text.secondary">
           Відгуки тих, хто вже допомагає людям разом з нами
         </Typography>

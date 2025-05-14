@@ -21,7 +21,7 @@ export const Hero = () => (
       <Box display="flex" gap="20px">
         <Link to={DEFAULT_PAGES.FORM as "/"}>
           <ContainedButton>
-            Знайти саме свого спеціаліста
+            Знайти саме свого фахівця
           </ContainedButton>
         </Link>
         <Link to={DEFAULT_PAGES.SUPPORT as "/"}>

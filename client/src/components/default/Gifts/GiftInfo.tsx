@@ -22,7 +22,7 @@ export const Info = () => {
           <Stack spacing={2} alignItems="flex-start">
             <AutorenewIcon sx={{ fontSize: 32, color: '#AC98D1', mt: 0.5 }} />
             <Typography variant="body1">
-              Сертифікат можна використати з будь-яким доступним спеціалістом на платформі — кількість сесій визначається у подарунку.
+              Сертифікат можна використати з будь-яким доступним фахівцем на платформі — кількість сесій визначається у подарунку.
             </Typography>
           </Stack>
         </StyledInfoPaper>

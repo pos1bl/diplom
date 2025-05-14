@@ -6,7 +6,8 @@ import { useQueryClient } from '@tanstack/react-query'
 import { RouterProvider } from '@tanstack/react-router'
 import router from '@utils/Route'
 import { ToastContainer } from 'react-toastify';
-
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import './assets/styles/index.scss';
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { theme } from '@utils/Theme'
@@ -26,12 +27,14 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <ToastContainer />
-      <RouterProvider
-        router={router}
-        context={{ stores, queryClient }}
-      />
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <CssBaseline />
+        <ToastContainer />
+        <RouterProvider
+          router={router}
+          context={{ stores, queryClient }}
+        />
+      </LocalizationProvider>
     </ThemeProvider>
     
   );

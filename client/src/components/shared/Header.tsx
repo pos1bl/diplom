@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
 import PersonIcon from '@mui/icons-material/Person';
 import MenuIcon from '@mui/icons-material/Menu';
-import { DEFAULT_PAGES, HEADER_NAVIGATION_LIST, USER_NAVIGATION_LIST } from "@utils/NavigationList";
+import { DEFAULT_PAGES, getNavigationList, HEADER_NAVIGATION_LIST, USER_NAVIGATION_LIST } from "@utils/NavigationList";
 import { useAuthStore } from "@hooks/useStore";
 import { checkPermission } from "@helpers/checkPermission";
 import { StyledBigHeaderLink, StyledSmallHeaderLink } from "@components/styled/base";
@@ -137,7 +137,7 @@ export const Header = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {USER_NAVIGATION_LIST.map(({ name, navigateTo, availableRoles }) => {
+                {getNavigationList(user.role).map(({ name, navigateTo, availableRoles }) => {
                   if (!availableRoles.length || isAuth && checkPermission(user.role, availableRoles)) {
                     return (
                       <Link to={navigateTo as unknown as "/"} key={name}>

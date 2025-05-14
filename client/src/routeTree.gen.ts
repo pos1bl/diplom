@@ -30,6 +30,7 @@ import { Route as AuthenticatedUserSupportRouteImport } from './routes/_authenti
 import { Route as AuthenticatedUserSpecialistsRouteImport } from './routes/_authenticated/user/specialists/route'
 import { Route as AuthenticatedUserSettingsRouteImport } from './routes/_authenticated/user/settings/route'
 import { Route as AuthenticatedUserAppointmentsRouteImport } from './routes/_authenticated/user/appointments/route'
+import { Route as AuthenticatedAdminAddSpecialistRouteImport } from './routes/_authenticated/admin/add-specialist/route'
 
 // Create/Update Routes
 
@@ -152,6 +153,13 @@ const AuthenticatedUserAppointmentsRouteRoute =
     getParentRoute: () => AuthenticatedUserRouteRoute,
   } as any)
 
+const AuthenticatedAdminAddSpecialistRouteRoute =
+  AuthenticatedAdminAddSpecialistRouteImport.update({
+    id: '/add-specialist',
+    path: '/add-specialist',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -247,6 +255,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DefaultSupportRouteImport
       parentRoute: typeof DefaultRouteImport
     }
+    '/_authenticated/admin/add-specialist': {
+      id: '/_authenticated/admin/add-specialist'
+      path: '/add-specialist'
+      fullPath: '/admin/add-specialist'
+      preLoaderRoute: typeof AuthenticatedAdminAddSpecialistRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteImport
+    }
     '/_authenticated/user/appointments': {
       id: '/_authenticated/user/appointments'
       path: '/appointments'
@@ -295,11 +310,14 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthenticatedAdminRouteRouteChildren {
+  AuthenticatedAdminAddSpecialistRouteRoute: typeof AuthenticatedAdminAddSpecialistRouteRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren =
   {
+    AuthenticatedAdminAddSpecialistRouteRoute:
+      AuthenticatedAdminAddSpecialistRouteRoute,
     AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   }
 
@@ -382,6 +400,7 @@ export interface FileRoutesByFullPath {
   '/homepage': typeof DefaultHomepageRouteRoute
   '/payment-success': typeof DefaultPaymentSuccessRouteRoute
   '/support': typeof DefaultSupportRouteRoute
+  '/admin/add-specialist': typeof AuthenticatedAdminAddSpecialistRouteRoute
   '/user/appointments': typeof AuthenticatedUserAppointmentsRouteRoute
   '/user/settings': typeof AuthenticatedUserSettingsRouteRoute
   '/user/specialists': typeof AuthenticatedUserSpecialistsRouteRoute
@@ -401,6 +420,7 @@ export interface FileRoutesByTo {
   '/homepage': typeof DefaultHomepageRouteRoute
   '/payment-success': typeof DefaultPaymentSuccessRouteRoute
   '/support': typeof DefaultSupportRouteRoute
+  '/admin/add-specialist': typeof AuthenticatedAdminAddSpecialistRouteRoute
   '/user/appointments': typeof AuthenticatedUserAppointmentsRouteRoute
   '/user/settings': typeof AuthenticatedUserSettingsRouteRoute
   '/user/specialists': typeof AuthenticatedUserSpecialistsRouteRoute
@@ -424,6 +444,7 @@ export interface FileRoutesById {
   '/_default/homepage': typeof DefaultHomepageRouteRoute
   '/_default/payment-success': typeof DefaultPaymentSuccessRouteRoute
   '/_default/support': typeof DefaultSupportRouteRoute
+  '/_authenticated/admin/add-specialist': typeof AuthenticatedAdminAddSpecialistRouteRoute
   '/_authenticated/user/appointments': typeof AuthenticatedUserAppointmentsRouteRoute
   '/_authenticated/user/settings': typeof AuthenticatedUserSettingsRouteRoute
   '/_authenticated/user/specialists': typeof AuthenticatedUserSpecialistsRouteRoute
@@ -447,6 +468,7 @@ export interface FileRouteTypes {
     | '/homepage'
     | '/payment-success'
     | '/support'
+    | '/admin/add-specialist'
     | '/user/appointments'
     | '/user/settings'
     | '/user/specialists'
@@ -465,6 +487,7 @@ export interface FileRouteTypes {
     | '/homepage'
     | '/payment-success'
     | '/support'
+    | '/admin/add-specialist'
     | '/user/appointments'
     | '/user/settings'
     | '/user/specialists'
@@ -486,6 +509,7 @@ export interface FileRouteTypes {
     | '/_default/homepage'
     | '/_default/payment-success'
     | '/_default/support'
+    | '/_authenticated/admin/add-specialist'
     | '/_authenticated/user/appointments'
     | '/_authenticated/user/settings'
     | '/_authenticated/user/specialists'
@@ -554,6 +578,7 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/admin/route.tsx",
       "parent": "/_authenticated",
       "children": [
+        "/_authenticated/admin/add-specialist",
         "/_authenticated/admin/"
       ]
     },
@@ -595,6 +620,10 @@ export const routeTree = rootRoute
     "/_default/support": {
       "filePath": "_default/support/route.tsx",
       "parent": "/_default"
+    },
+    "/_authenticated/admin/add-specialist": {
+      "filePath": "_authenticated/admin/add-specialist/route.tsx",
+      "parent": "/_authenticated/admin"
     },
     "/_authenticated/user/appointments": {
       "filePath": "_authenticated/user/appointments/route.tsx",

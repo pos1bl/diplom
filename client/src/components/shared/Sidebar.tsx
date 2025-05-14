@@ -8,12 +8,12 @@ import {
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { Link } from '@tanstack/react-router';
 import { useAuthStore } from '@hooks/useStore';
-import { DEFAULT_PAGES, USER_NAVIGATION_LIST } from '@utils/NavigationList';
+import { DEFAULT_PAGES, getNavigationList } from '@utils/NavigationList';
 import Logo from './Logo';
 import { DRAWER_WIDTH } from '@utils/Sidebar';
 
 export const Sidebar = () => {
-  const { logout } = useAuthStore();
+  const { user, logout } = useAuthStore();
 
   return (
     <Drawer
@@ -38,7 +38,7 @@ export const Sidebar = () => {
       </Link>
 
       <List>
-        {USER_NAVIGATION_LIST.map(({ name, icon, navigateTo }) => (
+        {getNavigationList(user.role).map(({ name, icon, navigateTo }) => (
           <ListItemButton
             key={name}
             component={Link}
