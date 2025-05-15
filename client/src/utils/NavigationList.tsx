@@ -14,6 +14,7 @@ export const enum DEFAULT_PAGES {
   SETTINGS = '/settings',
   HOME_PAGE = '/',
   FORM = '/form',
+  SPECIALISTS = '/specialists',
   ALL_SPECIALISTS = '/specialists',
   GIFTS = '/gifts',
   SUPPORT = '/support',
@@ -36,7 +37,7 @@ export const enum ADMIN_PAGES {
 export const HEADER_NAVIGATION_LIST = [
   {
     name: 'Наші фахівці',
-    navigateTo: DEFAULT_PAGES.FORM,
+    navigateTo: DEFAULT_PAGES.SPECIALISTS,
     availableRoles: []
   },
   {

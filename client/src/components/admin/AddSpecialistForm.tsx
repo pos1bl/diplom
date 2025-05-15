@@ -17,9 +17,10 @@ import { OutlinedButton } from '@components/shared/OutlinedButton';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs, { Dayjs } from 'dayjs';
 import { Delete } from '@mui/icons-material';
-import { dayLabels, days, DEFAULT_AVAILABILITY, getStyles, ISSUES_LIST, MenuProps, SPECIAL_GROUPS_LIST, SpecialistFormValues, THERAPY_METHODS_LIST } from '@utils/admin/Addspecialistform';
+import { dayLabels, days, DEFAULT_AVAILABILITY, getStyles, MenuProps, SpecialistFormValues } from '@utils/admin/Addspecialistform';
 import AdminService from '@services/AdminService';
 import { AvailabilitySlot, DayOfWeek, Gender } from '@models/ISpecialist';
+import { ISSUES_LIST, SPECIAL_GROUPS_LIST, THERAPY_METHODS_LIST } from '@utils/shared';
 
 export const AddSpecialistForm = () => {
   const theme = useTheme();
@@ -55,9 +56,7 @@ export const AddSpecialistForm = () => {
         specialNeeds: value.specialNeeds,
         availability: value.availability as AvailabilitySlot[],
       };
-      console.log(payload);
       await AdminService.addSpecialist(payload);
-
       
       reset();
     },

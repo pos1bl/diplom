@@ -16,6 +16,7 @@ import { Route as DefaultRouteImport } from './routes/_default/route'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as DefaultSupportRouteImport } from './routes/_default/support/route'
+import { Route as DefaultSpecialistsRouteImport } from './routes/_default/specialists/route'
 import { Route as DefaultPaymentSuccessRouteImport } from './routes/_default/payment-success/route'
 import { Route as DefaultHomepageRouteImport } from './routes/_default/homepage/route'
 import { Route as DefaultGiftsRouteImport } from './routes/_default/gifts/route'
@@ -59,6 +60,12 @@ const IndexRoute = IndexImport.update({
 const DefaultSupportRouteRoute = DefaultSupportRouteImport.update({
   id: '/support',
   path: '/support',
+  getParentRoute: () => DefaultRouteRoute,
+} as any)
+
+const DefaultSpecialistsRouteRoute = DefaultSpecialistsRouteImport.update({
+  id: '/specialists',
+  path: '/specialists',
   getParentRoute: () => DefaultRouteRoute,
 } as any)
 
@@ -248,6 +255,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DefaultPaymentSuccessRouteImport
       parentRoute: typeof DefaultRouteImport
     }
+    '/_default/specialists': {
+      id: '/_default/specialists'
+      path: '/specialists'
+      fullPath: '/specialists'
+      preLoaderRoute: typeof DefaultSpecialistsRouteImport
+      parentRoute: typeof DefaultRouteImport
+    }
     '/_default/support': {
       id: '/_default/support'
       path: '/support'
@@ -371,6 +385,7 @@ interface DefaultRouteRouteChildren {
   DefaultGiftsRouteRoute: typeof DefaultGiftsRouteRoute
   DefaultHomepageRouteRoute: typeof DefaultHomepageRouteRoute
   DefaultPaymentSuccessRouteRoute: typeof DefaultPaymentSuccessRouteRoute
+  DefaultSpecialistsRouteRoute: typeof DefaultSpecialistsRouteRoute
   DefaultSupportRouteRoute: typeof DefaultSupportRouteRoute
 }
 
@@ -380,6 +395,7 @@ const DefaultRouteRouteChildren: DefaultRouteRouteChildren = {
   DefaultGiftsRouteRoute: DefaultGiftsRouteRoute,
   DefaultHomepageRouteRoute: DefaultHomepageRouteRoute,
   DefaultPaymentSuccessRouteRoute: DefaultPaymentSuccessRouteRoute,
+  DefaultSpecialistsRouteRoute: DefaultSpecialistsRouteRoute,
   DefaultSupportRouteRoute: DefaultSupportRouteRoute,
 }
 
@@ -399,6 +415,7 @@ export interface FileRoutesByFullPath {
   '/gifts': typeof DefaultGiftsRouteRoute
   '/homepage': typeof DefaultHomepageRouteRoute
   '/payment-success': typeof DefaultPaymentSuccessRouteRoute
+  '/specialists': typeof DefaultSpecialistsRouteRoute
   '/support': typeof DefaultSupportRouteRoute
   '/admin/add-specialist': typeof AuthenticatedAdminAddSpecialistRouteRoute
   '/user/appointments': typeof AuthenticatedUserAppointmentsRouteRoute
@@ -419,6 +436,7 @@ export interface FileRoutesByTo {
   '/gifts': typeof DefaultGiftsRouteRoute
   '/homepage': typeof DefaultHomepageRouteRoute
   '/payment-success': typeof DefaultPaymentSuccessRouteRoute
+  '/specialists': typeof DefaultSpecialistsRouteRoute
   '/support': typeof DefaultSupportRouteRoute
   '/admin/add-specialist': typeof AuthenticatedAdminAddSpecialistRouteRoute
   '/user/appointments': typeof AuthenticatedUserAppointmentsRouteRoute
@@ -443,6 +461,7 @@ export interface FileRoutesById {
   '/_default/gifts': typeof DefaultGiftsRouteRoute
   '/_default/homepage': typeof DefaultHomepageRouteRoute
   '/_default/payment-success': typeof DefaultPaymentSuccessRouteRoute
+  '/_default/specialists': typeof DefaultSpecialistsRouteRoute
   '/_default/support': typeof DefaultSupportRouteRoute
   '/_authenticated/admin/add-specialist': typeof AuthenticatedAdminAddSpecialistRouteRoute
   '/_authenticated/user/appointments': typeof AuthenticatedUserAppointmentsRouteRoute
@@ -467,6 +486,7 @@ export interface FileRouteTypes {
     | '/gifts'
     | '/homepage'
     | '/payment-success'
+    | '/specialists'
     | '/support'
     | '/admin/add-specialist'
     | '/user/appointments'
@@ -486,6 +506,7 @@ export interface FileRouteTypes {
     | '/gifts'
     | '/homepage'
     | '/payment-success'
+    | '/specialists'
     | '/support'
     | '/admin/add-specialist'
     | '/user/appointments'
@@ -508,6 +529,7 @@ export interface FileRouteTypes {
     | '/_default/gifts'
     | '/_default/homepage'
     | '/_default/payment-success'
+    | '/_default/specialists'
     | '/_default/support'
     | '/_authenticated/admin/add-specialist'
     | '/_authenticated/user/appointments'
@@ -568,6 +590,7 @@ export const routeTree = rootRoute
         "/_default/gifts",
         "/_default/homepage",
         "/_default/payment-success",
+        "/_default/specialists",
         "/_default/support"
       ]
     },
@@ -615,6 +638,10 @@ export const routeTree = rootRoute
     },
     "/_default/payment-success": {
       "filePath": "_default/payment-success/route.tsx",
+      "parent": "/_default"
+    },
+    "/_default/specialists": {
+      "filePath": "_default/specialists/route.tsx",
       "parent": "/_default"
     },
     "/_default/support": {
