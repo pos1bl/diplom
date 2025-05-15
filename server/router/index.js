@@ -15,9 +15,6 @@ router.post('/registration',
 );
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
-router.get('/activate/:link', userController.activate);
-router.get('/refresh', userController.refresh);
-router.get('/users', authMiddleware, userController.getUsers);
 router.post('/send_resume',
   [
     body('formResponse.fullName').notEmpty().withMessage('Ім\'я обов\'язкове'),
@@ -33,12 +30,17 @@ router.post('/send_resume',
   userController.sendResume
 );
 router.post('/resend_activation', userController.resendActivation);
-router.post('/create_payment_link', giftController.createPaymentLink);
-router.get('/users/:id/sessions', authMiddleware, userController.getSessions);
-router.get('/specialists/:id/sessions', authMiddleware, specialistController.getSessions);
-router.post('/change_name', userController.changeName)
-router.post('/change_email', userController.changeEmail)
+router.post('/create_payment_link', authMiddleware, giftController.createPaymentLink);
+router.post('/change_name', authMiddleware, userController.changeName)
+router.post('/change_email', authMiddleware, userController.changeEmail)
 router.post('/change_password', body('newPass').isLength({ min: 3, max: 32 }), userController.changePassword);
-router.post('/add_specialist', adminController.addSpecialist);
+router.post('/add_specialist', authMiddleware, adminController.addSpecialist);
+
+router.get('/activate/:link', userController.activate);
+router.get('/refresh', userController.refresh);
+router.get('/users', authMiddleware, userController.getUsers);
+router.get('/users/:id/sessions', authMiddleware, userController.getSessions);
+router.get('/specialist/:id/sessions', authMiddleware, specialistController.getSessions);
+router.get('/specialists', userController.getSpecialists);
 
 export default router;

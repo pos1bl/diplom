@@ -2,11 +2,12 @@ import bcrypt from "bcrypt";
 import { v4 } from 'uuid';
 import UserModel from "../models/user-model.js";
 import SessionModel from "../models/session-model.js";
+import SpecialistModel from "../models/specialist-model.js";
 import mailService from "./mail-service.js";
 import tokenService from "./token-service.js";
 import UserDto from "../dtos/user-dto.js";
 import ApiError from "../exceptions/api-error.js";
-import { buildSessionFilter, SESSIONS_ROLES } from "../utils/sessionsHelpers.js";
+import { buildSessionFilter, buildSpecialistsPipeline, SESSIONS_ROLES } from "../utils/queryHelper.js";
 
 class UserService {
   _buildAuthResponse(user) {
@@ -92,6 +93,16 @@ class UserService {
       .populate({ path: 'specialist', populate: { path: 'user', model: 'User', select: 'name' } });
 
     return sessions;
+  }
+
+  async getSpecialists(query) {
+    const pipeline = buildSpecialistsPipeline(query);
+    const [result] = await SpecialistModel.aggregate(pipeline);
+
+    return {
+      specialists: result?.data || [],
+      totalCount: result?.totalCount || 0
+    };
   }
 
   async resendActivation(email) {

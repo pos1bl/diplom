@@ -1,5 +1,5 @@
 import SessionModel from "../models/session-model.js";
-import { buildSessionFilter, SESSIONS_ROLES } from "../utils/sessionsHelpers.js";
+import { buildSessionFilter, SESSIONS_ROLES } from "../utils/queryHelper.js";
 
 class SpecialistService {
   async getServices(id, query) {

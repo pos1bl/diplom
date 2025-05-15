@@ -99,8 +99,18 @@ class UserController {
   async getSessions(req, res, next) {
     try {
       const { id } = req.params;
-      const sessions = await userService.getServices(id, req.query);
+      const sessions = await userService.getServices(id, req.body);
       return res.json(sessions);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async getSpecialists(req, res, next) {
+    try {
+      const filters = req.query;
+      const { specialists, totalCount } = await userService.getSpecialists(filters);
+      return res.json({ specialists, totalCount });
     } catch (e) {
       next(e);
     }

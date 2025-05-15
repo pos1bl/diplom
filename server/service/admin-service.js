@@ -21,8 +21,6 @@ class AdminService {
 
     const user = await UserModel.findOne({ email });
 
-    console.log(user)
-
     if (!user) {
       throw ApiError.BadRequest('Користувача з таким email не знайдено');
     }
