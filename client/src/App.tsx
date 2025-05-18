@@ -8,6 +8,7 @@ import router from '@utils/Route'
 import { ToastContainer } from 'react-toastify';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import 'dayjs/locale/uk';
 import './assets/styles/index.scss';
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { theme } from '@utils/Theme'
@@ -27,7 +28,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="uk">
         <CssBaseline />
         <ToastContainer />
         <RouterProvider
@@ -36,7 +37,6 @@ function App() {
         />
       </LocalizationProvider>
     </ThemeProvider>
-    
   );
 }
 

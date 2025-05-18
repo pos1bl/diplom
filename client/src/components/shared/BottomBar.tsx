@@ -41,6 +41,7 @@ export const BottomBar = () => {
         <BottomNavigation
           value={pathname}
           sx={{
+            margin: '0 auto',
             display: 'inline-flex',
             flexWrap: 'nowrap',
             width: 'max-content',

@@ -15,6 +15,7 @@ import { StyledSubtitle } from '@components/styled/base';
 import { OutlinedButton } from '@components/shared/OutlinedButton';
 import GiftService from '@services/GiftService';
 import { CertificateExample } from './GiftCertificateExample';
+import { PaymentPriceText } from '@components/shared/PaymentPriceText';
 
 interface Props {
   gift: GiftOption;
@@ -29,7 +30,7 @@ export const PurchaseForm: FC<Props> = ({ gift, onBack }) => {
 
   const expirationDate = useMemo(() => {
     const d = new Date();
-    d.setDate(d.getDate() + 90);
+    d.setDate(d.getDate() + 180);
     return d.toLocaleDateString('uk-UA');
   }, []);
   
@@ -149,14 +150,7 @@ export const PurchaseForm: FC<Props> = ({ gift, onBack }) => {
 
             <Divider />
 
-            <Box display="flex" justifyContent="space-between" alignItems="center">
-              <Typography variant="h5" fontWeight={600} color="#AC98D1">
-                До сплати:
-              </Typography>
-              <Typography variant="h5" fontWeight={600} color="#AC98D1">
-                {price} грн
-              </Typography>
-            </Box>
+            <PaymentPriceText price={price} />
 
             <Box display="flex" gap={2} flexWrap="wrap" justifyContent="flex-end">
               <OutlinedButton onClick={onBack}> Назад</OutlinedButton>

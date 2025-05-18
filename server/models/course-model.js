@@ -4,7 +4,7 @@ const CourseSchema = new Schema({
   specialist: { type: Schema.Types.ObjectId, ref: 'Specialist', required: true },
   title: { type: String, required: true },
   provider: { type: String, required: true },
-  hours: { type: Number, default: null },
+  hours: { type: Number },
   year: { type: Number },
 }, {
   timestamps: true,

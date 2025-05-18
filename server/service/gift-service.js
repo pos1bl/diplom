@@ -1,9 +1,10 @@
-import stripe from './stripe-client.js';
+// import stripe from './stripe-client.js';
 import GiftModel from "../models/gift-model.js";
 import mailService from "./mail-service.js";
 import UserModel from "../models/user-model.js";
 import ApiError from "../exceptions/api-error.js";
 import { v4 } from 'uuid';
+import dayjs from 'dayjs';
 
 async function generateUniqueCode() {
   for (let i = 0; i < 5; i++) {
@@ -18,20 +19,6 @@ async function generateUniqueCode() {
 }
 
 class GiftService {
-  async createPaymentLink(payload) {
-    return stripe.paymentLinks.create({
-      line_items: [{
-        price: payload.priceId,
-        quantity: 1
-      }],
-      metadata: payload,
-      after_completion: {
-        type: 'redirect',
-        redirect: { url: `${process.env.CLIENT_URL}/payment-success?session_id={CHECKOUT_SESSION_ID}` }
-      }
-    });
-  }
-
   async sendGift(payload) {
     const { to, from, email, amount, expirationDate, userId } = payload;
 
@@ -45,6 +32,22 @@ class GiftService {
 
     await GiftModel.create({ to, from, email, amount, expirationDate, user, code });
     await mailService.sendGift({ to, from, email, amount, expirationDate, code }); 
+  }
+
+  async getGift(code) {
+    if (!code) throw ApiError.BadRequest('Промокод сертифікату не переданий');
+
+    const gift = await GiftModel.findOne({ code });
+
+    if (!gift) throw ApiError.BadRequest('Сертифікат за введеним промокодом не знайдено');
+    if (!gift.amount) throw ApiError.BadRequest('За цим промокод всі сеанси вичерпані!');
+    
+    const today = dayjs.utc().startOf('day');
+    const expirationDate = dayjs(gift.expirationDate, "DD.MM.YYYY").startOf('day');
+
+    if (expirationDate.isBefore(today)) throw ApiError.BadRequest('Термін дії сертифіката вичерпано');
+
+    return gift;
   }
 }
 

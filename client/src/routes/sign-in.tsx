@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
-import { DEFAULT_PAGES } from '@utils/NavigationList';
+import { ADMIN_PAGES, DEFAULT_PAGES, SPECIALIST_PAGES, USER_PAGES } from '@utils/NavigationList';
 import { Role } from '@models/IUser';
 
 import { z } from 'zod';
@@ -11,10 +11,10 @@ export const Route = createFileRoute('/sign-in')({
     if (isAuth) {
       const redirectPath = search.redirect ||
         (user.role === Role.SPECIALIST
-          ? DEFAULT_PAGES.SPECIALIST
+          ? SPECIALIST_PAGES.HOME
           : user.role === Role.ADMIN
-            ? DEFAULT_PAGES.ADMIN
-            : DEFAULT_PAGES.USER)
+            ? ADMIN_PAGES.HOME
+            : USER_PAGES.HOME)
 
       throw redirect({
         to: redirectPath,

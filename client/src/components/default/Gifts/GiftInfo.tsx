@@ -13,7 +13,7 @@ export const Info = () => {
           <Stack spacing={2} alignItems="flex-start">
             <CalendarMonthIcon sx={{ fontSize: 32, color: '#AC98D1', mt: 0.5 }} />
             <Typography variant="body1">
-              Кожен сертифікат діє протягом <strong>3 місяців</strong> (90 днів). За потреби термін можна подовжити — зверніться до служби підтримки. <strong>Зверніть увагу: подарунки не підлягають поверненню.</strong>
+              Кожен сертифікат діє протягом <strong>6 місяців</strong> (180 днів). За потреби термін можна подовжити — зверніться до служби підтримки. <strong>Зверніть увагу: подарунки не підлягають поверненню.</strong>
             </Typography>
           </Stack>
         </StyledInfoPaper>

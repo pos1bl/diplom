@@ -8,7 +8,6 @@ const GiftSchema = new Schema(
     expirationDate: { type: String, required: true },
     code: { type: String, required: true },
     amount: { type: Number, required: true },
-    isActivated: { type: Boolean, default: false }
   },
   {
     timestamps: true,

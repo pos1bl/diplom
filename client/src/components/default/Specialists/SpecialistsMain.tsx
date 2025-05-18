@@ -2,15 +2,15 @@ import useFilters from "@hooks/useFilters";
 import { Box, Grid, Pagination } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from "@utils/Filters";
-import { specialistQueryOptions } from "@utils/QueryOptioms";
+import { specialistsQueryOptions } from "@utils/QueryOptioms";
 import { SpecialistCard } from "./SpecialistCard";
 import { StyledSubtitle } from "@components/styled/base";
 
-export const SpecialistMain = () => {
+export const SpecialistsMain = () => {
   const { filters, setFilters } = useFilters('/_default/specialists');
   const pageIndex = filters.pageIndex ?? DEFAULT_PAGE_INDEX;
   
-  const { data, isLoading } = useQuery(specialistQueryOptions(filters));
+  const { data, isLoading } = useQuery(specialistsQueryOptions(filters));
   const { specialists = [], totalCount = 0 } = data ?? {};
 
   const count = Math.ceil(totalCount / DEFAULT_PAGE_SIZE);

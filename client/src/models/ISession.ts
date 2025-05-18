@@ -1,3 +1,4 @@
+import { Dayjs } from "dayjs";
 import { ISpecialist } from "./ISpecialist";
 import { IUser } from "./IUser";
 
@@ -23,3 +24,13 @@ export interface ISession {
   specialist?: Pick<ISpecialist, 'avatarUrl'>;
   user?: Pick<IUser, 'name'>;
 }
+
+export interface ISessionPayload {
+  selectedDate: Dayjs;
+  selectedSlot: string;
+  priceId: string;
+  specialistId: string;
+}
+
+export type IFreeSessionPayload = Omit<ISessionPayload, "priceId">
+export type IGiftSessionPayload = Omit<ISessionPayload, "priceId"> & { giftId: string }

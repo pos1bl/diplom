@@ -1,5 +1,4 @@
 import { Schema, model } from 'mongoose'
-import { v4 } from 'uuid';
 
 const SessionSchema = new Schema(
   {
@@ -9,7 +8,6 @@ const SessionSchema = new Schema(
     isFree: { type: Boolean, default: false },
     status: { type: String, enum: ['scheduled', 'completed', 'cancelled', 'no-show'], default: 'scheduled' },
     notes: { type: String },
-    jitsiRoom: { type: String, default: () => v4(), unique: true },
   },
   {
     timestamps: true

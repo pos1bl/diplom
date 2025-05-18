@@ -15,7 +15,7 @@ export const ControlPanel = () => {
   const [currentFilters, setCurrentFilters] = useState<Partial<any>>(filters);
   const debouncedFilters = useDebounce(currentFilters, 500);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   useEffect(() => {
     if (JSON.stringify(filters) !== JSON.stringify(debouncedFilters)) {
@@ -54,7 +54,7 @@ export const ControlPanel = () => {
           </Box>
 
           <Box display="flex" flexDirection="column" sx={{ p: 2 }}>
-            <Typography variant="h5" mb={2}>
+            <Typography sx={{ color: "#AC98D1", fontWeight: 600 }} variant="h5" mb={2}>
             Про вас
           </Typography>
 
@@ -92,7 +92,7 @@ export const ControlPanel = () => {
             />
           ))}
         
-          <Typography variant="h5" mb={2}>
+          <Typography sx={{ color: "#AC98D1", fontWeight: 600 }} variant="h5" mb={2}>
             Про психотерапевта
           </Typography>
           <FormGroup sx={{ mb: 4 }}>

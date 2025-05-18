@@ -67,7 +67,7 @@ export const ISSUES_LIST = [
   "Аб'юзивні відносини",
   "Самотність",
   "Зрада"
-];
+].sort((v1, v2) => v1.localeCompare(v2));
 
 export const THERAPY_METHODS_LIST = [
   "Системна терапія",
@@ -86,7 +86,7 @@ export const THERAPY_METHODS_LIST = [
   "Транзактний аналіз",
   "Арт-терапія",
   "Клієнт-центрована терапія"
-];
+].sort((v1, v2) => v1.localeCompare(v2));
 
 export const SPECIAL_GROUPS_LIST = [
   "Бізнес / HR запити",
@@ -99,4 +99,4 @@ export const SPECIAL_GROUPS_LIST = [
   "ЛГБТ+",
   "Літні люди",
   "Чи тебе турбують суїцидальні думки?"
-];
+].sort((v1, v2) => v1.localeCompare(v2));

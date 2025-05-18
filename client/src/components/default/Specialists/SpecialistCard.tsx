@@ -11,13 +11,13 @@ import {
   useTheme,
   styled,
 } from '@mui/material';
-import { ISpecialist } from '@models/ISpecialist';
+import { ISpecialistCard } from '@models/ISpecialist';
 import { calculateAge } from '@helpers/calculateAge';
 import { OutlinedButton } from '@components/shared/OutlinedButton';
 import { Link } from '@tanstack/react-router';
 import { ContainedButton } from '@components/shared/ContainedButton';
 
-type Props = { specialist: ISpecialist };
+type Props = { specialist: ISpecialistCard };
 
 const BioText = styled(Typography, {
   shouldForwardProp: (prop) => prop !== 'clamp',
@@ -34,7 +34,7 @@ const BioText = styled(Typography, {
 
 export const SpecialistCard: FC<Props> = ({ specialist }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [expanded, setExpanded] = useState(false);
 
   const age = calculateAge(specialist.dateOfBirth);

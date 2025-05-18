@@ -41,7 +41,7 @@ const DesktopLayout = () => (
 
 function AuthLayout() {
   const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
 
   return isDesktop ? <DesktopLayout /> : <MobileLayout />
 }

@@ -1,4 +1,3 @@
-// src/pages/Gifts/PaymentSuccess.tsx
 import { Typography,  } from '@mui/material';
 import { Link } from '@tanstack/react-router';
 import { DEFAULT_PAGES } from '@utils/NavigationList';

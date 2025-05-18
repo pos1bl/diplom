@@ -2,6 +2,7 @@ import { validationResult } from "express-validator";
 import userService from "../service/user-service.js";
 import ApiError from "../exceptions/api-error.js";
 import resumeService from "../service/resume-service.js";
+import sessionService from "../service/session-service.js";
 
 class UserController {
   async registration(req, res, next) {
@@ -101,6 +102,28 @@ class UserController {
       const { id } = req.params;
       const sessions = await userService.getServices(id, req.body);
       return res.json(sessions);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async getSpecialistInfo(req, res, next) {
+    try {
+      const { id } = req.params;
+      const { userId } = req.query;
+      const specialistInfo = await userService.getSpecialistInfo(id, userId);
+      return res.json(specialistInfo);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async createSession(req, res, next) {
+    try {
+      const { payload } = req.body;
+      const successMsg = await sessionService.createSession({ ...payload, userId: req.user.id, isVictim: req.user.isVictim });
+
+      return res.json(successMsg);
     } catch (e) {
       next(e);
     }

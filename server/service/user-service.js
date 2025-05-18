@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+// import stripe from './stripe-client.js';
 import { v4 } from 'uuid';
 import UserModel from "../models/user-model.js";
 import SessionModel from "../models/session-model.js";
@@ -7,7 +8,14 @@ import mailService from "./mail-service.js";
 import tokenService from "./token-service.js";
 import UserDto from "../dtos/user-dto.js";
 import ApiError from "../exceptions/api-error.js";
-import { buildSessionFilter, buildSpecialistsPipeline, SESSIONS_ROLES } from "../utils/queryHelper.js";
+import { buildFullSpecialistInfoPipeline, buildSessionFilter, buildSpecialistsPipeline, SESSIONS_ROLES } from "../utils/queryHelper.js";
+import { getAvailability } from "../utils/getAvailability.js";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc.js"
+import localizedFormat from 'dayjs/plugin/localizedFormat.js';
+dayjs.extend(utc);
+dayjs.extend(localizedFormat);
+dayjs.locale('uk');    
 
 class UserService {
   _buildAuthResponse(user) {
@@ -103,6 +111,27 @@ class UserService {
       specialists: result?.data || [],
       totalCount: result?.totalCount || 0
     };
+  }
+
+  async getSpecialistInfo(id, userId) {
+    const today = dayjs.utc().startOf('day');
+
+    const dateProps = {
+      startDate: today.add(1, 'day'),
+      endDate: today.add(4, 'weeks')
+    }
+
+    const pipeline = await buildFullSpecialistInfoPipeline(id, userId, dateProps);
+    const [specialistData] = await SpecialistModel.aggregate(pipeline);
+
+    if (!specialistData) throw ApiError.BadRequest('Спеціаліста з таким id не знайдено')
+
+    specialistData.availabilities = getAvailability(specialistData, dateProps);
+    delete specialistData.unavailabilities;
+    delete specialistData.sessions;
+    delete specialistData.availability;
+
+    return specialistData;
   }
 
   async resendActivation(email) {

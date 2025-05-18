@@ -7,22 +7,30 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import HelpIcon from '@mui/icons-material/Help';
 
 export const enum DEFAULT_PAGES {
-  SPECIALIST = '/specialist',
-  USER = '/user',
-  ADMIN = '/admin',
   LOGIN = '/sign-in',
   SETTINGS = '/settings',
   HOME_PAGE = '/',
   FORM = '/form',
   SPECIALISTS = '/specialists',
   ALL_SPECIALISTS = '/specialists',
+  SPECIALIST = '/specialists/$specialistId',
   GIFTS = '/gifts',
   SUPPORT = '/support',
   CAREER = '/career',
+  GIFTS_SUCCESS_PAYMENT = '/gifts/payment-success',
 };
 
 export const enum USER_PAGES {
   HOME = '/user',
+  APPOINTMENTS = '/user/appointments',
+  SPECIALISTS = '/user/specialists',
+  SUPPORT = '/user/support',
+  SETTINGS = '/user/settings',
+  SUCCESS_PAYMENT = '/user/payment-success'
+};
+
+export const enum SPECIALIST_PAGES {
+  HOME = '/specialist',
   APPOINTMENTS = '/user/appointments',
   SPECIALISTS = '/user/specialists',
   SUPPORT = '/user/support',

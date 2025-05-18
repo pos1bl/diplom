@@ -4,6 +4,7 @@ import path from 'path';
 import ejs from 'ejs';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+import dayjs from 'dayjs';
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -115,6 +116,37 @@ class MailService {
         }
       ],
     });
+  }
+
+  async sendInfoAboutSession(session) {
+    const { _id, scheduledAt, user, specialist } = session
+
+    const appointmentUrl = `${process.env.CLIENT_URL}/user/appointments/${_id}`
+    const videoUrl = `${process.env.CLIENT_URL}/user/video-call/${_id}`
+
+    const start = dayjs(scheduledAt)
+    const end = start.add(50, 'minute')
+    const whenLine = `${start.format('dddd, D MMM YYYY · h:mm a')} – ${end.format('h:mm a')} (Eastern European Time - Kyiv)`
+
+    const html = `
+      <div style="font-family: Arial, sans-serif; line-height:1.4; color:#333;">
+        <p><strong>Терапевт</strong> – ${specialist.user.name}</p>
+        <p><strong>Сторінка сеансу</strong> – <a href="${appointmentUrl}">${appointmentUrl}</a></p>
+
+        <h4 style="margin-top:24px;">Коли?</h4>
+        <p>${whenLine}</p>
+
+        <h4 style="margin-top:24px;">Посилання на зустріч</h4>
+        <p><a href="${videoUrl}">${videoUrl}</a></p>
+      </div>
+    `
+
+    await this.transporter.sendMail({
+      from: process.env.SMTP_USER,
+      to:   user.email,
+      subject: `Ваш сеанс з ${specialist.user.name} ${whenLine}`,
+      html,
+    })
   }
 }
 

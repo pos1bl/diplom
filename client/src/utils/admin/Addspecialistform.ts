@@ -1,8 +1,6 @@
 import { AvailabilitySlot } from "@models/ISpecialist";
 import { Theme } from "@mui/material";
 
-
-
 export const getStyles = (name: string, selected: readonly string[], theme: Theme) => {
   return {
     fontWeight: selected.includes(name)
@@ -12,7 +10,7 @@ export const getStyles = (name: string, selected: readonly string[], theme: Them
 }
 
 export type SpecialistFormValues = {
-  avatarUrl: string;
+  avatar: File | null;
   email: string;
   dateOfBirth: string;
   gender: string;

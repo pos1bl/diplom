@@ -11,6 +11,7 @@ import {
   FormControl,
   InputLabel,
   Tooltip,
+  Button,
 } from '@mui/material';
 import { useForm } from '@tanstack/react-form';
 import { OutlinedButton } from '@components/shared/OutlinedButton';
@@ -21,6 +22,8 @@ import { dayLabels, days, DEFAULT_AVAILABILITY, getStyles, MenuProps, Specialist
 import AdminService from '@services/AdminService';
 import { AvailabilitySlot, DayOfWeek, Gender } from '@models/ISpecialist';
 import { ISSUES_LIST, SPECIAL_GROUPS_LIST, THERAPY_METHODS_LIST } from '@utils/shared';
+import { ImageUploadField } from './ImageUploadField';
+import { ContainedButton } from '@components/shared/ContainedButton';
 
 export const AddSpecialistForm = () => {
   const theme = useTheme();
@@ -28,7 +31,7 @@ export const AddSpecialistForm = () => {
 
   const { Field, Subscribe, handleSubmit, reset, getFieldValue } = useForm<SpecialistFormValues, any, any, any, any, any, any, any, any, any>({
     defaultValues: {
-      avatarUrl: '',
+      avatar: null,
       email: '',
       dateOfBirth: '',
       gender: '',
@@ -43,7 +46,7 @@ export const AddSpecialistForm = () => {
     },
     onSubmit: async ({ value }) => {
       const payload = {
-        avatarUrl: value.avatarUrl,
+        avatar: value.avatar,
         email: value.email,
         dateOfBirth: value.dateOfBirth,
         gender: value.gender as Gender,
@@ -67,8 +70,8 @@ export const AddSpecialistForm = () => {
       e.preventDefault();
       handleSubmit();
     }}>
-      <Stack sx={{ width: { sm: 0, md: 500 } }} gap={3}>
-        <Field name="avatarUrl" validators={{ onChange: ({ value }) => !value && 'Обовʼязкове поле' }}>
+      <Stack sx={{ maxWidth: { xs: 300, sm: 500 } }} gap={3}>
+        {/* <Field name="avatarUrl" validators={{ onChange: ({ value }) => !value && 'Обовʼязкове поле' }}>
           {(field) => (
             <Box>
               <TextField
@@ -109,6 +112,18 @@ export const AddSpecialistForm = () => {
                 </Box>
               )}
             </Box>
+          )}
+        </Field> */}
+
+        <Field name="avatar" validators={{ onChange: ({ value }) => !value && 'Завантажте фото профілю спецаліста' }}>
+          {(field) => (
+            <ImageUploadField
+              file={field.state.value}
+              onFileChange={field.handleChange}
+              onClear={() => field.handleChange(null)}
+              error={!!field.state.meta.errors.length}
+              helperText={field.state.meta.errors[0]}
+            />
           )}
         </Field>
 
@@ -418,7 +433,7 @@ export const AddSpecialistForm = () => {
           }
         </Field>
 
-        <Field name="secondaryAreas" validators={{ onChange: ({ value }) => !value.length && 'Обовʼязкове поле' }}>
+        <Field name="secondaryAreas">
           {(field) => (
             <Subscribe
               selector={() => [
@@ -589,9 +604,9 @@ export const AddSpecialistForm = () => {
         <Box display="flex" justifyContent="flex-end">
           <Subscribe selector={({ canSubmit, isSubmitting }) => [canSubmit, isSubmitting]}>
             {([canSubmit, isSubmitting]) => (
-              <OutlinedButton type="submit" disabled={!canSubmit || isSubmitting}>
+              <ContainedButton type="submit" disabled={!canSubmit || isSubmitting}>
                 {isSubmitting ? 'Обробка...' : 'Додати спеціаліста'}
-              </OutlinedButton>
+              </ContainedButton>
             )}
           </Subscribe>
         </Box>

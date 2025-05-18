@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 import router from './router/index.js';
 import errorMiddleware from './middlewares/error-middleware.js';
 import logMiddleware from './middlewares/log-middleware.js';
-import giftController from './controllers/gift-controller.js';
+import paymentController from './controllers/payment-controller.js';
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -15,7 +15,7 @@ dotenv.config();
 app.post(
   '/api/webhook',
   express.raw({ type: 'application/json' }),
-  giftController.handleWebhook
+  paymentController.handleWebhook
 );
 app.use(express.json());
 // app.use(logMiddleware);

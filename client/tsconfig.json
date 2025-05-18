@@ -37,6 +37,7 @@
       "@store/*": ["src/store/*"],
       "@images/*": ["src/assets/images/*"],
       "@services/*": ["src/services/*"],
+      "@routes/*": ["src/routes/*"],
     }
   },
   "include": ["src"],

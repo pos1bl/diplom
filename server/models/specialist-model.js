@@ -26,6 +26,7 @@ const SpecialistSchema = new Schema({
   dateOfBirth:          { type: Date, required: true },
   gender:               { type: String, enum: ['male','female'], required: true },
   bio:                  { type: String, default: '' },
+  isFired:              { type: Boolean, default: false },
 
   // досвід та напрями
   yearsOfExperience:    { type: Number, default: 0 },

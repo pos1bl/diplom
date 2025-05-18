@@ -1,3 +1,5 @@
+import { Types } from "mongoose"
+
 export const SESSIONS_ROLES = {
   USER: 'user',
   SPECIALIST: 'specialist',
@@ -76,7 +78,7 @@ function normalizeQueryArrays(q) {
 
 const buildSpecialistsFilter = (rawQuery) => {
   const query = normalizeQueryArrays(rawQuery);
-  let filter = {};
+  let filter = { isFired: false };
   const options = { limit: DEFAULT_LIMIT_SIZE, skip: 0 };
 
   for (const filterName in query) {
@@ -146,4 +148,125 @@ export const buildSpecialistsPipeline = (query) => {
 );
 
   return pipeline;
+}
+
+export const buildFullSpecialistInfoPipeline = (id, userId = "", dateProps) => {
+  const { startDate: startDayjs, endDate: endDayjs } = dateProps;
+
+  const startDate = startDayjs.toDate();
+  const endDate   = endDayjs.toDate();
+
+  return [
+    { $match: { _id: new Types.ObjectId(id) } },
+    { $lookup: {
+        from: 'users',
+        localField: 'user',
+        foreignField: '_id',
+        as: 'user'
+    }},
+    { $unwind: '$user' },
+    { $lookup: {
+        from: 'diplomas',
+        localField: '_id',
+        foreignField: 'specialist',
+        as: 'diploms'
+    }},
+    { $lookup: {
+        from: 'courses',
+        localField: '_id',
+        foreignField: 'specialist',
+        as: 'courses'
+    }},
+    { $lookup: {
+        from: 'unavailabilities',
+        let: { specId: '$_id' },
+        pipeline: [
+          { $match: {
+              $expr: {
+                $and: [
+                  { $eq: ['$specialist', '$$specId'] },
+                  { $lte: ['$start', endDate] },
+                  { $gte: ['$end', startDate] },
+                ]
+              }
+          }}
+        ],
+        as: 'unavailabilities'
+    }},
+    { $lookup: {
+        from: 'sessions',
+        let: { specId: '$_id', userId },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  {
+                    $or: [
+                      { $eq: ['$specialist', '$$specId'] },
+                      { $eq: ['$user', { $toObjectId: '$$userId' }] },
+                    ]
+                  },
+                  { $eq: ['$status',     'scheduled'] },
+                  { $gte: ['$scheduledAt', startDate] },
+                  { $lte: ['$scheduledAt',   endDate]   },
+                ]
+              }
+            }
+          }
+        ],
+        as: 'sessions'
+    }},
+    { $project: {
+        name: '$user.name',
+        dateOfBirth: 1,
+        gender: 1,
+        bio: 1,
+        yearsOfExperience: 1,
+        mainAreas: 1,
+        secondaryAreas: 1,
+        excludedAreas: 1,
+        methods: 1,
+        avatarUrl: 1,
+        availability: 1,
+        diploms: 1,
+        courses: 1,
+        unavailabilities: 1,
+        sessions: 1,
+    }}
+  ];
+}
+
+export const buildConflictCheckPipeline = (userId, specId, scheduledAt) => {
+  return [
+    {
+      $match: {
+        status: 'scheduled',
+        scheduledAt,
+        $or: [
+          { user: new Types.ObjectId(userId) },
+          { specialist: new Types.ObjectId(specId) },
+        ],
+      },
+    },
+    { $project: { _id: 1 } },
+
+    {
+      $unionWith: {
+        coll: 'unavailabilities',
+        pipeline: [
+          {
+            $match: {
+              specialist: new Types.ObjectId(specId),
+              start:      { $lte: scheduledAt },
+              end:        { $gt:  scheduledAt },
+            },
+          },
+          { $project: { _id: 1 } },
+        ],
+      },
+    },
+
+    { $limit: 1 },
+  ]
 }

@@ -35,8 +35,11 @@ export interface ISpecialist {
   availability: AvailabilitySlot[];
   avatarUrl: string;
 
-  user?: IUser
+  user?: IUser;
+  isFired: boolean;
 }
+
+export type ISpecialistCard = Omit<ISpecialist, "isFired">;
 
 export const AGE_GROUPS = ['30-', '30-40', '40+'];
 export const FILTER_MULTISELECT_LIST = [
