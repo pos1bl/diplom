@@ -1,41 +1,81 @@
 import React from 'react'
-import { Box, Typography, Grid, Card, CardContent, Avatar, Button } from '@mui/material'
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  Avatar,
+} from '@mui/material'
+import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import { Link } from '@tanstack/react-router'
-import { ISession } from '@models/ISession'
+import { ISession, SESSION_STATUSES } from '@models/ISession'
+import { AvatarName, StyledSessionTitle } from '@components/styled/user/home'
+import { ContainedButton } from '@components/shared/ContainedButton'
+import { formatSessionDate } from '@utils/user/Homepage'
 
 interface Props {
-  pastSession: ISession
+  session: ISession
 }
 
-export const RepeatBookingSection: React.FC<Props> = ({ pastSession }) => (
+export const RepeatBookingSection: React.FC<Props> = ({ session }) => (
   <Box sx={{ mb: 4 }}>
-    <Typography variant="h5" gutterBottom>
-      Записатися повторно
-    </Typography>
-    <Card>
-      <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
+    <StyledSessionTitle sx={{ mb: 2 }}>Записатися повторно</StyledSessionTitle>
+
+    <Card
+      elevation={3}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        borderRadius: 2,
+        overflow: 'visible',
+        p: 2
+      }}
+    >
+      <CardContent sx={{ display: 'flex', alignItems: 'center', p: 3 }}>
         <Avatar
-          src={pastSession.specialist?.avatarUrl}
-          sx={{ width: 56, height: 56, mr: 2 }}
+          src={session.specialist?.avatarUrl}
+          sx={{ width: 160, height: 160, mr: 3 }}
         >
-          {pastSession.user?.name.charAt(0)}
+          {session.specialist?.user.name.charAt(0)}
         </Avatar>
-        <Box>
-          <Typography variant="subtitle1">
-            {pastSession.user?.name}
+
+        <Box sx={{ flexGrow: 1 }}>
+          <AvatarName sx={{ mb: 0.2 }}>
+            {session.specialist?.user.name}
+          </AvatarName>
+
+          <Typography
+            variant="body1"
+            mb={0.5}
+            sx={{
+              color: session.status === SESSION_STATUSES.CANCELLED
+                ? 'error.main'
+                : '#AC98D1',
+              mb: 1,
+            }}
+          >
+            {session.status === 'cancelled' ? 'Скасований' : 'Завершений'}
           </Typography>
+
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <AccessTimeIcon
+              fontSize="small"
+              sx={{ color: '#AC98D1', mr: 1 }}
+            />
+            <Typography variant="body2" color="text.secondary">
+              {formatSessionDate(session.scheduledAt)}
+            </Typography>
+          </Box>
         </Box>
       </CardContent>
-      <Box sx={{ p: 2, textAlign: 'right' }}>
-        <Button
-          variant="contained"
-          component={Link}
-          to={`/specialists/${pastSession.specialistId}`}
+      
+        <Link
+          to={`/specialists/${session.specialistId}` as '/specialists/$specialistId'}
+          params={{ specialistId: session.specialistId }}
+          style={{ alignSelf: "flex-end", width: "50%" }}
         >
-          Придбати сеанс знову
-        </Button>
-      </Box>
+          <ContainedButton sx={{ width: "100%" }}>Придбати сеанс знову</ContainedButton>
+        </Link>
     </Card>
   </Box>
 )
-

@@ -12,20 +12,23 @@ export const HomePage = () => {
   const { nextSession, lastPastSession } = getSessionsOverview(sessions);
 
   return (
-    <Box>
+    <Box sx={{ pb: 1 }}>
       <Box mb={4}>
         <WelcomeBanner />
       </Box>
 
-      {nextSession && (
-        <Box mb={4}>
-          <NextSessionSection session={nextSession} />
-        </Box>
-      )}
-
-      {lastPastSession && (
-        <Box mb={4}>
-          <RepeatBookingSection pastSession={lastPastSession} />
+      {(nextSession || lastPastSession) && (
+        <Box display="flex" mb={4} gap={2}>
+          {nextSession && (
+            <Box sx={{ flexBasis: '50%', flexShrink: 0 }}>
+              <NextSessionSection session={nextSession} />
+            </Box>
+          )}
+          {lastPastSession && (
+            <Box sx={{ flexBasis: '50%', flexShrink: 0 }}>
+              <RepeatBookingSection session={lastPastSession} />
+            </Box>
+          )}
         </Box>
       )}
 

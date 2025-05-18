@@ -1,5 +1,4 @@
 import bcrypt from "bcrypt";
-// import stripe from './stripe-client.js';
 import { v4 } from 'uuid';
 import UserModel from "../models/user-model.js";
 import SessionModel from "../models/session-model.js";
@@ -95,7 +94,7 @@ class UserService {
     return users;
   }
 
-  async getServices(id, query) {
+  async getSessions(id, query) {
     const { filter, options } = buildSessionFilter({ roleField: SESSIONS_ROLES.USER, id, query });
     const sessions = await SessionModel.find(filter, null, options)
       .populate({ path: 'specialist', populate: { path: 'user', model: 'User', select: 'name' } });

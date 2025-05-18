@@ -98,6 +98,7 @@ export const StyledDesktopAuthenticatedPageWrapper = styled('div')({
   overflowY: 'auto',
   minHeight: 'inherit',
   maxHeight: '100dvh',
+  paddingBottom: '24px', 
 
   '&::-webkit-scrollbar': {
     width: '7px',

@@ -2,7 +2,7 @@ import SessionModel from "../models/session-model.js";
 import { buildSessionFilter, SESSIONS_ROLES } from "../utils/queryHelper.js";
 
 class SpecialistService {
-  async getServices(id, query) {
+  async getSessions(id, query) {
     const { filter, options } = buildSessionFilter({ roleField: SESSIONS_ROLES.SPECIALIST, id, query });
     const sessions = await SessionModel.find(filter, null, options).populate({ path: 'user', model: 'User', select: 'name' });
 

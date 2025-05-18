@@ -1,4 +1,3 @@
-// import stripe from './stripe-client.js';
 import GiftModel from "../models/gift-model.js";
 import mailService from "./mail-service.js";
 import UserModel from "../models/user-model.js";

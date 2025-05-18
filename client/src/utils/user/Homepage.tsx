@@ -3,6 +3,11 @@ import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount'
 import { SESSION_STATUSES, ISession } from '@models/ISession'
 import { IUser, Role } from '@models/IUser';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc'
+import 'dayjs/locale/uk'
+dayjs.extend(utc)
+dayjs.locale('uk')
 
 export const getVictimOptions = (user: IUser) => {
   const { role, isVictim } = user;
@@ -73,3 +78,8 @@ export const getSessionsOverview = (sessions: ISession[]): SessionsOverview => (
   nextSession: getNextSession(sessions),
   lastPastSession: getLastPastSession(sessions),
 })
+
+export const formatSessionDate = (iso: string) =>
+  dayjs.utc(iso)
+    .format('dd, DD.MM.YYYY [р.] HH:mm')
+  + ' (за Києвом)';

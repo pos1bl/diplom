@@ -100,7 +100,7 @@ class UserController {
   async getSessions(req, res, next) {
     try {
       const { id } = req.params;
-      const sessions = await userService.getServices(id, req.body);
+      const sessions = await userService.getSessions(id, req.body);
       return res.json(sessions);
     } catch (e) {
       next(e);

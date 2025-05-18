@@ -13,7 +13,6 @@ type SessionStatus = SESSION_STATUSES;
 
 export interface ISession {
   _id: string;
-  jitsiRoom: string;
   status: SessionStatus;
   notes: string;
   isFree: boolean;
@@ -21,7 +20,7 @@ export interface ISession {
   userId: string;
   specialistId: string;
 
-  specialist?: Pick<ISpecialist, 'avatarUrl'>;
+  specialist?: Pick<ISpecialist, 'avatarUrl'> & { user: Pick<IUser, 'name'> };
   user?: Pick<IUser, 'name'>;
 }
 

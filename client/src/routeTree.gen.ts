@@ -37,6 +37,8 @@ import { Route as AuthenticatedUserSettingsRouteImport } from './routes/_authent
 import { Route as AuthenticatedUserPaymentSuccessRouteImport } from './routes/_authenticated/user/payment-success/route'
 import { Route as AuthenticatedUserAppointmentsRouteImport } from './routes/_authenticated/user/appointments/route'
 import { Route as AuthenticatedAdminAddSpecialistRouteImport } from './routes/_authenticated/admin/add-specialist/route'
+import { Route as AuthenticatedUserAppointmentsIndexImport } from './routes/_authenticated/user/appointments/index'
+import { Route as AuthenticatedUserAppointmentsAppointmentIdRouteImport } from './routes/_authenticated/user/appointments/$appointmentId/route'
 
 // Create/Update Routes
 
@@ -203,6 +205,20 @@ const AuthenticatedAdminAddSpecialistRouteRoute =
     id: '/add-specialist',
     path: '/add-specialist',
     getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
+
+const AuthenticatedUserAppointmentsIndexRoute =
+  AuthenticatedUserAppointmentsIndexImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedUserAppointmentsRouteRoute,
+  } as any)
+
+const AuthenticatedUserAppointmentsAppointmentIdRouteRoute =
+  AuthenticatedUserAppointmentsAppointmentIdRouteImport.update({
+    id: '/$appointmentId',
+    path: '/$appointmentId',
+    getParentRoute: () => AuthenticatedUserAppointmentsRouteRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -391,6 +407,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DefaultSpecialistsIndexImport
       parentRoute: typeof DefaultSpecialistsRouteImport
     }
+    '/_authenticated/user/appointments/$appointmentId': {
+      id: '/_authenticated/user/appointments/$appointmentId'
+      path: '/$appointmentId'
+      fullPath: '/user/appointments/$appointmentId'
+      preLoaderRoute: typeof AuthenticatedUserAppointmentsAppointmentIdRouteImport
+      parentRoute: typeof AuthenticatedUserAppointmentsRouteImport
+    }
+    '/_authenticated/user/appointments/': {
+      id: '/_authenticated/user/appointments/'
+      path: '/'
+      fullPath: '/user/appointments/'
+      preLoaderRoute: typeof AuthenticatedUserAppointmentsIndexImport
+      parentRoute: typeof AuthenticatedUserAppointmentsRouteImport
+    }
   }
 }
 
@@ -413,8 +443,26 @@ const AuthenticatedAdminRouteRouteWithChildren =
     AuthenticatedAdminRouteRouteChildren,
   )
 
+interface AuthenticatedUserAppointmentsRouteRouteChildren {
+  AuthenticatedUserAppointmentsAppointmentIdRouteRoute: typeof AuthenticatedUserAppointmentsAppointmentIdRouteRoute
+  AuthenticatedUserAppointmentsIndexRoute: typeof AuthenticatedUserAppointmentsIndexRoute
+}
+
+const AuthenticatedUserAppointmentsRouteRouteChildren: AuthenticatedUserAppointmentsRouteRouteChildren =
+  {
+    AuthenticatedUserAppointmentsAppointmentIdRouteRoute:
+      AuthenticatedUserAppointmentsAppointmentIdRouteRoute,
+    AuthenticatedUserAppointmentsIndexRoute:
+      AuthenticatedUserAppointmentsIndexRoute,
+  }
+
+const AuthenticatedUserAppointmentsRouteRouteWithChildren =
+  AuthenticatedUserAppointmentsRouteRoute._addFileChildren(
+    AuthenticatedUserAppointmentsRouteRouteChildren,
+  )
+
 interface AuthenticatedUserRouteRouteChildren {
-  AuthenticatedUserAppointmentsRouteRoute: typeof AuthenticatedUserAppointmentsRouteRoute
+  AuthenticatedUserAppointmentsRouteRoute: typeof AuthenticatedUserAppointmentsRouteRouteWithChildren
   AuthenticatedUserPaymentSuccessRouteRoute: typeof AuthenticatedUserPaymentSuccessRouteRoute
   AuthenticatedUserSettingsRouteRoute: typeof AuthenticatedUserSettingsRouteRoute
   AuthenticatedUserSpecialistsRouteRoute: typeof AuthenticatedUserSpecialistsRouteRoute
@@ -425,7 +473,7 @@ interface AuthenticatedUserRouteRouteChildren {
 const AuthenticatedUserRouteRouteChildren: AuthenticatedUserRouteRouteChildren =
   {
     AuthenticatedUserAppointmentsRouteRoute:
-      AuthenticatedUserAppointmentsRouteRoute,
+      AuthenticatedUserAppointmentsRouteRouteWithChildren,
     AuthenticatedUserPaymentSuccessRouteRoute:
       AuthenticatedUserPaymentSuccessRouteRoute,
     AuthenticatedUserSettingsRouteRoute: AuthenticatedUserSettingsRouteRoute,
@@ -524,7 +572,7 @@ export interface FileRoutesByFullPath {
   '/specialists': typeof DefaultSpecialistsRouteRouteWithChildren
   '/support': typeof DefaultSupportRouteRoute
   '/admin/add-specialist': typeof AuthenticatedAdminAddSpecialistRouteRoute
-  '/user/appointments': typeof AuthenticatedUserAppointmentsRouteRoute
+  '/user/appointments': typeof AuthenticatedUserAppointmentsRouteRouteWithChildren
   '/user/payment-success': typeof AuthenticatedUserPaymentSuccessRouteRoute
   '/user/settings': typeof AuthenticatedUserSettingsRouteRoute
   '/user/specialists': typeof AuthenticatedUserSpecialistsRouteRoute
@@ -535,6 +583,8 @@ export interface FileRoutesByFullPath {
   '/user/': typeof AuthenticatedUserIndexRoute
   '/gifts/': typeof DefaultGiftsIndexRoute
   '/specialists/': typeof DefaultSpecialistsIndexRoute
+  '/user/appointments/$appointmentId': typeof AuthenticatedUserAppointmentsAppointmentIdRouteRoute
+  '/user/appointments/': typeof AuthenticatedUserAppointmentsIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -548,7 +598,6 @@ export interface FileRoutesByTo {
   '/payment-success': typeof DefaultPaymentSuccessRouteRoute
   '/support': typeof DefaultSupportRouteRoute
   '/admin/add-specialist': typeof AuthenticatedAdminAddSpecialistRouteRoute
-  '/user/appointments': typeof AuthenticatedUserAppointmentsRouteRoute
   '/user/payment-success': typeof AuthenticatedUserPaymentSuccessRouteRoute
   '/user/settings': typeof AuthenticatedUserSettingsRouteRoute
   '/user/specialists': typeof AuthenticatedUserSpecialistsRouteRoute
@@ -559,6 +608,8 @@ export interface FileRoutesByTo {
   '/user': typeof AuthenticatedUserIndexRoute
   '/gifts': typeof DefaultGiftsIndexRoute
   '/specialists': typeof DefaultSpecialistsIndexRoute
+  '/user/appointments/$appointmentId': typeof AuthenticatedUserAppointmentsAppointmentIdRouteRoute
+  '/user/appointments': typeof AuthenticatedUserAppointmentsIndexRoute
 }
 
 export interface FileRoutesById {
@@ -578,7 +629,7 @@ export interface FileRoutesById {
   '/_default/specialists': typeof DefaultSpecialistsRouteRouteWithChildren
   '/_default/support': typeof DefaultSupportRouteRoute
   '/_authenticated/admin/add-specialist': typeof AuthenticatedAdminAddSpecialistRouteRoute
-  '/_authenticated/user/appointments': typeof AuthenticatedUserAppointmentsRouteRoute
+  '/_authenticated/user/appointments': typeof AuthenticatedUserAppointmentsRouteRouteWithChildren
   '/_authenticated/user/payment-success': typeof AuthenticatedUserPaymentSuccessRouteRoute
   '/_authenticated/user/settings': typeof AuthenticatedUserSettingsRouteRoute
   '/_authenticated/user/specialists': typeof AuthenticatedUserSpecialistsRouteRoute
@@ -589,6 +640,8 @@ export interface FileRoutesById {
   '/_authenticated/user/': typeof AuthenticatedUserIndexRoute
   '/_default/gifts/': typeof DefaultGiftsIndexRoute
   '/_default/specialists/': typeof DefaultSpecialistsIndexRoute
+  '/_authenticated/user/appointments/$appointmentId': typeof AuthenticatedUserAppointmentsAppointmentIdRouteRoute
+  '/_authenticated/user/appointments/': typeof AuthenticatedUserAppointmentsIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -619,6 +672,8 @@ export interface FileRouteTypes {
     | '/user/'
     | '/gifts/'
     | '/specialists/'
+    | '/user/appointments/$appointmentId'
+    | '/user/appointments/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -631,7 +686,6 @@ export interface FileRouteTypes {
     | '/payment-success'
     | '/support'
     | '/admin/add-specialist'
-    | '/user/appointments'
     | '/user/payment-success'
     | '/user/settings'
     | '/user/specialists'
@@ -642,6 +696,8 @@ export interface FileRouteTypes {
     | '/user'
     | '/gifts'
     | '/specialists'
+    | '/user/appointments/$appointmentId'
+    | '/user/appointments'
   id:
     | '__root__'
     | '/'
@@ -670,6 +726,8 @@ export interface FileRouteTypes {
     | '/_authenticated/user/'
     | '/_default/gifts/'
     | '/_default/specialists/'
+    | '/_authenticated/user/appointments/$appointmentId'
+    | '/_authenticated/user/appointments/'
   fileRoutesById: FileRoutesById
 }
 
@@ -795,7 +853,11 @@ export const routeTree = rootRoute
     },
     "/_authenticated/user/appointments": {
       "filePath": "_authenticated/user/appointments/route.tsx",
-      "parent": "/_authenticated/user"
+      "parent": "/_authenticated/user",
+      "children": [
+        "/_authenticated/user/appointments/$appointmentId",
+        "/_authenticated/user/appointments/"
+      ]
     },
     "/_authenticated/user/payment-success": {
       "filePath": "_authenticated/user/payment-success/route.tsx",
@@ -836,6 +898,14 @@ export const routeTree = rootRoute
     "/_default/specialists/": {
       "filePath": "_default/specialists/index.tsx",
       "parent": "/_default/specialists"
+    },
+    "/_authenticated/user/appointments/$appointmentId": {
+      "filePath": "_authenticated/user/appointments/$appointmentId/route.tsx",
+      "parent": "/_authenticated/user/appointments"
+    },
+    "/_authenticated/user/appointments/": {
+      "filePath": "_authenticated/user/appointments/index.tsx",
+      "parent": "/_authenticated/user/appointments"
     }
   }
 }

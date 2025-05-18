@@ -1,7 +1,17 @@
 import React from 'react'
-import { Box, Typography, Card, CardContent, Avatar, Button } from '@mui/material'
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  Avatar,
+} from '@mui/material'
+import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import { Link } from '@tanstack/react-router'
 import { ISession } from '@models/ISession'
+import { AvatarName, StyledSessionTitle } from '@components/styled/user/home'
+import { ContainedButton } from '@components/shared/ContainedButton'
+import { formatSessionDate } from '@utils/user/Homepage'
 
 interface Props {
   session: ISession
@@ -9,35 +19,68 @@ interface Props {
 
 export const NextSessionSection: React.FC<Props> = ({ session }) => (
   <Box sx={{ mb: 4 }}>
-    <Typography variant="h5" gutterBottom>
-      Найближчий сеанс:
-    </Typography>
-    <Card>
-      <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
+    <StyledSessionTitle sx={{ mb: 2 }}>Найближчий сеанс:</StyledSessionTitle>
+
+    <Card
+      elevation={3}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        borderRadius: 2,
+        overflow: 'visible',
+        p: 2
+      }}
+    >
+      <CardContent sx={{ display: 'flex', alignItems: 'center', p: 3 }}>
         <Avatar
           src={session.specialist?.avatarUrl}
-          sx={{ width: 56, height: 56, mr: 2 }}
+          sx={{ width: 160, height: 160, mr: 3 }}
         >
-          {session.user?.name.charAt(0)}
+          {session.specialist?.user.name.charAt(0)}
         </Avatar>
-        <Box>
-          <Typography variant="subtitle1">
-            {session.user?.name}
+
+        <Box sx={{ flexGrow: 1 }}>
+          <AvatarName sx={{ mb: 0.2 }}>
+            {session.specialist?.user.name}
+          </AvatarName>
+
+          <Typography
+            variant="body1"
+            color='success.main'
+            mb={0.5}
+            // sx={{
+            //   color:
+            //     session.status === SESSION_STATUSES.CANCELLED
+            //       ? 'error.main'
+            //         : session.status === SESSION_STATUSES.SCHEDULED
+            //         ? 'success.main'
+            //       : '#AC98D1',
+            //   mb: 1,
+            // }}
+          >
+            {/* {session.status === 'cancelled' ? 'Скасований' : 'Заплановано'} */}
+            Заплановано
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {new Date(session.scheduledAt).toLocaleString()}
-          </Typography>
+
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <AccessTimeIcon
+              fontSize="small"
+              sx={{ color: '#AC98D1', mr: 1 }}
+            />
+            <Typography variant="body2" color="text.secondary">
+              {formatSessionDate(session.scheduledAt)}
+            </Typography>
+          </Box>
         </Box>
       </CardContent>
-      <Box sx={{ p: 2, textAlign: 'right' }}>
-        <Button
-          variant="contained"
-          component={Link}
-          to={`/profile/sessions/${session._id}`}
+      
+        <Link 
+          to={`/user/appointments/${session._id}` as '/user/appointments/$appointmentId'}
+          params={{ appointmentId: session._id }}
+          style={{ alignSelf: "flex-end", width: "50%" }}
         >
-          Деталі сеансу
-        </Button>
-      </Box>
+          <ContainedButton sx={{ width: "100%" }}>Деталі</ContainedButton>
+        </Link>
     </Card>
   </Box>
 )
