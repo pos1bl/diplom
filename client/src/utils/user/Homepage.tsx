@@ -56,14 +56,12 @@ const getNextSession = (sessions: ISession[]): ISession | null => {
 }
 
 const getLastPastSession = (sessions: ISession[]): ISession | null => {
-  const now = new Date().getTime()
   let last: ISession | null = null
 
   for (const s of sessions) {
     const t = new Date(s.scheduledAt).getTime()
     if (
-      [SESSION_STATUSES.COMPLETED, SESSION_STATUSES.CANCELLED, SESSION_STATUSES.NO_SHOW].includes(s.status) &&
-      t < now
+      [SESSION_STATUSES.COMPLETED, SESSION_STATUSES.CANCELLED, SESSION_STATUSES.NO_SHOW].includes(s.status)
     ) {
       if (last === null || t > new Date(last.scheduledAt).getTime()) {
         last = s
@@ -83,3 +81,11 @@ export const formatSessionDate = (iso: string) =>
   dayjs.utc(iso)
     .format('dd, DD.MM.YYYY [р.] HH:mm')
   + ' (за Києвом)';
+
+export const formatSessionDateCard = (iso: string) => dayjs.utc(iso).format('dd, DD.MM.YYYY');
+export const formatSessionTimeCard = (iso: string) => {
+  const startDate = dayjs.utc(iso);
+  const endDate = startDate.add(50, 'minutes');
+
+  return `${startDate.format('HH:mm')} - ${endDate.format('HH:mm')}`;
+};

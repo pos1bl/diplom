@@ -23,7 +23,6 @@ export const StyledAccordionSummary = styled(AccordionSummary)({
     backgroundColor: "#AC98D1",
     color: "#fff",
 
-    // щоб стрілочка теж поміняла колір
     '& .MuiAccordionSummary-expandIconWrapper': {
       color: "#fff",
     },

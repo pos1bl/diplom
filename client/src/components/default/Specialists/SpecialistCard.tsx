@@ -40,7 +40,7 @@ export const SpecialistCard: FC<Props> = ({ specialist }) => {
   const age = calculateAge(specialist.dateOfBirth);
 
   return (
-    <Card sx={{ px: { md: 7 }, py: { md: 2 }, borderRadius: 2, boxShadow: 3, overflow: 'hidden' }}>
+    <Card sx={{ px: { md: 7 }, py: { md: 2 }, borderRadius: 2, boxShadow: 3 }}>
       {isMobile ? (
         <Box textAlign="center" p={2}>
           <Typography variant="h4" mb={2} fontWeight={700} color="#AC98D1">

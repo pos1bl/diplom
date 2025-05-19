@@ -48,17 +48,7 @@ export const NextSessionSection: React.FC<Props> = ({ session }) => (
             variant="body1"
             color='success.main'
             mb={0.5}
-            // sx={{
-            //   color:
-            //     session.status === SESSION_STATUSES.CANCELLED
-            //       ? 'error.main'
-            //         : session.status === SESSION_STATUSES.SCHEDULED
-            //         ? 'success.main'
-            //       : '#AC98D1',
-            //   mb: 1,
-            // }}
           >
-            {/* {session.status === 'cancelled' ? 'Скасований' : 'Заплановано'} */}
             Заплановано
           </Typography>
 

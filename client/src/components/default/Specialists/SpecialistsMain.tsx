@@ -12,11 +12,10 @@ export const SpecialistsMain = () => {
   
   const { data, isLoading } = useQuery(specialistsQueryOptions(filters));
   const { specialists = [], totalCount = 0 } = data ?? {};
-
   const count = Math.ceil(totalCount / DEFAULT_PAGE_SIZE);
 
   const handlePageChange = (value: number) => {
-    return setFilters((prevFilters: Partial<any>) => ({ ...prevFilters, pageIndex: value }));
+    return setFilters({ pageIndex: value - 1 });
   }
 
   if (isLoading) {

@@ -14,6 +14,13 @@ class PaymentService {
       }
     });
   }
+
+  async refund(id) {
+    return stripe.refunds.create({
+      payment_intent: id,
+      reason: 'requested_by_customer',
+    });
+  }
 }
 
 export default new PaymentService();

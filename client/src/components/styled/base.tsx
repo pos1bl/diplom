@@ -1,4 +1,4 @@
-import { styled } from '@mui/material';
+import { Box, styled } from '@mui/material';
 import { Link } from '@tanstack/react-router';
 
 export const StyledActionBar = styled('div')({
@@ -150,4 +150,15 @@ export const StyledBackgroundSection = styled(StyledSection)({
   borderRadius: '15px',
   gap: '40px',
   padding: '40px',
+});
+
+export const ActionBar = styled('div')({
+  gap: '10px',
+  width: '100%',
+  display: 'flex',
+  padding: '5px 10px',
+  alignItems: 'center',
+  borderRadius: '20px',
+  backgroundColor: '#fff',
+  justifyContent: 'center'
 });

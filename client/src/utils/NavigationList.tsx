@@ -26,7 +26,7 @@ export const enum USER_PAGES {
   SPECIALISTS = '/user/specialists',
   SUPPORT = '/user/support',
   SETTINGS = '/user/settings',
-  SUCCESS_PAYMENT = '/user/payment-success'
+  SUCCESS_PAYMENT = '/user/payment-success',
 };
 
 export const enum SPECIALIST_PAGES {

@@ -19,7 +19,7 @@ async function generateUniqueCode() {
 
 class GiftService {
   async sendGift(payload) {
-    const { to, from, email, amount, expirationDate, userId } = payload;
+    const { to, from, email, amount, expirationDate, userId, paymentIntentId } = payload;
 
     const user = await UserModel.findById(userId);
 
@@ -29,7 +29,7 @@ class GiftService {
 
     const code = await generateUniqueCode();
 
-    await GiftModel.create({ to, from, email, amount, expirationDate, user, code });
+    await GiftModel.create({ to, from, email, amount, expirationDate, user, code, paymentIntentId });
     await mailService.sendGift({ to, from, email, amount, expirationDate, code }); 
   }
 

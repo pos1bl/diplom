@@ -70,7 +70,7 @@ export const RepeatBookingSection: React.FC<Props> = ({ session }) => (
       </CardContent>
       
         <Link
-          to={`/specialists/${session.specialistId}` as '/specialists/$specialistId'}
+           to={`/specialists/${session.specialist?._id}` as '/specialists/$specialistId'}
           params={{ specialistId: session.specialistId }}
           style={{ alignSelf: "flex-end", width: "50%" }}
         >

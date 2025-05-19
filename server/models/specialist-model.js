@@ -19,16 +19,13 @@ const AvailabilitySlotSchema = new Schema({
 }, { _id: false });
 
 const SpecialistSchema = new Schema({
-  // зв’язок із User
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true, unique: true },
 
-  // базові дані
   dateOfBirth:          { type: Date, required: true },
   gender:               { type: String, enum: ['male','female'], required: true },
   bio:                  { type: String, default: '' },
   isFired:              { type: Boolean, default: false },
 
-  // досвід та напрями
   yearsOfExperience:    { type: Number, default: 0 },
   mainAreas:            { type: [String], default: [] },
   secondaryAreas:       { type: [String], default: [] },
@@ -36,10 +33,7 @@ const SpecialistSchema = new Schema({
   methods:              { type: [String], default: [] },
   specialNeeds:         { type: [String], default: [] },
 
-  // availability як масив слотів
   availability:         { type: [AvailabilitySlotSchema], default: [] },
-
-  // аватар, верифікація
   avatarUrl:            { type: String, default: '' },
 });
 

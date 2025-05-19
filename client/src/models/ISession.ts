@@ -1,6 +1,7 @@
 import { Dayjs } from "dayjs";
 import { ISpecialist } from "./ISpecialist";
 import { IUser } from "./IUser";
+import { IGift } from "./IGift";
 
 export enum SESSION_STATUSES {
   SCHEDULED = 'scheduled',
@@ -9,19 +10,25 @@ export enum SESSION_STATUSES {
   NO_SHOW = 'no-show',
 }
 
-type SessionStatus = SESSION_STATUSES;
+export enum SESSION_TYPES {
+  FREE = 'free',
+  GIFT = 'gift',
+  PAID = 'paid',
+}
 
 export interface ISession {
   _id: string;
-  status: SessionStatus;
+  status: SESSION_STATUSES;
   notes: string;
-  isFree: boolean;
+  type: SESSION_TYPES;
   scheduledAt: string;
   userId: string;
   specialistId: string;
+  isMoved: boolean;
 
-  specialist?: Pick<ISpecialist, 'avatarUrl'> & { user: Pick<IUser, 'name'> };
-  user?: Pick<IUser, 'name'>;
+  specialist?: ISpecialist & { user: Pick<IUser, 'name'> };
+  user?: string;
+  gift?: IGift;
 }
 
 export interface ISessionPayload {
@@ -33,3 +40,4 @@ export interface ISessionPayload {
 
 export type IFreeSessionPayload = Omit<ISessionPayload, "priceId">
 export type IGiftSessionPayload = Omit<ISessionPayload, "priceId"> & { giftId: string }
+export type IMoveSessionPayload = Pick<ISessionPayload, "selectedDate" | "selectedSlot">

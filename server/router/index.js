@@ -38,6 +38,9 @@ router.post('/change_name', authMiddleware, userController.changeName)
 router.post('/change_email', authMiddleware, userController.changeEmail)
 router.post('/change_password', body('newPass').isLength({ min: 3, max: 32 }), userController.changePassword);
 router.post('/add_specialist', authMiddleware, upload.single('avatar'), adminController.addSpecialist);
+router.post('/refund/:id', authMiddleware, paymentController.refund);
+router.post('/cancel/:id', authMiddleware, userController.cancel);
+router.post('/move/:id', authMiddleware, userController.move);
 
 router.get('/activate/:link', userController.activate);
 router.get('/refresh', userController.refresh);

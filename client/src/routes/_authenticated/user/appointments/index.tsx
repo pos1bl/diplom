@@ -1,9 +1,16 @@
+import { AppointmentsPage } from '@pages/user/AppointmentsPage'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_authenticated/user/appointments/')({
-  component: RouteComponent,
-})
+  component: AppointmentsPage,
+  loader: async ({ context, location }) => {
+    const { sessionStore, authStore } = context.stores;
+    const { search } = location;
 
-function RouteComponent() {
-  return <div>Hello "/_authenticated/user/appointments/"!</div>
-}
+    await sessionStore.fetchSessions(
+      authStore.user.role,
+      authStore.user.id,
+      search
+    )
+  },
+})

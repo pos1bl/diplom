@@ -1,15 +1,22 @@
 import { AxiosResponse } from 'axios';
 import $api from "../http";
 import { Role } from '@models/IUser';
-import { IFreeSessionPayload, IGiftSessionPayload, ISession, ISessionPayload } from '@models/ISession';
+import { IFreeSessionPayload, IGiftSessionPayload, IMoveSessionPayload, ISession, ISessionPayload } from '@models/ISession';
 import { PaymentResponse } from '@models/response/PaymentResponse';
 import { USER_PAGES } from '@utils/NavigationList';
 
 export default class SessionsService {
   static async fetchSessions(role: Role, userId: string, filters?: Record<string,string>): Promise<AxiosResponse<ISession[]>> {
-    const prefix = role === Role.SPECIALIST ? 'specialists' : 'users';
-
+    const prefix = role === Role.SPECIALIST ? 'specialists' : 'user';
     return $api.get<ISession[]>(`${prefix}/${userId}/sessions`, { params: filters });
+  }
+
+  static async fetchSession(role: Role, id: string): Promise<ISession> {
+    const prefix = role === Role.SPECIALIST ? 'specialists' : 'user';
+
+   const { data } = await $api.get<ISession>(`${prefix}/sessions/${id}`);
+
+   return data;
   }
 
   static async createSessionPaymentLink(payload: ISessionPayload): Promise<AxiosResponse<PaymentResponse>> {
@@ -22,5 +29,17 @@ export default class SessionsService {
 
   static async createGiftSession(payload: IGiftSessionPayload): Promise<AxiosResponse<PaymentResponse>> {
     return $api.post('create_session', { payload })
+  }
+
+  static async refundSession(id: string): Promise<void> {
+    return $api.post(`refund/${id}`)
+  }
+
+  static async cancelSession(id: string): Promise<void> {
+    return $api.post(`cancel/${id}`)
+  }
+
+  static async moveSession(id: string, payload: IMoveSessionPayload): Promise<void> {
+    return $api.post(`move/${id}`, { payload })
   }
 }

@@ -1,5 +1,6 @@
 import SessionModel from "../models/session-model.js";
 import mailService from "./mail-service.js";
+import paymentService from "./payment-service.js";
 import UserModel from "../models/user-model.js";
 import SpecialistModel from "../models/specialist-model.js";
 import GiftModel from "../models/gift-model.js";
@@ -11,14 +12,14 @@ import { buildConflictCheckPipeline } from "../utils/queryHelper.js";
 
 class SessionService {
   async createSession(payload) {
-    const { selectedDate, selectedSlot, specialistId, userId, giftId, priceId, isVictim } = payload;
+    const { selectedDate, selectedSlot, specialistId, userId, giftId, priceId, isVictim, paymentIntentId } = payload;
 
     if (!isVictim && !priceId && !giftId) throw ApiError.BadRequest('Сесія не була оплачена');
 
     const user = await UserModel.findById(userId);
     if (!user) throw ApiError.BadRequest('Користувача з таким id не знайдено');
 
-    const specialist = await SpecialistModel.findById(specialistId);
+    const specialist = await SpecialistModel.findById(specialistId).populate({ path: 'user', model: 'User' });
     if (!specialist) throw ApiError.BadRequest('Спецаліста з таким id не знайдено');
 
     if (giftId) {
@@ -51,9 +52,73 @@ class SessionService {
     const conflicts = await SessionModel.aggregate(buildConflictCheckPipeline(userId, specialistId, scheduledAt));
     if (conflicts.length) throw ApiError.BadRequest('Цей час вже недоступний для бронювання. Оберіть, будь ласка, інший');
 
-    const session = await SessionModel.create({ user, specialist, scheduledAt, isFree: isVictim, status: 'scheduled'  });
+    const type = isVictim ? "free" : giftId ? "gift" : "paid";
+
+    const session = await SessionModel.create({ user, specialist, scheduledAt, type, status: 'scheduled', paymentIntentId, giftId });
     await mailService.sendInfoAboutSession(session);
     return { message: "Сесія успішно створена" };
+  }
+
+  async refund(id) {
+    const session = await SessionModel.findById(id).populate({ path: 'user' }).populate({ path: 'specialist', populate: { path: 'user' } });
+    if (!session) throw ApiError.BadRequest('Невалідна сесія');
+    if (session.type !== "paid") throw ApiError.BadRequest("Неможливо повернути кошти за даний тип сесії");
+    if (session.isMoved) throw ApiError.BadRequest("Неможливо повернути кошти після перенесення сеансу");
+    if (session.status !== "scheduled") throw ApiError.BadRequest("Неможливо повернути кошти за завершену сесію");
+
+    const dateIn24hours = dayjs().add(24, 'hours').format('DD.MM.YYYY HH:mm');
+    const formattedScheduledDate = dayjs.utc(session.scheduledAt).format('DD.MM.YYYY HH:mm');
+
+    if (dateIn24hours > formattedScheduledDate) throw ApiError.BadRequest("Ви можете скасувати сеанс (та повернути гроші) не пізніше ніж за 24 години до його початку");
+    
+    session.status = "cancelled";
+
+    await paymentService.refund(session.paymentIntentId);
+    await session.save();
+    await mailService.sendInfoAboutRefund(session);
+    return { message: "Запит на повернення коштів успішно створено" };
+  }
+
+  async cancel(id) {
+    const session = await SessionModel.findById(id).populate({ path: 'user' }).populate({ path: 'specialist', populate: { path: 'user' } });
+    if (!session) throw ApiError.BadRequest('Невалідна сесія');
+    if (session.status !== "scheduled") throw ApiError.BadRequest("Неможливо скасувати завершену сесію");
+
+    session.status = "cancelled";
+
+    await session.save();
+    await mailService.sendInfoAboutCancel(session);
+    return { message: "Зустріч скасовано" };
+  }
+
+  async moveSession(payload) {
+    const { selectedDate, selectedSlot, id } = payload;
+    const session = await SessionModel.findById(id).populate({ path: 'user' }).populate({ path: 'specialist', populate: { path: 'user' } });
+
+    if (!session) throw ApiError.BadRequest('Невалідна сесія');
+    if (session.status !== "scheduled") throw ApiError.BadRequest("Неможливо перенести завершену сесію");
+    if (session.isMoved) throw ApiError.BadRequest("Неможливо повторно перенести цей сеанс");
+
+    const dateIn12hours = dayjs().add(12, 'hours').format('DD.MM.YYYY HH:mm');
+    const formattedScheduledDate = dayjs.utc(session.scheduledAt).format('DD.MM.YYYY HH:mm');
+
+    if (dateIn12hours > formattedScheduledDate) throw ApiError.BadRequest("Ви можете перенести сеанс не пізніше ніж за 12 годин до його початку");
+    const newScheduledAt = combineDateAndSlot(selectedDate, selectedSlot);
+
+    const conflicts = await SessionModel.aggregate(buildConflictCheckPipeline(session.user._id, session.specialist._id, newScheduledAt));
+    if (conflicts.length) throw ApiError.BadRequest('Цей час вже недоступний для бронювання. Оберіть, будь ласка, інший');
+
+    const start = dayjs(session.scheduledAt)
+    const end = start.add(50, 'minute')
+    const oldWhenLine = `${start.format('dddd, D MMM YYYY · h:mm a')} – ${end.format('h:mm a')} (Eastern European Time - Kyiv)`
+
+    session.isMoved = true;
+    session.scheduledAt = newScheduledAt;
+
+    await session.save();
+    await mailService.sendInfoAboutSessionMove(session, oldWhenLine);
+
+    return { message: "Сеанс перенесено" };
   }
 }
 

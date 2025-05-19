@@ -43,7 +43,7 @@ export const Sidebar = () => {
             key={name}
             component={Link}
             to={navigateTo}
-            activeOptions={{ exact: true }}
+            activeOptions={{ exact: name === "Головна" }}
             activeProps={{ className: 'active' }}
             sx={{
               '&.active': {

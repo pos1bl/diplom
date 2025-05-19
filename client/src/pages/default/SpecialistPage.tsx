@@ -9,7 +9,7 @@ import { specialistQueryOptions } from '@utils/QueryOptioms';
 import { useAuthStore } from '@hooks/useStore';
 
 export const SpecialistPage = () => {
-  const { user } = useAuthStore()
+  const { user } = useAuthStore();
   const specialistId = useParams({
     from: Route.id,
     select: (params) => params.specialistId 

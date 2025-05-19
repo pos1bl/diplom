@@ -18,10 +18,10 @@ import { OutlinedButton } from '@components/shared/OutlinedButton';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs, { Dayjs } from 'dayjs';
 import { Delete } from '@mui/icons-material';
-import { dayLabels, days, DEFAULT_AVAILABILITY, getStyles, MenuProps, SpecialistFormValues } from '@utils/admin/Addspecialistform';
+import { dayLabels, days, DEFAULT_AVAILABILITY, getStyles, SpecialistFormValues } from '@utils/admin/Addspecialistform';
 import AdminService from '@services/AdminService';
 import { AvailabilitySlot, DayOfWeek, Gender } from '@models/ISpecialist';
-import { ISSUES_LIST, SPECIAL_GROUPS_LIST, THERAPY_METHODS_LIST } from '@utils/shared';
+import { ISSUES_LIST, MenuProps, SPECIAL_GROUPS_LIST, THERAPY_METHODS_LIST } from '@utils/shared';
 import { ImageUploadField } from './ImageUploadField';
 import { ContainedButton } from '@components/shared/ContainedButton';
 

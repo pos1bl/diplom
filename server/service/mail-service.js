@@ -121,23 +121,25 @@ class MailService {
   async sendInfoAboutSession(session) {
     const { _id, scheduledAt, user, specialist } = session
 
-    const appointmentUrl = `${process.env.CLIENT_URL}/user/appointments/${_id}`
-    const videoUrl = `${process.env.CLIENT_URL}/user/video-call/${_id}`
+    const appointmentUserUrl = `${process.env.CLIENT_URL}/user/appointments/${_id}`
+    const appointmentSpecialistUrl = `${process.env.CLIENT_URL}/specialist/appointments/${_id}`
+    const videoUserUrl = `${process.env.CLIENT_URL}/user/video-call/${_id}`
+    const videoSpecialistUrl = `${process.env.CLIENT_URL}/specialist/video-call/${_id}`
 
     const start = dayjs(scheduledAt)
     const end = start.add(50, 'minute')
     const whenLine = `${start.format('dddd, D MMM YYYY · h:mm a')} – ${end.format('h:mm a')} (Eastern European Time - Kyiv)`
 
-    const html = `
+    const userHtml = `
       <div style="font-family: Arial, sans-serif; line-height:1.4; color:#333;">
         <p><strong>Терапевт</strong> – ${specialist.user.name}</p>
-        <p><strong>Сторінка сеансу</strong> – <a href="${appointmentUrl}">${appointmentUrl}</a></p>
+        <p><strong>Сторінка сеансу</strong> – <a href="${appointmentUserUrl}">${appointmentUserUrl}</a></p>
 
         <h4 style="margin-top:24px;">Коли?</h4>
         <p>${whenLine}</p>
 
         <h4 style="margin-top:24px;">Посилання на зустріч</h4>
-        <p><a href="${videoUrl}">${videoUrl}</a></p>
+        <p><a href="${videoUserUrl}">${videoUserUrl}</a></p>
       </div>
     `
 
@@ -145,7 +147,158 @@ class MailService {
       from: process.env.SMTP_USER,
       to:   user.email,
       subject: `Ваш сеанс з ${specialist.user.name} ${whenLine}`,
-      html,
+      html: userHtml,
+    })
+
+    const specialistHtml = `
+      <div style="font-family: Arial, sans-serif; line-height:1.4; color:#333;">
+        <p><strong>Людина, що потребує допомоги</strong> – ${user.name}</p>
+        <p><strong>Сторінка сеансу</strong> – <a href="${appointmentSpecialistUrl}">${appointmentSpecialistUrl}</a></p>
+
+        <h4 style="margin-top:24px;">Коли?</h4>
+        <p>${whenLine}</p>
+
+        <h4 style="margin-top:24px;">Посилання на зустріч</h4>
+        <p><a href="${videoSpecialistUrl}">${videoSpecialistUrl}</a></p>
+      </div>
+    `
+
+    await this.transporter.sendMail({
+      from: process.env.SMTP_USER,
+      to:   specialist.user.email,
+      subject: `Ваш сеанс з ${user.name} ${whenLine}`,
+      html: specialistHtml,
+    })
+  }
+
+  async sendInfoAboutRefund(session) {
+    const { _id, scheduledAt, user, specialist } = session
+
+    const start = dayjs(scheduledAt)
+    const end = start.add(50, 'minute')
+    const whenLine = `${start.format('dddd, D MMM YYYY · h:mm a')} – ${end.format('h:mm a')} (Eastern European Time - Kyiv)`
+
+    const appointmentUserUrl = `${process.env.CLIENT_URL}/user/appointments/${_id}`
+    const appointmentSpecialistUrl = `${process.env.CLIENT_URL}/specialist/appointments/${_id}`
+
+    const userHtml = `
+      <div style="font-family: Arial, sans-serif; line-height:1.4; color:#333;">
+        <h3>Сеанс скасовано</h3>
+        <p>Ваш сеанс з <strong>${specialist.user.name}</strong>, запланований на <strong>${whenLine}</strong>, успішно скасовано.</p>
+        <p>Повернення коштів буде здійснено протягом <strong>5–10 робочих днів</strong>.</p>
+        <p>Деталі можна переглянути за посиланням:</p>
+        <p><a href="${appointmentUserUrl}">${appointmentUserUrl}</a></p>
+      </div>
+    `
+
+    await this.transporter.sendMail({
+      from:    process.env.SMTP_USER,
+      to:      user.email,
+      subject: `Ваш сеанс з ${specialist.user.name} ${whenLine} скасовано`,
+      html:    userHtml,
+    })
+
+    const specialistHtml = `
+      <div style="font-family: Arial, sans-serif; line-height:1.4; color:#333;">
+        <h3>Сесія скасована</h3>
+        <p>Сесія з користувачем <strong>${user.name}</strong>, запланована на <strong>${whenLine}</strong>, була скасована.</p>
+        <p>Будь ласка, перевірте свій дашборд.</p>
+        <p>Деталі сесії: <a href="${appointmentSpecialistUrl}">${appointmentSpecialistUrl}</a></p>
+      </div>
+    `
+
+    await this.transporter.sendMail({
+      from:    process.env.SMTP_USER,
+      to:      specialist.user.email,
+      subject: `Сесія з ${user.name} ${whenLine} скасована`,
+      html:    specialistHtml,
+    })
+  }
+
+  async sendInfoAboutCancel(session) {
+    const { _id, scheduledAt, user, specialist } = session
+
+    const start = dayjs(scheduledAt)
+    const end = start.add(50, 'minute')
+    const whenLine = `${start.format('dddd, D MMM YYYY · h:mm a')} – ${end.format('h:mm a')} (Eastern European Time - Kyiv)`
+
+    const appointmentUserUrl = `${process.env.CLIENT_URL}/user/appointments/${_id}`
+    const appointmentSpecialistUrl = `${process.env.CLIENT_URL}/specialist/appointments/${_id}`
+
+    const userHtml = `
+      <div style="font-family: Arial, sans-serif; line-height:1.4; color:#333;">
+        <h3>Сеанс скасовано</h3>
+        <p>Ваш сеанс з <strong>${specialist.user.name}</strong>, запланований на <strong>${whenLine}</strong>, скасовано.</p>
+        <p>Деталі можна переглянути за посиланням:</p>
+        <p><a href="${appointmentUserUrl}">${appointmentUserUrl}</a></p>
+      </div>
+    `
+
+    await this.transporter.sendMail({
+      from:    process.env.SMTP_USER,
+      to:      user.email,
+      subject: `Ваш сеанс з ${specialist.user.name} ${whenLine} скасовано`,
+      html:    userHtml,
+    })
+
+    const specialistHtml = `
+      <div style="font-family: Arial, sans-serif; line-height:1.4; color:#333;">
+        <h3>Сесія скасована</h3>
+        <p>Сесія з користувачем <strong>${user.name}</strong>, запланована на <strong>${whenLine}</strong>, була скасована.</p>
+        <p>Будь ласка, перевірте свій дашборд.</p>
+        <p>Деталі сесії: <a href="${appointmentSpecialistUrl}">${appointmentSpecialistUrl}</a></p>
+      </div>
+    `
+
+    await this.transporter.sendMail({
+      from:    process.env.SMTP_USER,
+      to:      specialist.user.email,
+      subject: `Сесія з ${user.name} ${whenLine} скасована`,
+      html:    specialistHtml,
+    })
+  }
+
+  async sendInfoAboutSessionMove(session, oldWhenLine) {
+    const { _id, scheduledAt, user, specialist } = session
+
+    const start = dayjs(scheduledAt)
+    const end = start.add(50, 'minute')
+    const whenLine = `${start.format('dddd, D MMM YYYY · h:mm a')} – ${end.format('h:mm a')} (Eastern European Time - Kyiv)`
+
+    const appointmentUserUrl = `${process.env.CLIENT_URL}/user/appointments/${_id}`
+    const appointmentSpecialistUrl = `${process.env.CLIENT_URL}/specialist/appointments/${_id}`
+
+    const userHtml = `
+      <div style="font-family: Arial, sans-serif; line-height:1.4; color:#333;">
+        <h3>Сеанс перенесено</h3>
+        <p>Ваш сеанс з <strong>${specialist.user.name}</strong>, запланований на <strong>${oldWhenLine}</strong>, перенесено на <strong>${whenLine}</strong>.</p>
+        <p>Деталі можна переглянути за посиланням:</p>
+        <p><a href="${appointmentUserUrl}">${appointmentUserUrl}</a></p>
+      </div>
+    `
+
+    await this.transporter.sendMail({
+      from:    process.env.SMTP_USER,
+      to:      user.email,
+      subject: `Ваш сеанс з ${specialist.user.name} ${whenLine} перенесено`,
+      html:    userHtml,
+    })
+
+    // Лист для спеціаліста
+    const specialistHtml = `
+      <div style="font-family: Arial, sans-serif; line-height:1.4; color:#333;">
+        <h3>Сесію перенесено</h3>
+        <p>Сесія з користувачем <strong>${user.name}</strong>, запланована на <strong>${oldWhenLine}</strong>, була перенесена на <strong>${whenLine}</strong>.</p>
+        <p>Будь ласка, перевірте свій дашборд.</p>
+        <p>Деталі сесії: <a href="${appointmentSpecialistUrl}">${appointmentSpecialistUrl}</a></p>
+      </div>
+    `
+
+    await this.transporter.sendMail({
+      from:    process.env.SMTP_USER,
+      to:      specialist.user.email,
+      subject: `Сесія з ${user.name} ${whenLine} перенесена`,
+      html:    specialistHtml,
     })
   }
 }

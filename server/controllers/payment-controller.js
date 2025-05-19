@@ -16,6 +16,16 @@ class PaymentController {
     }
   }
 
+  async refund(req, res, next) {
+    try {
+      const { id } = req.params;
+      const message = await sessionService.refund(id);
+      return res.json({ message });
+    } catch (e) {
+      next(e);
+    }
+  }
+
   async handleWebhook(req, res, next) {
     const sig = req.headers['stripe-signature'];
     
@@ -24,12 +34,14 @@ class PaymentController {
 
       if (event.type === 'checkout.session.completed' && event.data.object.metadata?.type === "gift") {
         const session = event.data.object;
-        await giftService.sendGift(session.metadata)
+        const paymentIntentId = session.payment_intent;
+        await giftService.sendGift({ ...session.metadata, paymentIntentId })
       }
 
       if (event.type === 'checkout.session.completed' && event.data.object.metadata?.type === "session") {
         const session = event.data.object;
-        await sessionService.createSession(session.metadata)
+        const paymentIntentId = session.payment_intent;
+        await sessionService.createSession({ paymentIntentId, ...session.metadata })
       }
       
       return res.json({ received: true });

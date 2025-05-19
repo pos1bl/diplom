@@ -185,6 +185,27 @@ class UserController {
       next(e);
     }
   }
+
+  async cancel(req, res, next) {
+    try {
+      const { id } = req.params;
+      const message = await sessionService.cancel(id);
+      return res.json({ message });
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async move(req, res, next) {
+    try {
+      const { payload } = req.body;
+      const successMsg = await sessionService.moveSession({ ...payload, id: req.params.id });
+
+      return res.json(successMsg);
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 export default new UserController();

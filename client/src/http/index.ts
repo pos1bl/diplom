@@ -9,7 +9,8 @@ const $api = axios.create({
 
 const { showError, showInfo, showSuccess } = useNotifyToast();
 
-const successMessageUrls = ['access', 'login', 'send_resume', 'resend_activation', 'change_name', 'change_email', 'change_password', 'add_specialist'];
+const successMessageUrls = ['access', 'login', 'send_resume', 'resend_activation', 'change_name', 'change_email', 'change_password',
+  'add_specialist', 'refund', 'cancel'];
 
 $api.interceptors.request.use((config) => {
   config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
@@ -18,12 +19,14 @@ $api.interceptors.request.use((config) => {
 
 $api.interceptors.response.use(
   async (response) => {
-    if (response.status === 200 && response.config.url && successMessageUrls.includes(response.config.url)) {
+    const url = response.config.url ?? '';
+
+    if (response.status === 200 && url && successMessageUrls.includes(url)) {
       const successMessage = response.data?.message || undefined;
       showSuccess(successMessage);
     }
 
-    if (response.config.url === 'logout') {
+    if (url === 'logout') {
       showInfo();
     }
 

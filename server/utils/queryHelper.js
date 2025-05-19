@@ -25,7 +25,7 @@ export const buildSessionFilter = ({ roleField, id, query }) => {
     }
   }
 
-  const options = {};
+  const options = { sort: { scheduledAt: 1 } };
   if (query.limit) options.limit = parseInt(query.limit, 10);
   if (query.skip) options.skip = parseInt(query.skip, 10);
   if (query.sortBy) options.sort = { [query.sortBy]: query.order === 'asc' ? 1 : -1 };
