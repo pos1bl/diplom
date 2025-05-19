@@ -102,6 +102,13 @@ class UserService {
     return sessions;
   }
 
+  async getSession(id) {
+    const session = await SessionModel.findById(id)
+      .populate({ path: 'specialist', populate: { path: 'user', model: 'User', select: 'name' } });
+
+    return session;
+  }
+
   async getSpecialists(query) {
     const pipeline = buildSpecialistsPipeline(query);
     const [result] = await SpecialistModel.aggregate(pipeline);

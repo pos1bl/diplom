@@ -1,4 +1,7 @@
+import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc.js'
 import { Types } from "mongoose"
+dayjs.extend(utc)
 
 export const SESSIONS_ROLES = {
   USER: 'user',
@@ -8,25 +11,20 @@ export const SESSIONS_ROLES = {
 export const buildSessionFilter = ({ roleField, id, query }) => {
   const filter = { [roleField]: id };
 
-  // 1. Фільтр по статусу: ?status=scheduled або ?status=scheduled,completed
   if (query.status) {
-    const statuses = String(query.status).split(',');
-    filter.status = { $in: statuses };
+    filter.status = query.status;
   }
 
-  // 2. Фільтр по даті: ?dateFrom=2025-05-01&dateTo=2025-05-31
-  if (query.dateFrom || query.dateTo) {
+  if (query.startDate || query.endDate) {
     filter.scheduledAt = {};
-    if (query.dateFrom) {
-      filter.scheduledAt.$gte = new Date(query.dateFrom);
+    if (query.startDate) {
+      filter.scheduledAt.$gte = dayjs.utc(query.startDate).toDate();
     }
-    if (query.dateTo) {
-      filter.scheduledAt.$lte = new Date(query.dateTo);
+    if (query.endDate) {
+      filter.scheduledAt.$lte = dayjs.utc(query.endDate).endOf('day').toDate();
     }
   }
 
-  // 3. (Опційно) пагінація: ?limit=10&skip=20
-  // Ми не вносимо це в filter, але збережемо для опцій find()
   const options = {};
   if (query.limit) options.limit = parseInt(query.limit, 10);
   if (query.skip) options.skip = parseInt(query.skip, 10);

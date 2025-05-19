@@ -7,6 +7,7 @@ const SessionSchema = new Schema(
     scheduledAt: { type: Date, required: true },
     isFree: { type: Boolean, default: false },
     status: { type: String, enum: ['scheduled', 'completed', 'cancelled', 'no-show'], default: 'scheduled' },
+    isMoved: { type: Boolean, default: false },
     notes: { type: String },
   },
   {

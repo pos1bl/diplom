@@ -42,7 +42,8 @@ router.post('/add_specialist', authMiddleware, upload.single('avatar'), adminCon
 router.get('/activate/:link', userController.activate);
 router.get('/refresh', userController.refresh);
 router.get('/users', authMiddleware, userController.getUsers);
-router.get('/users/:id/sessions', authMiddleware, userController.getSessions);
+router.get('/user/:id/sessions', authMiddleware, userController.getSessions);
+router.get('/user/sessions/:id', authMiddleware, userController.getSession);
 router.get('/specialist/:id/sessions', authMiddleware, specialistController.getSessions);
 router.get('/specialists', userController.getSpecialists);
 router.get('/specialists/:id', userController.getSpecialistInfo);
