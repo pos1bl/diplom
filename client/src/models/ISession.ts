@@ -23,12 +23,10 @@ export interface ISession {
   notes: string;
   type: SESSION_TYPES;
   scheduledAt: string;
-  userId: string;
   specialistId: string;
   isMoved: boolean;
-
   specialist?: ISpecialist & { user: Pick<IUser, 'name'> };
-  user?: string;
+  user: string | Pick<IUser, "name">;
   gift?: IGift;
 }
 

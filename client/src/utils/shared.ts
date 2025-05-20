@@ -111,3 +111,5 @@ export const MenuProps = {
     },
   },
 };
+export const sessionPrice = 1000;
+export const partOfSpecialist = 0.9;

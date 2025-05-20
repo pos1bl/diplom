@@ -1,3 +1,5 @@
+import { sessionPrice } from "@utils/shared";
+
 export type SectionProps = {
   onScrollToOptions: () => void
 };
@@ -25,9 +27,8 @@ export const STEPS_LIST = [
   }
 ];
 
-const giftPrice = 1000;
 export const getPrice = (amount: number, discount: number) => {
-  const startPrice = amount * giftPrice;
+  const startPrice = amount * sessionPrice;
 
   return startPrice - startPrice / 100 * discount
 };
