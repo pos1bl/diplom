@@ -31,11 +31,12 @@ import { Route as AuthenticatedUserIndexImport } from './routes/_authenticated/u
 import { Route as AuthenticatedAdminIndexImport } from './routes/_authenticated/admin/index'
 import { Route as DefaultSpecialistsSpecialistIdRouteImport } from './routes/_default/specialists/$specialistId/route'
 import { Route as DefaultGiftsPaymentSuccessRouteImport } from './routes/_default/gifts/payment-success/route'
+import { Route as AuthenticatedUserVerifyVictimRouteImport } from './routes/_authenticated/user/verify-victim/route'
 import { Route as AuthenticatedUserSupportRouteImport } from './routes/_authenticated/user/support/route'
-import { Route as AuthenticatedUserSpecialistsRouteImport } from './routes/_authenticated/user/specialists/route'
 import { Route as AuthenticatedUserSettingsRouteImport } from './routes/_authenticated/user/settings/route'
 import { Route as AuthenticatedUserPaymentSuccessRouteImport } from './routes/_authenticated/user/payment-success/route'
 import { Route as AuthenticatedUserAppointmentsRouteImport } from './routes/_authenticated/user/appointments/route'
+import { Route as AuthenticatedAdminVerifyVictimRouteImport } from './routes/_authenticated/admin/verify-victim/route'
 import { Route as AuthenticatedAdminAddSpecialistRouteImport } from './routes/_authenticated/admin/add-specialist/route'
 import { Route as AuthenticatedUserAppointmentsIndexImport } from './routes/_authenticated/user/appointments/index'
 import { Route as AuthenticatedUserAppointmentsAppointmentIdRouteImport } from './routes/_authenticated/user/appointments/$appointmentId/route'
@@ -165,17 +166,17 @@ const DefaultGiftsPaymentSuccessRouteRoute =
     getParentRoute: () => DefaultGiftsRouteRoute,
   } as any)
 
+const AuthenticatedUserVerifyVictimRouteRoute =
+  AuthenticatedUserVerifyVictimRouteImport.update({
+    id: '/verify-victim',
+    path: '/verify-victim',
+    getParentRoute: () => AuthenticatedUserRouteRoute,
+  } as any)
+
 const AuthenticatedUserSupportRouteRoute =
   AuthenticatedUserSupportRouteImport.update({
     id: '/support',
     path: '/support',
-    getParentRoute: () => AuthenticatedUserRouteRoute,
-  } as any)
-
-const AuthenticatedUserSpecialistsRouteRoute =
-  AuthenticatedUserSpecialistsRouteImport.update({
-    id: '/specialists',
-    path: '/specialists',
     getParentRoute: () => AuthenticatedUserRouteRoute,
   } as any)
 
@@ -198,6 +199,13 @@ const AuthenticatedUserAppointmentsRouteRoute =
     id: '/appointments',
     path: '/appointments',
     getParentRoute: () => AuthenticatedUserRouteRoute,
+  } as any)
+
+const AuthenticatedAdminVerifyVictimRouteRoute =
+  AuthenticatedAdminVerifyVictimRouteImport.update({
+    id: '/verify-victim',
+    path: '/verify-victim',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
   } as any)
 
 const AuthenticatedAdminAddSpecialistRouteRoute =
@@ -330,6 +338,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAddSpecialistRouteImport
       parentRoute: typeof AuthenticatedAdminRouteImport
     }
+    '/_authenticated/admin/verify-victim': {
+      id: '/_authenticated/admin/verify-victim'
+      path: '/verify-victim'
+      fullPath: '/admin/verify-victim'
+      preLoaderRoute: typeof AuthenticatedAdminVerifyVictimRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteImport
+    }
     '/_authenticated/user/appointments': {
       id: '/_authenticated/user/appointments'
       path: '/appointments'
@@ -351,18 +366,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedUserSettingsRouteImport
       parentRoute: typeof AuthenticatedUserRouteImport
     }
-    '/_authenticated/user/specialists': {
-      id: '/_authenticated/user/specialists'
-      path: '/specialists'
-      fullPath: '/user/specialists'
-      preLoaderRoute: typeof AuthenticatedUserSpecialistsRouteImport
-      parentRoute: typeof AuthenticatedUserRouteImport
-    }
     '/_authenticated/user/support': {
       id: '/_authenticated/user/support'
       path: '/support'
       fullPath: '/user/support'
       preLoaderRoute: typeof AuthenticatedUserSupportRouteImport
+      parentRoute: typeof AuthenticatedUserRouteImport
+    }
+    '/_authenticated/user/verify-victim': {
+      id: '/_authenticated/user/verify-victim'
+      path: '/verify-victim'
+      fullPath: '/user/verify-victim'
+      preLoaderRoute: typeof AuthenticatedUserVerifyVictimRouteImport
       parentRoute: typeof AuthenticatedUserRouteImport
     }
     '/_default/gifts/payment-success': {
@@ -428,6 +443,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAdminRouteRouteChildren {
   AuthenticatedAdminAddSpecialistRouteRoute: typeof AuthenticatedAdminAddSpecialistRouteRoute
+  AuthenticatedAdminVerifyVictimRouteRoute: typeof AuthenticatedAdminVerifyVictimRouteRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
@@ -435,6 +451,8 @@ const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren
   {
     AuthenticatedAdminAddSpecialistRouteRoute:
       AuthenticatedAdminAddSpecialistRouteRoute,
+    AuthenticatedAdminVerifyVictimRouteRoute:
+      AuthenticatedAdminVerifyVictimRouteRoute,
     AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   }
 
@@ -465,8 +483,8 @@ interface AuthenticatedUserRouteRouteChildren {
   AuthenticatedUserAppointmentsRouteRoute: typeof AuthenticatedUserAppointmentsRouteRouteWithChildren
   AuthenticatedUserPaymentSuccessRouteRoute: typeof AuthenticatedUserPaymentSuccessRouteRoute
   AuthenticatedUserSettingsRouteRoute: typeof AuthenticatedUserSettingsRouteRoute
-  AuthenticatedUserSpecialistsRouteRoute: typeof AuthenticatedUserSpecialistsRouteRoute
   AuthenticatedUserSupportRouteRoute: typeof AuthenticatedUserSupportRouteRoute
+  AuthenticatedUserVerifyVictimRouteRoute: typeof AuthenticatedUserVerifyVictimRouteRoute
   AuthenticatedUserIndexRoute: typeof AuthenticatedUserIndexRoute
 }
 
@@ -477,9 +495,9 @@ const AuthenticatedUserRouteRouteChildren: AuthenticatedUserRouteRouteChildren =
     AuthenticatedUserPaymentSuccessRouteRoute:
       AuthenticatedUserPaymentSuccessRouteRoute,
     AuthenticatedUserSettingsRouteRoute: AuthenticatedUserSettingsRouteRoute,
-    AuthenticatedUserSpecialistsRouteRoute:
-      AuthenticatedUserSpecialistsRouteRoute,
     AuthenticatedUserSupportRouteRoute: AuthenticatedUserSupportRouteRoute,
+    AuthenticatedUserVerifyVictimRouteRoute:
+      AuthenticatedUserVerifyVictimRouteRoute,
     AuthenticatedUserIndexRoute: AuthenticatedUserIndexRoute,
   }
 
@@ -572,11 +590,12 @@ export interface FileRoutesByFullPath {
   '/specialists': typeof DefaultSpecialistsRouteRouteWithChildren
   '/support': typeof DefaultSupportRouteRoute
   '/admin/add-specialist': typeof AuthenticatedAdminAddSpecialistRouteRoute
+  '/admin/verify-victim': typeof AuthenticatedAdminVerifyVictimRouteRoute
   '/user/appointments': typeof AuthenticatedUserAppointmentsRouteRouteWithChildren
   '/user/payment-success': typeof AuthenticatedUserPaymentSuccessRouteRoute
   '/user/settings': typeof AuthenticatedUserSettingsRouteRoute
-  '/user/specialists': typeof AuthenticatedUserSpecialistsRouteRoute
   '/user/support': typeof AuthenticatedUserSupportRouteRoute
+  '/user/verify-victim': typeof AuthenticatedUserVerifyVictimRouteRoute
   '/gifts/payment-success': typeof DefaultGiftsPaymentSuccessRouteRoute
   '/specialists/$specialistId': typeof DefaultSpecialistsSpecialistIdRouteRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
@@ -598,10 +617,11 @@ export interface FileRoutesByTo {
   '/payment-success': typeof DefaultPaymentSuccessRouteRoute
   '/support': typeof DefaultSupportRouteRoute
   '/admin/add-specialist': typeof AuthenticatedAdminAddSpecialistRouteRoute
+  '/admin/verify-victim': typeof AuthenticatedAdminVerifyVictimRouteRoute
   '/user/payment-success': typeof AuthenticatedUserPaymentSuccessRouteRoute
   '/user/settings': typeof AuthenticatedUserSettingsRouteRoute
-  '/user/specialists': typeof AuthenticatedUserSpecialistsRouteRoute
   '/user/support': typeof AuthenticatedUserSupportRouteRoute
+  '/user/verify-victim': typeof AuthenticatedUserVerifyVictimRouteRoute
   '/gifts/payment-success': typeof DefaultGiftsPaymentSuccessRouteRoute
   '/specialists/$specialistId': typeof DefaultSpecialistsSpecialistIdRouteRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
@@ -629,11 +649,12 @@ export interface FileRoutesById {
   '/_default/specialists': typeof DefaultSpecialistsRouteRouteWithChildren
   '/_default/support': typeof DefaultSupportRouteRoute
   '/_authenticated/admin/add-specialist': typeof AuthenticatedAdminAddSpecialistRouteRoute
+  '/_authenticated/admin/verify-victim': typeof AuthenticatedAdminVerifyVictimRouteRoute
   '/_authenticated/user/appointments': typeof AuthenticatedUserAppointmentsRouteRouteWithChildren
   '/_authenticated/user/payment-success': typeof AuthenticatedUserPaymentSuccessRouteRoute
   '/_authenticated/user/settings': typeof AuthenticatedUserSettingsRouteRoute
-  '/_authenticated/user/specialists': typeof AuthenticatedUserSpecialistsRouteRoute
   '/_authenticated/user/support': typeof AuthenticatedUserSupportRouteRoute
+  '/_authenticated/user/verify-victim': typeof AuthenticatedUserVerifyVictimRouteRoute
   '/_default/gifts/payment-success': typeof DefaultGiftsPaymentSuccessRouteRoute
   '/_default/specialists/$specialistId': typeof DefaultSpecialistsSpecialistIdRouteRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
@@ -661,11 +682,12 @@ export interface FileRouteTypes {
     | '/specialists'
     | '/support'
     | '/admin/add-specialist'
+    | '/admin/verify-victim'
     | '/user/appointments'
     | '/user/payment-success'
     | '/user/settings'
-    | '/user/specialists'
     | '/user/support'
+    | '/user/verify-victim'
     | '/gifts/payment-success'
     | '/specialists/$specialistId'
     | '/admin/'
@@ -686,10 +708,11 @@ export interface FileRouteTypes {
     | '/payment-success'
     | '/support'
     | '/admin/add-specialist'
+    | '/admin/verify-victim'
     | '/user/payment-success'
     | '/user/settings'
-    | '/user/specialists'
     | '/user/support'
+    | '/user/verify-victim'
     | '/gifts/payment-success'
     | '/specialists/$specialistId'
     | '/admin'
@@ -715,11 +738,12 @@ export interface FileRouteTypes {
     | '/_default/specialists'
     | '/_default/support'
     | '/_authenticated/admin/add-specialist'
+    | '/_authenticated/admin/verify-victim'
     | '/_authenticated/user/appointments'
     | '/_authenticated/user/payment-success'
     | '/_authenticated/user/settings'
-    | '/_authenticated/user/specialists'
     | '/_authenticated/user/support'
+    | '/_authenticated/user/verify-victim'
     | '/_default/gifts/payment-success'
     | '/_default/specialists/$specialistId'
     | '/_authenticated/admin/'
@@ -792,6 +816,7 @@ export const routeTree = rootRoute
       "parent": "/_authenticated",
       "children": [
         "/_authenticated/admin/add-specialist",
+        "/_authenticated/admin/verify-victim",
         "/_authenticated/admin/"
       ]
     },
@@ -806,8 +831,8 @@ export const routeTree = rootRoute
         "/_authenticated/user/appointments",
         "/_authenticated/user/payment-success",
         "/_authenticated/user/settings",
-        "/_authenticated/user/specialists",
         "/_authenticated/user/support",
+        "/_authenticated/user/verify-victim",
         "/_authenticated/user/"
       ]
     },
@@ -851,6 +876,10 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/admin/add-specialist/route.tsx",
       "parent": "/_authenticated/admin"
     },
+    "/_authenticated/admin/verify-victim": {
+      "filePath": "_authenticated/admin/verify-victim/route.tsx",
+      "parent": "/_authenticated/admin"
+    },
     "/_authenticated/user/appointments": {
       "filePath": "_authenticated/user/appointments/route.tsx",
       "parent": "/_authenticated/user",
@@ -867,12 +896,12 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/user/settings/route.tsx",
       "parent": "/_authenticated/user"
     },
-    "/_authenticated/user/specialists": {
-      "filePath": "_authenticated/user/specialists/route.tsx",
-      "parent": "/_authenticated/user"
-    },
     "/_authenticated/user/support": {
       "filePath": "_authenticated/user/support/route.tsx",
+      "parent": "/_authenticated/user"
+    },
+    "/_authenticated/user/verify-victim": {
+      "filePath": "_authenticated/user/verify-victim/route.tsx",
       "parent": "/_authenticated/user"
     },
     "/_default/gifts/payment-success": {

@@ -23,7 +23,7 @@ export const enum DEFAULT_PAGES {
 export const enum USER_PAGES {
   HOME = '/user',
   APPOINTMENTS = '/user/appointments',
-  SPECIALISTS = '/user/specialists',
+  VERIFY_VICTIM = '/user/verify-victim',
   SUPPORT = '/user/support',
   SETTINGS = '/user/settings',
   SUCCESS_PAYMENT = '/user/payment-success',
@@ -40,6 +40,7 @@ export const enum SPECIALIST_PAGES {
 export const enum ADMIN_PAGES {
   HOME = '/admin',
   ADD_SPECIALIST = '/admin/add-specialist',
+  VERIFY_VICTIM = '/admin/verify-victim',
 };
 
 export const HEADER_NAVIGATION_LIST = [
@@ -79,8 +80,8 @@ export const USER_NAVIGATION_LIST = [
     availableRoles: [Role.USER]
   },
   {
-    name: 'Мої фахівці',
-    navigateTo: USER_PAGES.SPECIALISTS,
+    name: 'Ключ до Опори',
+    navigateTo: USER_PAGES.VERIFY_VICTIM,
     icon: <PeopleIcon sx={{ color: "#AC98D1" }} />,
     availableRoles: [Role.USER]
   },
@@ -111,12 +112,20 @@ export const ADMIN_NAVIGATION_LIST = [
     icon: <PersonAddIcon sx={{ color: "#AC98D1" }} />,
     availableRoles: [Role.ADMIN]
   },
+  {
+    name: 'Обробити заявки',
+    navigateTo: ADMIN_PAGES.VERIFY_VICTIM,
+    icon: <PersonAddIcon sx={{ color: "#AC98D1" }} />,
+    availableRoles: [Role.ADMIN]
+  },
 ];
 
 export const getNavigationList = (role: Role) => {
   switch(role) {
     case Role.ADMIN:
       return ADMIN_NAVIGATION_LIST;
+    // case Role.SPECIALIST:
+    //   return SPECIALIST_NAVIGATION_LIST;
     default:
       return USER_NAVIGATION_LIST;
   }

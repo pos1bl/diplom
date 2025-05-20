@@ -1,5 +1,6 @@
 import { SpecialistFormValues } from "@utils/admin/Addspecialistform";
 import $api from "../http";
+import { VictimFormValues } from "@utils/admin/Verifyvictim";
 
 export default class AdminService {
   static async addSpecialist(payload: SpecialistFormValues): Promise<void> {
@@ -19,5 +20,9 @@ export default class AdminService {
         headers: { 'Content-Type': 'multipart/form-data' },
       }
     );
+  }
+
+  static async verifyVictim(payload: VictimFormValues): Promise<void> {
+    return $api.post('verify_victim', payload);
   }
 }

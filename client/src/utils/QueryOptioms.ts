@@ -26,3 +26,12 @@ export const sessionQueryOptions = (role: Role, id: string) => {
     placeholderData: keepPreviousData
   });
 };
+
+export const victimRequestQueryOptions = (id: string) => {
+  return queryOptions({
+    queryKey: ['victim-request', id],
+    queryFn: () => UserService.fetchVictimRequest(id),
+    placeholderData: keepPreviousData
+  });
+};
+

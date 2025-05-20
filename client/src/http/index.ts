@@ -10,7 +10,7 @@ const $api = axios.create({
 const { showError, showInfo, showSuccess } = useNotifyToast();
 
 const successMessageUrls = ['access', 'login', 'send_resume', 'resend_activation', 'change_name', 'change_email', 'change_password',
-  'add_specialist', 'refund', 'cancel'];
+  'add_specialist', 'refund', 'cancel', 'send_victim_request', 'verify_victim'];
 
 $api.interceptors.request.use((config) => {
   config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;

@@ -10,8 +10,6 @@ import {
   useTheme,
   FormControl,
   InputLabel,
-  Tooltip,
-  Button,
 } from '@mui/material';
 import { useForm } from '@tanstack/react-form';
 import { OutlinedButton } from '@components/shared/OutlinedButton';
@@ -22,8 +20,8 @@ import { dayLabels, days, DEFAULT_AVAILABILITY, getStyles, SpecialistFormValues 
 import AdminService from '@services/AdminService';
 import { AvailabilitySlot, DayOfWeek, Gender } from '@models/ISpecialist';
 import { ISSUES_LIST, MenuProps, SPECIAL_GROUPS_LIST, THERAPY_METHODS_LIST } from '@utils/shared';
-import { ImageUploadField } from './ImageUploadField';
 import { ContainedButton } from '@components/shared/ContainedButton';
+import { ImageUploadField } from '@components/shared/ImageUploadField';
 
 export const AddSpecialistForm = () => {
   const theme = useTheme();
@@ -71,50 +69,6 @@ export const AddSpecialistForm = () => {
       handleSubmit();
     }}>
       <Stack sx={{ maxWidth: { xs: 300, sm: 500 } }} gap={3}>
-        {/* <Field name="avatarUrl" validators={{ onChange: ({ value }) => !value && 'Обовʼязкове поле' }}>
-          {(field) => (
-            <Box>
-              <TextField
-                fullWidth
-                label="Аватар (URL)"
-                value={field.state.value}
-                onChange={(e) => field.handleChange(e.target.value)}
-                error={!!field.state.meta.errors.length}
-                helperText={field.state.meta.errors[0] || "Вставте посилання на зображення"}
-              />
-
-              {field.state.value && (
-                <Box display="flex" justifyContent="flex-start" mt={1}>
-                  <Tooltip
-                    arrow
-                    placement="left"
-                    title={
-                      <Box
-                        component="img"
-                        src={field.state.value}
-                        alt="Preview"
-                        sx={{ width: 300, height: 300, borderRadius: 2, objectFit: 'cover' }}
-                      />
-                    }
-                  >
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        cursor: 'help',
-                        textDecoration: 'underline dotted',
-                        color: 'text.secondary',
-                        ml: 0.5,
-                      }}
-                    >
-                      Превʼю
-                    </Typography>
-                  </Tooltip>
-                </Box>
-              )}
-            </Box>
-          )}
-        </Field> */}
-
         <Field name="avatar" validators={{ onChange: ({ value }) => !value && 'Завантажте фото профілю спецаліста' }}>
           {(field) => (
             <ImageUploadField
