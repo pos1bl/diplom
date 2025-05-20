@@ -15,6 +15,16 @@ export const buildSessionFilter = ({ roleField, id, query }) => {
     filter.status = query.status;
   }
 
+  return { filter };
+}
+
+export const buildClientFilter = ({ id, query }) => {
+  const filter = { specialist: new Types.ObjectId(id) };
+
+  if (query.name) {
+    filter.name = query.name;
+  }
+
   if (query.startDate || query.endDate) {
     filter.scheduledAt = {};
     if (query.startDate) {

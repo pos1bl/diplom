@@ -99,8 +99,7 @@ class UserController {
 
   async getSessions(req, res, next) {
     try {
-      const { id } = req.params;
-      const sessions = await userService.getSessions(id, req.query);
+      const sessions = await userService.getSessions(req.user.id, req.query);
       return res.json(sessions);
     } catch (e) {
       next(e);
@@ -131,7 +130,7 @@ class UserController {
   async createSession(req, res, next) {
     try {
       const { payload } = req.body;
-      const successMsg = await sessionService.createSession({ ...payload, userId: req.user.id, isVictim: req.user.isVictim });
+      const successMsg = await sessionService.createSession({ ...payload, user: req.user, isVictim: req.user.isVictim });
 
       return res.json(successMsg);
     } catch (e) {
@@ -151,8 +150,7 @@ class UserController {
 
   async getVictimRequest(req, res, next) {
     try {
-      const { id } = req.params;
-      const request = await userService.getVictimRequest(id);
+      const request = await userService.getVictimRequest(req.user.id);
       return res.json(request);
     } catch (e) {
       next(e);
@@ -170,8 +168,9 @@ class UserController {
 
   async changeName(req, res, next) {
     try {
-      const { userId, name } = req.body;
-      await userService.changeName(userId, name);
+      const { name } = req.body;
+      
+      await userService.changeName(req.user.id, name);
       return res.json({ message: "Ім'я успішно змінене" });
     } catch (e) {
       next(e);
@@ -180,8 +179,8 @@ class UserController {
 
   async changeEmail(req, res, next) {
     try {
-      const { userId, email } = req.body;
-      await userService.changeEmail(userId, email);
+      const { email } = req.body;
+      await userService.changeEmail(req.user.id, email);
       return res.json({ message: "Email успішно змінено" });
     } catch (e) {
       next(e);
@@ -196,9 +195,9 @@ class UserController {
         return next(ApiError.BadRequest('Помилка при валідації', errors.array()));
       }
 
-      const { userId, curPass, newPass } = req.body;
+      const { curPass, newPass } = req.body;
 
-      await userService.changePassword(userId, curPass, newPass);
+      await userService.changePassword(req.user.id, curPass, newPass);
       return res.json({ message: "Пароль успішно змінено" });
     } catch (e) {
       next(e);

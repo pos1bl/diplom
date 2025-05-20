@@ -20,10 +20,10 @@ export default class SessionStore {
     this.isLoading = bool;
   }
 
-  fetchSessions = async(role: Role, userId: string, filters?: Record<string,string>) => {
+  fetchSessions = async(role: Role, filters?: Record<string,string>) => {
     this.setLoading(true);
     try {
-      const response = await SessionsService.fetchSessions(role, userId, filters);
+      const response = await SessionsService.fetchSessions(role, filters);
       this.setSessions(response.data);
       return response.data;
     } catch (e) {

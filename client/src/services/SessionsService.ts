@@ -6,9 +6,9 @@ import { PaymentResponse } from '@models/response/PaymentResponse';
 import { USER_PAGES } from '@utils/NavigationList';
 
 export default class SessionsService {
-  static async fetchSessions(role: Role, userId: string, filters?: Record<string,string>): Promise<AxiosResponse<ISession[]>> {
+  static async fetchSessions(role: Role, filters?: Record<string,string>): Promise<AxiosResponse<ISession[]>> {
     const prefix = role === Role.SPECIALIST ? 'specialist' : 'user';
-    return $api.get<ISession[]>(`${prefix}/${userId}/sessions`, { params: filters });
+    return $api.get<ISession[]>(`${prefix}/sessions`, { params: filters });
   }
 
   static async fetchSession(role: Role, id: string): Promise<ISession> {

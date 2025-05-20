@@ -12,12 +12,9 @@ import { buildConflictCheckPipeline } from "../utils/queryHelper.js";
 
 class SessionService {
   async createSession(payload) {
-    const { selectedDate, selectedSlot, specialistId, userId, giftId, priceId, isVictim, paymentIntentId } = payload;
+    const { selectedDate, selectedSlot, specialistId, user, giftId, priceId, isVictim, paymentIntentId } = payload;
 
     if (!isVictim && !priceId && !giftId) throw ApiError.BadRequest('Сесія не була оплачена');
-
-    const user = await UserModel.findById(userId);
-    if (!user) throw ApiError.BadRequest('Користувача з таким id не знайдено');
 
     const specialist = await SpecialistModel.findById(specialistId).populate({ path: 'user', model: 'User' });
     if (!specialist) throw ApiError.BadRequest('Спецаліста з таким id не знайдено');
@@ -49,7 +46,7 @@ class SessionService {
 
     const scheduledAt = combineDateAndSlot(selectedDate, selectedSlot);
 
-    const conflicts = await SessionModel.aggregate(buildConflictCheckPipeline(userId, specialistId, scheduledAt));
+    const conflicts = await SessionModel.aggregate(buildConflictCheckPipeline(user.id, specialistId, scheduledAt));
     if (conflicts.length) throw ApiError.BadRequest('Цей час вже недоступний для бронювання. Оберіть, будь ласка, інший');
 
     const type = isVictim ? "free" : giftId ? "gift" : "paid";

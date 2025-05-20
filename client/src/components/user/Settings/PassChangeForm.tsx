@@ -10,14 +10,12 @@ import {
 import { useForm } from '@tanstack/react-form';
 import { OutlinedButton } from '@components/shared/OutlinedButton';
 import UserService from '@services/UserService';
-import { useAuthStore } from '@hooks/useStore';
 import { useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import useNotifyToast from '@hooks/useNotifyToats';
 import { PASSWORD_FIELDS, PASSWORD_NAME_FIELD } from '@utils/user/Settingspage';
 
 export const PassChangeForm = () => {
-  const { user } = useAuthStore();
   const [showPassword, setShowPassword] = useState({
     currentPassword: false,
     newPassword: false,
@@ -55,7 +53,7 @@ export const PassChangeForm = () => {
         return
       }
 
-      await UserService.changePassword(user.id, value.currentPassword, value.newPassword);
+      await UserService.changePassword(value.currentPassword, value.newPassword);
       reset();
     }
   });

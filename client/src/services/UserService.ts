@@ -10,16 +10,16 @@ export default class UserService {
     return $api.get<IUser[]>('users');
   }
 
-  static async changeName(userId: string, name: string): Promise<void> {
-    return $api.post('change_name', { userId, name });
+  static async changeName(name: string): Promise<void> {
+    return $api.post('change_name', { name });
   }
 
-  static async changeEmail(userId: string, email: string): Promise<void> {
-    return $api.post('change_email', { userId, email });
+  static async changeEmail(email: string): Promise<void> {
+    return $api.post('change_email', { email });
   }
 
-  static async changePassword(userId: string, curPass: string, newPass: string): Promise<void> {
-    return $api.post('change_password', { userId, curPass, newPass });
+  static async changePassword(curPass: string, newPass: string): Promise<void> {
+    return $api.post('change_password', { curPass, newPass });
   }
 
   static async fetchSpecialists(filters: Record<string,string>): Promise<IFetchSpecialistsResponse> {
@@ -40,7 +40,7 @@ export default class UserService {
    return data;
   }
 
-  static async sendVictimRequest(payload: VictimFormValues & { userId: string }): Promise<void> {
+  static async sendVictimRequest(payload: VictimFormValues): Promise<void> {
     const formData = new FormData();
     Object.entries(payload).forEach(([key, value]) => {
       if (key === 'file' && value instanceof File) {

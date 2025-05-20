@@ -6,16 +6,19 @@ import AuthStore from '@store/AuthStore.ts'
 import SessionStore from '@store/SessionsStore.ts'
 import App from './App.tsx'
 import './index.css';
+import ClientsStore from '@store/ClientsStore.ts'
 
 export const authStore = new AuthStore()
 export const sessionStore = new SessionStore()
+export const clientsStore = new ClientsStore();
 
 export interface Stores {
   authStore: AuthStore,
   sessionStore: SessionStore,
+  clientsStore: ClientsStore,
 }
 
-export const stores: Stores = { authStore, sessionStore }
+export const stores: Stores = { authStore, sessionStore, clientsStore }
 
 export const StoresContext = createContext<Stores>(stores)
 

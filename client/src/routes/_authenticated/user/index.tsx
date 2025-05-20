@@ -9,7 +9,6 @@ export const Route = createFileRoute('/_authenticated/user/')({
 
     await sessionStore.fetchSessions(
       authStore.user.role,
-      authStore.user.id,
       search
     )
   },

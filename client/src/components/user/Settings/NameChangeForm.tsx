@@ -8,13 +8,13 @@ import UserService from '@services/UserService';
 import { useAuthStore } from '@hooks/useStore';
 
 export const NameChangeForm = () => {
-  const { user, updateUserInfo } = useAuthStore();
+  const {updateUserInfo } = useAuthStore();
   const { Field, Subscribe, handleSubmit, reset } = useForm({
     defaultValues: {
       name: '',
     },
     onSubmit: async ({ value }) => {
-      await UserService.changeName(user.id, value.name);
+      await UserService.changeName(value.name);
       await updateUserInfo();
       reset();
     }

@@ -14,8 +14,8 @@ const AvailabilitySlotSchema = new Schema({
     ],
     required: true,
   },
-  from: { type: String, required: true }, // наприклад '09:00'
-  to:   { type: String, required: true }, // наприклад '18:00'
+  from: { type: String, required: true },
+  to:   { type: String, required: true },
 }, { _id: false });
 
 const SpecialistSchema = new Schema({

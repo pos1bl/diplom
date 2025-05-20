@@ -77,7 +77,7 @@ export const VerifyVictimForm = () => {
           <Subscribe selector={({ canSubmit, isSubmitting }) => [canSubmit, isSubmitting]}>
             {([canSubmit, isSubmitting]) => (
               <ContainedButton type="submit" disabled={!canSubmit || isSubmitting}>
-                {isSubmitting ? 'Обробка...' : 'Додати спеціаліста'}
+                {isSubmitting ? 'Обробка...' : 'Відповісти на заявку'}
               </ContainedButton>
             )}
           </Subscribe>

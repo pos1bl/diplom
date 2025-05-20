@@ -8,13 +8,13 @@ import UserService from '@services/UserService';
 import { useAuthStore } from '@hooks/useStore';
 
 export const EmailChangeForm = () => {
-  const { user, updateUserInfo } = useAuthStore();
+  const { updateUserInfo } = useAuthStore();
   const { Field, Subscribe, handleSubmit, reset } = useForm({
     defaultValues: {
       email: '',
     },
     onSubmit: async ({ value }) => {
-      await UserService.changeEmail(user.id, value.email);
+      await UserService.changeEmail(value.email);
       await updateUserInfo();
       reset();
     }

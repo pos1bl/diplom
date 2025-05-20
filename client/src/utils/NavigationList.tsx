@@ -10,6 +10,7 @@ import CalendarViewWeekIcon from '@mui/icons-material/CalendarViewWeek';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
 import SchoolIcon from '@mui/icons-material/School';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import GroupIcon from '@mui/icons-material/Group';
 
 export const enum DEFAULT_PAGES {
   LOGIN = '/sign-in',
@@ -36,7 +37,7 @@ export const enum USER_PAGES {
 
 export const enum SPECIALIST_PAGES {
   HOME = '/specialist',
-  APPOINTMENTS = '/specialist/appointments',
+  CLIENTS = '/specialist/clients',
   APPOINTMENTS_BY_WEEK = '/specialist/week-appointments',
   ANALYTICS = '/specialist/analytics',
   UNAVAILABILITIES = '/specialist/unavailabilities',
@@ -135,9 +136,9 @@ export const SPECIALIST_NAVIGATION_LIST = [
     availableRoles: [Role.SPECIALIST]
   },
   {
-    name: 'Мої сеанси',
-    navigateTo: SPECIALIST_PAGES.APPOINTMENTS,
-    icon: <CalendarTodayIcon sx={{ color: "#AC98D1" }} />,
+    name: 'Мої клієнти',
+    navigateTo: SPECIALIST_PAGES.CLIENTS,
+    icon: <GroupIcon sx={{ color: "#AC98D1" }} />,
     availableRoles: [Role.SPECIALIST]
   },
   {

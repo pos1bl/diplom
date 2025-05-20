@@ -2,14 +2,14 @@ import { WelcomeBanner } from '@components/shared/WelcomeBanner';
 import { useSessionStore } from '@hooks/useStore';
 import { Box } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import { FilterPanel } from '@components/specialist/FilterPanel';
+import { FilterPanel } from '@components/specialist/Homepage/FilterPanel';
 import { partOfSpecialist, sessionPrice } from '@utils/shared';
 import { SESSION_STATUS_OPTIONS } from '@utils/user/Appointment';
 import { SESSION_STATUSES } from '@models/ISession';
 import { getSessionsOverview } from '@utils/user/Homepage';
-import { NextSessionSection } from '@components/specialist/NextSessionSection';
+import { NextSessionSection } from '@components/specialist/Homepage/NextSessionSection';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import { HomeCard } from '@components/specialist/HomeCard';
+import { HomeCard } from '@components/specialist/Homepage/HomeCard';
 import { QuickActions } from '@components/specialist/Homepage/QuickActions';
 
 export const HomePage = observer(() => {

@@ -12,15 +12,12 @@ import UserService from '@services/UserService';
 import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
 import { IVictimRequest } from '@models/IVictimRequet';
 import { FC } from 'react';
-import { useAuthStore } from '@hooks/useStore';
 
 type Props = {
   refetch: (options?: RefetchOptions) => Promise<QueryObserverResult<IVictimRequest, Error>>
 }
 
 export const VictimForm:FC<Props> = ({ refetch }) => {
-  const { user } = useAuthStore();
-
   const { Field, Subscribe, handleSubmit, reset } = useForm<VictimFormValues, any, any, any, any, any, any, any, any, any>({
     defaultValues: {
       file: null,
@@ -32,7 +29,6 @@ export const VictimForm:FC<Props> = ({ refetch }) => {
         file: value.file,
         type: value.type,
         description: value.description,
-        userId: user.id
       };
       await UserService.sendVictimRequest(payload);
       

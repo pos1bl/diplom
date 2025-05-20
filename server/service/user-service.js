@@ -123,8 +123,8 @@ class UserService {
       description,
       userId
     } = req.body;
-
-    const user = await UserModel.findById(parse(userId));
+    
+    const user = await UserModel.findById(parse(req.user.id));
     if (!user) throw ApiError.BadRequest('Користувача з таким email не знайдено');
 
     let fileUrl = '';

@@ -4,6 +4,7 @@ import { Avatar, Box, Card, CardContent, Typography } from "@mui/material";
 import { formatSessionDate } from "@utils/user/Homepage";
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import { Link } from "@tanstack/react-router";
+import { SESSION_STATUS_OPTIONS } from "@utils/user/Appointment";
 
 interface SessionCardProps {
   session: ISession;
@@ -47,7 +48,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({ session }) => (
               mb: 1,
             }}
           >
-            {[SESSION_STATUSES.CANCELLED, SESSION_STATUSES.CANCELLED_WITH_REFUND].includes(session.status) ? 'Скасований' : 'Заплановано'}
+            {SESSION_STATUS_OPTIONS.find(row => row.status === session.status)?.label}
           </Typography>
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
