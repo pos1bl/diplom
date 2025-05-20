@@ -149,6 +149,25 @@ class UserController {
     }
   }
 
+  async getVictimRequest(req, res, next) {
+    try {
+      const { id } = req.params;
+      const request = await userService.getVictimRequest(id);
+      return res.json(request);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async sendVictimRequest(req, res, next) {
+    try {
+      await userService.sendVictimRequest(req);
+      return res.json({ message: "Запит успішно надісланий!" });
+    } catch (e) {
+      next(e);
+    }
+  }
+
   async changeName(req, res, next) {
     try {
       const { userId, name } = req.body;

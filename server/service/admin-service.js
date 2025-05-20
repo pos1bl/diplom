@@ -1,8 +1,12 @@
+import ApiError from "../exceptions/api-error.js";
+import { parse, uploadToCloudinary } from "../utils/uploadToCloudinary.js";
+
+import mailService from "./mail-service.js";
 import SpecialistModel from "../models/specialist-model.js";
 import UserModel from "../models/user-model.js";
-import ApiError from "../exceptions/api-error.js";
+import victim_requestModel from "../models/victim_request-model.js";
 
-import { parse, uploadToCloudinary } from "../utils/uploadToCloudinary.js";
+
 
 class AdminService {
   async addSpecialist(req) {
@@ -48,6 +52,26 @@ class AdminService {
     };
 
     await SpecialistModel.create(specialistData);
+  }
+
+  async verifyVictim(formResponse) {
+    const {
+      id,
+      status,
+    } = formResponse;
+
+    const request = await victim_requestModel.findOne({ user: id });
+    if (!request) throw ApiError.BadRequest('Такого запиту не знайдено');
+
+    const user = await UserModel.findById(id);
+    if (!user) throw ApiError.BadRequest('Автора запиту не знайдено');
+
+    request.status = status;
+    user.isVictim = true;
+
+    await user.save()
+    await request.save()
+    await mailService.sendVictimVerify(user, status);
   }
 }
 

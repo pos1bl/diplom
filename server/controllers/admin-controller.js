@@ -9,6 +9,16 @@ class AdmintController {
       next(e);
     }
   }
+
+  async verifyVictim(req, res, next) {
+    try {
+      const payload = req.body;
+      await adminService.verifyVictim(payload);
+      return res.json({ message: "Статус заявки змінено" });
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 export default new AdmintController();

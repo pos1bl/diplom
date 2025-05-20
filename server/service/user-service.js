@@ -3,6 +3,7 @@ import { v4 } from 'uuid';
 import UserModel from "../models/user-model.js";
 import SessionModel from "../models/session-model.js";
 import SpecialistModel from "../models/specialist-model.js";
+import VictimRequestModel from "../models/victim_request-model.js";
 import mailService from "./mail-service.js";
 import tokenService from "./token-service.js";
 import UserDto from "../dtos/user-dto.js";
@@ -12,6 +13,7 @@ import { getAvailability } from "../utils/getAvailability.js";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc.js"
 import localizedFormat from 'dayjs/plugin/localizedFormat.js';
+import { parse, uploadToCloudinary } from "../utils/uploadToCloudinary.js";
 dayjs.extend(utc);
 dayjs.extend(localizedFormat);
 dayjs.locale('uk');    
@@ -107,6 +109,38 @@ class UserService {
       .populate({ path: 'specialist', populate: { path: 'user', model: 'User', select: 'name' } });
 
     return session;
+  }
+
+  async getVictimRequest(userId) {
+    const victimRequest = await VictimRequestModel.findOne({user: userId});
+
+    return victimRequest;
+  }
+
+  async sendVictimRequest(req) {
+    const {
+      type,
+      description,
+      userId
+    } = req.body;
+
+    const user = await UserModel.findById(parse(userId));
+    if (!user) throw ApiError.BadRequest('Користувача з таким email не знайдено');
+
+    let fileUrl = '';
+    if (req.file) {
+      fileUrl = await uploadToCloudinary(req.file.buffer, 'victim_requests');
+    }
+
+    const requestData = {
+      user,
+      type: parse(type),
+      description: parse(description),
+      fileUrl
+    };
+
+    await VictimRequestModel.create(requestData);
+    await mailService.sendVictimRequest(requestData);
   }
 
   async getSpecialists(query) {

@@ -59,7 +59,7 @@ class MailService {
 
     await this.transporter.sendMail({
       from: process.env.SMTP_USER,
-      to: email,
+      to: process.env.ADMIN_EMAIL,
       subject: `Нове заявка на працевлаштування від ${fullName}`,
       text: '',
       html:
@@ -75,6 +75,50 @@ class MailService {
           <p><strong>Бажання працювати:</strong> ${availability}</p>
           <p><strong>Посилання на профіль/резюме:</strong> <a href="${profileLink}" target="_blank">${profileLink}</a></p>
           <p><strong>Мотивація:</strong> ${motivation}</p>
+        </div>
+      `
+    })
+  }
+
+  async sendVictimRequest(formResponse) {
+    const {
+      user,
+      type,
+      description,
+      fileUrl,
+    } = formResponse;
+
+    await this.transporter.sendMail({
+      from: process.env.SMTP_USER,
+      to: process.env.ADMIN_EMAIL,
+      subject: `Нове заявка на верифікацію від ${user.name}`,
+      text: '',
+      html:
+      `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+          <h2>Нова заявка на верифікацію</h2>
+          <p><strong>ID користувача:</strong> ${user._id}</p>
+          <p><strong>Ім'я:</strong> ${user.name}</p>
+          <p><strong>Email:</strong> ${user.email}</p>
+          <p><strong>Статус:</strong> ${type}</p>
+          <p><strong>Опис:</strong> ${description}</p>
+          <p><strong>Посилання на файл:</strong> <a href="${fileUrl}" target="_blank">${fileUrl}</a></p>
+        </div>
+      `
+    })
+  }
+
+  async sendVictimVerify(user, status) {
+    await this.transporter.sendMail({
+      from: process.env.SMTP_USER,
+      to: user.email,
+      subject: `Новий статус заявки на платфморі`,
+      text: '',
+      html:
+      `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+          <h2>Новий статус заявки на платфморі</h2>
+          <p><strong>Статус:</strong> ${status}</p>
         </div>
       `
     })
