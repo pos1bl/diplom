@@ -7,6 +7,7 @@ const DiplomaSchema = new Schema({
   specialty: { type: String, required: true },
   degree: { type: String, required: true },
   year: { type: Number },
+  imageUrl: { type: String, default: '' },
 }, {
   timestamps: true,
 });

@@ -16,6 +16,11 @@ const SESSION_STATUS_OPTIONS = [
     label: "Скасовано"
   },
   {
+    status: SESSION_STATUSES.CANCELLED_WITH_REFUND,
+    icon: <FreeCancellationIcon sx={{ color: "#AC98D1" }} fontSize="small" />,
+    label: "Скасовано з поверненням коштів"
+  },
+  {
     status: SESSION_STATUSES.SCHEDULED,
     icon: <EventIcon sx={{ color: "#AC98D1" }} fontSize="small" />,
     label: "Заплановано"

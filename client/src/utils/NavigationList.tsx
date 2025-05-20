@@ -5,6 +5,11 @@ import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import HelpIcon from '@mui/icons-material/Help';
+import ContactPageIcon from '@mui/icons-material/ContactPage';
+import CalendarViewWeekIcon from '@mui/icons-material/CalendarViewWeek';
+import EventBusyIcon from '@mui/icons-material/EventBusy';
+import SchoolIcon from '@mui/icons-material/School';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 export const enum DEFAULT_PAGES {
   LOGIN = '/sign-in',
@@ -31,10 +36,12 @@ export const enum USER_PAGES {
 
 export const enum SPECIALIST_PAGES {
   HOME = '/specialist',
-  APPOINTMENTS = '/user/appointments',
-  SPECIALISTS = '/user/specialists',
-  SUPPORT = '/user/support',
-  SETTINGS = '/user/settings',
+  APPOINTMENTS = '/specialist/appointments',
+  APPOINTMENTS_BY_WEEK = '/specialist/week-appointments',
+  ANALYTICS = '/specialist/analytics',
+  UNAVAILABILITIES = '/specialist/unavailabilities',
+  EDUCATION = '/specialist/education',
+  SETTINGS = '/specialist/settings',
 };
 
 export const enum ADMIN_PAGES {
@@ -115,17 +122,56 @@ export const ADMIN_NAVIGATION_LIST = [
   {
     name: 'Обробити заявки',
     navigateTo: ADMIN_PAGES.VERIFY_VICTIM,
-    icon: <PersonAddIcon sx={{ color: "#AC98D1" }} />,
+    icon: <ContactPageIcon sx={{ color: "#AC98D1" }} />,
     availableRoles: [Role.ADMIN]
   },
 ];
+
+export const SPECIALIST_NAVIGATION_LIST = [
+  {
+    name: 'Головна',
+    navigateTo: SPECIALIST_PAGES.HOME,
+    icon: <DashboardIcon sx={{ color: "#AC98D1" }} />,
+    availableRoles: [Role.SPECIALIST]
+  },
+  {
+    name: 'Мої сеанси',
+    navigateTo: SPECIALIST_PAGES.APPOINTMENTS,
+    icon: <CalendarTodayIcon sx={{ color: "#AC98D1" }} />,
+    availableRoles: [Role.SPECIALIST]
+  },
+  {
+    name: 'Мій розклад',
+    navigateTo: SPECIALIST_PAGES.APPOINTMENTS_BY_WEEK,
+    icon: <CalendarViewWeekIcon sx={{ color: "#AC98D1" }} />,
+    availableRoles: [Role.SPECIALIST]
+  },
+  {
+    name: 'Відсутності',
+    navigateTo: SPECIALIST_PAGES.UNAVAILABILITIES,
+    icon: <EventBusyIcon sx={{ color: "#AC98D1" }} />,
+    availableRoles: [Role.SPECIALIST]
+  },
+  {
+    name: 'Освіта',
+    navigateTo: SPECIALIST_PAGES.EDUCATION,
+    icon: <SchoolIcon sx={{ color: "#AC98D1" }} />,
+    availableRoles: [Role.SPECIALIST]
+  },
+  {
+    name: 'Налаштування',
+    navigateTo: SPECIALIST_PAGES.SETTINGS,
+    icon: <SettingsIcon sx={{ color: "#AC98D1" }} />,
+    availableRoles: [Role.SPECIALIST]
+  },
+]
 
 export const getNavigationList = (role: Role) => {
   switch(role) {
     case Role.ADMIN:
       return ADMIN_NAVIGATION_LIST;
-    // case Role.SPECIALIST:
-    //   return SPECIALIST_NAVIGATION_LIST;
+    case Role.SPECIALIST:
+      return SPECIALIST_NAVIGATION_LIST;
     default:
       return USER_NAVIGATION_LIST;
   }

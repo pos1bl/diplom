@@ -6,6 +6,7 @@ const CourseSchema = new Schema({
   provider: { type: String, required: true },
   hours: { type: Number },
   year: { type: Number },
+  imageUrl: { type: String, default: '' },
 }, {
   timestamps: true,
 });

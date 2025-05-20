@@ -75,7 +75,7 @@ export const PromoSections = observer(() => {
         <StyledCard>
           <Box sx={{ mr: 2 }}><CheckCircleIcon  sx={{ fontSize: "36px", color: '#AC98D1' }} /></Box>
           <Box textAlign="center">
-            <Typography variant="h6">Пройдено</Typography>
+            <Typography variant="h6">Завершено</Typography>
             <Typography variant="h5" color="success">{finished}</Typography>
           </Box>
         </StyledCard>

@@ -39,7 +39,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({ session }) => (
             mb={0.5}
             sx={{
               color:
-                session.status === SESSION_STATUSES.CANCELLED
+                [SESSION_STATUSES.CANCELLED, SESSION_STATUSES.CANCELLED_WITH_REFUND].includes(session.status)
                   ? 'error.main'
                     : session.status === SESSION_STATUSES.SCHEDULED
                     ? 'success.main'
@@ -47,7 +47,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({ session }) => (
               mb: 1,
             }}
           >
-            {session.status === SESSION_STATUSES.CANCELLED ? 'Скасований' : 'Заплановано'}
+            {[SESSION_STATUSES.CANCELLED, SESSION_STATUSES.CANCELLED_WITH_REFUND].includes(session.status) ? 'Скасований' : 'Заплановано'}
           </Typography>
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>

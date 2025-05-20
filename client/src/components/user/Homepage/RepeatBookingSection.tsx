@@ -48,13 +48,13 @@ export const RepeatBookingSection: React.FC<Props> = ({ session }) => (
             variant="body1"
             mb={0.5}
             sx={{
-              color: session.status === SESSION_STATUSES.CANCELLED
+              color: [SESSION_STATUSES.CANCELLED, SESSION_STATUSES.CANCELLED_WITH_REFUND].includes(session.status)
                 ? 'error.main'
                 : '#AC98D1',
               mb: 1,
             }}
           >
-            {session.status === 'cancelled' ? 'Скасований' : 'Завершений'}
+            {[SESSION_STATUSES.CANCELLED, SESSION_STATUSES.CANCELLED_WITH_REFUND].includes(session.status) ? 'Скасований' : 'Завершений'}
           </Typography>
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -74,7 +74,7 @@ export const RepeatBookingSection: React.FC<Props> = ({ session }) => (
           params={{ specialistId: session.specialistId }}
           style={{ alignSelf: "flex-end", width: "50%" }}
         >
-          <ContainedButton sx={{ width: "100%" }}>Придбати сеанс знову</ContainedButton>
+          <ContainedButton sx={{ width: "100%" }}>Записатися повторно</ContainedButton>
         </Link>
     </Card>
   </Box>

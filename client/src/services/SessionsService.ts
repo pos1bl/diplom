@@ -7,12 +7,12 @@ import { USER_PAGES } from '@utils/NavigationList';
 
 export default class SessionsService {
   static async fetchSessions(role: Role, userId: string, filters?: Record<string,string>): Promise<AxiosResponse<ISession[]>> {
-    const prefix = role === Role.SPECIALIST ? 'specialists' : 'user';
+    const prefix = role === Role.SPECIALIST ? 'specialist' : 'user';
     return $api.get<ISession[]>(`${prefix}/${userId}/sessions`, { params: filters });
   }
 
   static async fetchSession(role: Role, id: string): Promise<ISession> {
-    const prefix = role === Role.SPECIALIST ? 'specialists' : 'user';
+    const prefix = role === Role.SPECIALIST ? 'specialist' : 'user';
 
    const { data } = await $api.get<ISession>(`${prefix}/sessions/${id}`);
 

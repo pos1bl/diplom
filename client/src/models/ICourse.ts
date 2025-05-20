@@ -7,4 +7,5 @@ export interface ICourse {
   provider: string;
   hours?: string,
   year?: number,
+  imageUrl: string,
 }

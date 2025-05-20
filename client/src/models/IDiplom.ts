@@ -8,4 +8,5 @@ export interface IDiplom {
   specialty: string,
   degree: string,
   year?: number,
+  imageUrl: string,
 }

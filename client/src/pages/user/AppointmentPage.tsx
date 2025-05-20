@@ -113,7 +113,7 @@ export const AppointmentPage = () => {
             {getStatusIcon(session.status)}
             <Typography
               variant="body1"
-              color={session.status === SESSION_STATUSES.CANCELLED ? 'error' : 'success.main'}
+              color={[SESSION_STATUSES.CANCELLED, SESSION_STATUSES.CANCELLED_WITH_REFUND].includes(session.status) ? 'error' : 'success.main'}
               fontWeight={700}
             >
               {getLabel(session.status)}

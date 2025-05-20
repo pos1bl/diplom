@@ -11,6 +11,7 @@ export const AppointmentsList = observer(() => {
       component="div"
       sx={{
         display: "flex",
+        justifyContent: "center",
         flexWrap: "wrap",
         gap: "20px"
       }}

@@ -7,6 +7,7 @@ export enum SESSION_STATUSES {
   SCHEDULED = 'scheduled',
   COMPLETED = 'completed',
   CANCELLED = 'cancelled',
+  CANCELLED_WITH_REFUND = 'cancelled with refund',
   NO_SHOW = 'no-show',
 }
 

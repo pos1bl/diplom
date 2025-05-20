@@ -22,7 +22,7 @@ export const WelcomeBanner = () => {
       }}
     >
       <Box>
-        <Typography variant="h4" component="h1">
+        <Typography variant="h4" component="h1" display="flex" alignItems="center">
           Привіт, {user.name}!
           {!!StatusIcon && (
             <Tooltip title={statusText} arrow>

@@ -71,7 +71,7 @@ class SessionService {
 
     if (dateIn24hours > formattedScheduledDate) throw ApiError.BadRequest("Ви можете скасувати сеанс (та повернути гроші) не пізніше ніж за 24 години до його початку");
     
-    session.status = "cancelled";
+    session.status = "cancelled with refund";
 
     await paymentService.refund(session.paymentIntentId);
     await session.save();

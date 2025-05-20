@@ -1,6 +1,7 @@
 import PaidIcon from '@mui/icons-material/Paid'
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
-import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount'
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import { SESSION_STATUSES, ISession } from '@models/ISession'
 import { IUser, Role } from '@models/IUser';
 import dayjs from 'dayjs';
@@ -26,6 +27,9 @@ export const getVictimOptions = (user: IUser) => {
   } else if (role === Role.ADMIN) {
     statusText = 'Адмін';
     StatusIcon = SupervisorAccountIcon;
+  } else if (role === Role.SPECIALIST) {
+    statusText = 'Фахівець';
+    StatusIcon = AssignmentIndIcon;
   }
   
   return {
@@ -61,7 +65,7 @@ const getLastPastSession = (sessions: ISession[]): ISession | null => {
   for (const s of sessions) {
     const t = new Date(s.scheduledAt).getTime()
     if (
-      [SESSION_STATUSES.COMPLETED, SESSION_STATUSES.CANCELLED, SESSION_STATUSES.NO_SHOW].includes(s.status)
+      [SESSION_STATUSES.COMPLETED, SESSION_STATUSES.CANCELLED, SESSION_STATUSES.CANCELLED_WITH_REFUND, SESSION_STATUSES.NO_SHOW].includes(s.status)
     ) {
       if (last === null || t > new Date(last.scheduledAt).getTime()) {
         last = s
