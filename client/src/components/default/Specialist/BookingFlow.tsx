@@ -56,6 +56,7 @@ export const BookingFlow:FC<Props> = ({ availabilityByDay, specialistId }) => {
           setSelectedDate={setSelectedDate}
           availabilites={availabilites}
           setSelectedSlot={setSelectedSlot}
+          selectedSlot={selectedSlot}
         />
       )}
     </Box>

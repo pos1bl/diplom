@@ -88,9 +88,10 @@ export const MoveSection:FC<Props> = ({ specialistId, refetch, appointmentId, se
         setSelectedDate={setSelectedDate}
         availabilites={availabilites}
         setSelectedSlot={setSelectedSlot}
+        selectedSlot={selectedSlot}
       />
 
-      <ContainedButton sx={{ alignSelf: "self-end" }} onClick={moveSession} loading={isButtonLoading}>
+      <ContainedButton sx={{ alignSelf: "self-end" }} onClick={moveSession} loading={isButtonLoading} disabled={!selectedSlot}>
         Перенести зустріч
       </ContainedButton>
     </Box>

@@ -9,6 +9,7 @@ import combineDateAndSlot from "../utils/compineDateAndSlot.js";
 import { Types } from "mongoose"
 import dayjs from "dayjs";
 import { buildConflictCheckPipeline } from "../utils/queryHelper.js";
+import { cancelSessionReminder, scheduleSessionReminder } from "../jobs/agenda.js";
 
 class SessionService {
   async createSession(payload) {
@@ -59,6 +60,7 @@ class SessionService {
     sessionCreated.type = isVictim ? "free" : giftId ? "gift" : "paid";
     const session = await SessionModel.create(sessionCreated);
 
+    await scheduleSessionReminder(session)
     await mailService.sendInfoAboutSession(session);
     return { message: "Сесія успішно створена" };
   }
@@ -79,6 +81,7 @@ class SessionService {
 
     await paymentService.refund(session.paymentIntentId);
     await session.save();
+    await cancelSessionReminder(id)
     await mailService.sendInfoAboutRefund(session);
     return { message: "Запит на повернення коштів успішно створено" };
   }
@@ -91,6 +94,7 @@ class SessionService {
     session.status = "cancelled";
 
     await session.save();
+    await cancelSessionReminder(id)
     await mailService.sendInfoAboutCancel(session);
     return { message: "Зустріч скасовано" };
   }
@@ -120,6 +124,7 @@ class SessionService {
     session.scheduledAt = newScheduledAt;
 
     await session.save();
+    await scheduleSessionReminder(session)
     await mailService.sendInfoAboutSessionMove(session, oldWhenLine);
 
     return { message: "Сеанс перенесено" };
@@ -145,7 +150,7 @@ class SessionService {
     session.status = status;
 
     await session.save();
-
+    await cancelSessionReminder(id)
     return { message: "Сеанс завершено" };
   }
 }

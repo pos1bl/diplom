@@ -41,7 +41,7 @@ router.post('/change_password', authMiddleware, body('newPass').isLength({ min: 
 router.post('/add_specialist', authMiddleware, upload.single('avatar'), adminController.addSpecialist);
 router.post('/verify_victim', authMiddleware, adminController.verifyVictim);
 router.post('/send_victim_request', authMiddleware, upload.single('file'), userController.sendVictimRequest);
-router.post('/refund/:id', authMiddleware, paymentController.refund);
+router.post('/user/refund/:id', authMiddleware, paymentController.refund);
 router.post('/cancel/:id', authMiddleware, userController.cancel);
 router.post('/move/:id', authMiddleware, userController.move);
 
@@ -61,6 +61,6 @@ router.post('/change_status/:id', authMiddleware, specialistController.changeSta
 router.get('/clients', authMiddleware, specMiddleware, specialistController.getClients);
 router.get('/clients/names', authMiddleware, specMiddleware, specialistController.getClientNames);
 router.get('/clients/:id', authMiddleware, specMiddleware, specialistController.getUserInfo);
-router.get('specialist/id', authMiddleware, specMiddleware, specialistController.getSpecialistIdByOwn);
+// router.get('specialist/id', authMiddleware, specMiddleware, specialistController.getSpecialistIdByOwn);
 
 export default router;

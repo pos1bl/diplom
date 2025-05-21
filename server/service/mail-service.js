@@ -5,7 +5,12 @@ import ejs from 'ejs';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc.js';
+import localizedFormat from 'dayjs/plugin/localizedFormat.js';
 dotenv.config();
+dayjs.extend(utc);
+dayjs.extend(localizedFormat);
+dayjs.locale('uk');   
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
@@ -170,7 +175,7 @@ class MailService {
     const videoUserUrl = `${process.env.CLIENT_URL}/user/video-call/${_id}`
     const videoSpecialistUrl = `${process.env.CLIENT_URL}/specialist/video-call/${_id}`
 
-    const start = dayjs(scheduledAt)
+    const start = dayjs.utc(scheduledAt)
     const end = start.add(50, 'minute')
     const whenLine = `${start.format('dddd, D MMM YYYY · h:mm a')} – ${end.format('h:mm a')} (Eastern European Time - Kyiv)`
 
@@ -218,7 +223,7 @@ class MailService {
   async sendInfoAboutRefund(session) {
     const { _id, scheduledAt, user, specialist } = session
 
-    const start = dayjs(scheduledAt)
+    const start = dayjs.utc(scheduledAt)
     const end = start.add(50, 'minute')
     const whenLine = `${start.format('dddd, D MMM YYYY · h:mm a')} – ${end.format('h:mm a')} (Eastern European Time - Kyiv)`
 
@@ -262,7 +267,7 @@ class MailService {
   async sendInfoAboutCancel(session) {
     const { _id, scheduledAt, user, specialist } = session
 
-    const start = dayjs(scheduledAt)
+    const start = dayjs.utc(scheduledAt)
     const end = start.add(50, 'minute')
     const whenLine = `${start.format('dddd, D MMM YYYY · h:mm a')} – ${end.format('h:mm a')} (Eastern European Time - Kyiv)`
 
@@ -305,7 +310,7 @@ class MailService {
   async sendInfoAboutSessionMove(session, oldWhenLine) {
     const { _id, scheduledAt, user, specialist } = session
 
-    const start = dayjs(scheduledAt)
+    const start = dayjs.utc(scheduledAt)
     const end = start.add(50, 'minute')
     const whenLine = `${start.format('dddd, D MMM YYYY · h:mm a')} – ${end.format('h:mm a')} (Eastern European Time - Kyiv)`
 
@@ -328,7 +333,6 @@ class MailService {
       html:    userHtml,
     })
 
-    // Лист для спеціаліста
     const specialistHtml = `
       <div style="font-family: Arial, sans-serif; line-height:1.4; color:#333;">
         <h3>Сесію перенесено</h3>
@@ -342,6 +346,51 @@ class MailService {
       from:    process.env.SMTP_USER,
       to:      specialist.user.email,
       subject: `Сесія з ${user.name} ${whenLine} перенесена`,
+      html:    specialistHtml,
+    })
+  }
+
+   async sendReminder(session) {
+    const { _id, scheduledAt, user, specialist } = session
+
+    const start = dayjs.utc(scheduledAt)
+    const end   = start.add(50, 'minute')
+    const when  = `${start.format('dddd, D MMMM YYYY, HH:mm')} – ${end.format('HH:mm')} (Kyiv)`
+
+    const userUrl       = `${process.env.CLIENT_URL}/user/appointments/${_id}`
+    const specialistUrl = `${process.env.CLIENT_URL}/specialist/appointment/${_id}`
+
+    const userHtml = `
+      <div style="font-family: Arial, sans-serif; line-height:1.4; color:#333;">
+        <h2>Нагадування про сеанс</h2>
+        <p>Ваш сеанс з <strong>${specialist.user.name}</strong> заплановано на:</p>
+        <p><em>${when}</em></p>
+        <p>Переглянути деталі та приєднатися:</p>
+        <p><a href="${userUrl}">${userUrl}</a></p>
+      </div>
+    `
+
+    const specialistHtml = `
+      <div style="font-family: Arial, sans-serif; line-height:1.4; color:#333;">
+        <h2>Нагадування про сеанс</h2>
+        <p>Сеанс з клієнтом <strong>${user.name}</strong> заплановано на:</p>
+        <p><em>${when}</em></p>
+        <p>Переглянути деталі:</p>
+        <p><a href="${specialistUrl}">${specialistUrl}</a></p>
+      </div>
+    `
+
+    await this.transporter.sendMail({
+      from:    process.env.SMTP_USER,
+      to:      user.email,
+      subject: `Нагадування: сеанс з ${specialist.user.name} о ${start.format('HH:mm')}`,
+      html:    userHtml,
+    })
+
+    await this.transporter.sendMail({
+      from:    process.env.SMTP_USER,
+      to:      specialist.user.email,
+      subject: `Нагадування: сеанс з ${user.name} о ${start.format('HH:mm')}`,
       html:    specialistHtml,
     })
   }

@@ -39,8 +39,6 @@ export const AppointmentPage = () => {
     cancel: false,
   });
 
-  console.log(isError)
-
   if (isError) {
     navigate({ to: "/specialist/clients" })
   }
@@ -49,7 +47,6 @@ export const AppointmentPage = () => {
   if (isLoading || !session) {
     return <div>Завантаження...</div>
   }
-
 
   const now = dayjs().format('DD.MM.YYYY HH:mm');
   const dateIn10Minutes = dayjs().add(10, 'm').format('DD.MM.YYYY HH:mm');
@@ -66,7 +63,7 @@ export const AppointmentPage = () => {
   const handleCancel = async () => {
     setButtonLoading(prev => ({ ...prev, cancel: true }));
       try {
-        await SessionsService.refundSession(appointmentId);
+        await SessionsService.refundSession(user.role, appointmentId);
         toast("Зустріч скасовано", { type: "info" });
       } finally {
         setButtonLoading(prev => ({ ...prev, cancel: false }));

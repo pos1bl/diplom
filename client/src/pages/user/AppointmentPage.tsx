@@ -55,7 +55,7 @@ export const AppointmentPage = () => {
 
     if (cancelLabel === "Скасувати та повернути кошти") {
       try {
-        await SessionsService.refundSession(appointmentId);
+        await SessionsService.refundSession(user.role, appointmentId);
         toast("Запит на повернення коштів успішно створено", { type: "info" });
       } finally {
         setIsButtonLoading(false);

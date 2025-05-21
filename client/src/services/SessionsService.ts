@@ -31,8 +31,9 @@ export default class SessionsService {
     return $api.post('create_session', { payload })
   }
 
-  static async refundSession(id: string): Promise<void> {
-    return $api.post(`refund/${id}`)
+  static async refundSession(role: Role,id: string): Promise<void> {
+    const prefix = role === Role.SPECIALIST ? 'specialist' : 'user';
+    return $api.post(`${prefix}/refund/${id}`)
   }
 
   static async cancelSession(id: string): Promise<void> {

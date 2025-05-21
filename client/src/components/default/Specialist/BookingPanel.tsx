@@ -13,12 +13,13 @@ type Props = {
   nearestDate: Dayjs,
   selectedDate: Dayjs | null,
   setSelectedDate: Dispatch<SetStateAction<Dayjs | null>>,
+  selectedSlot: string,
   availabilites: AvailabilityFormatted[],
   setSelectedSlot: Dispatch<SetStateAction<string>>,
 };
 
 export const BookingPanel:FC<Props> = ({
-  nearestDate, selectedDate, setSelectedDate, availabilites, setSelectedSlot
+  nearestDate, selectedDate, setSelectedDate, availabilites, setSelectedSlot, selectedSlot
 }) => {
   const { isAuth } = useAuthStore();
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ export const BookingPanel:FC<Props> = ({
       {selectedDate && (
         <StyledBox>
           <Typography variant="subtitle1">
-            {selectedDate.locale('uk').format('dddd, D MMMM')}
+            {selectedDate.locale('uk').format('dddd, D MMMM')} {getSlotRange(selectedSlot)}
           </Typography>
           <Box display="flex" flexWrap="wrap" gap={1} justifyContent="center">
             {availabilites.find(day => day.date.isSame(selectedDate))?.timeSlots.map((slot) => {
