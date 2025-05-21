@@ -14,6 +14,12 @@ export default class SpecialistService {
     return data;
   }
 
+  // static async fetchSpecialist(): Promise<string> {
+  //   const { data } = await $api.get<string>('specialist/id');
+
+  //   return data;
+  // }
+
   static async fetchClientsNames(): Promise<AxiosResponse<string[]>> {
     return $api.get<string[]>('clients/names');
   }

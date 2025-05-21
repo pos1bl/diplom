@@ -51,13 +51,16 @@ router.get('/users', authMiddleware, userController.getUsers);
 router.get('/user/sessions', authMiddleware, userController.getSessions);
 router.get('/user/victim-request', authMiddleware, userController.getVictimRequest);
 router.get('/user/sessions/:id', authMiddleware, userController.getSession);
+router.get('/specialist/sessions/:id', authMiddleware, specMiddleware, specialistController.getSession);
 router.get('/specialist/sessions', authMiddleware, specMiddleware, specialistController.getSessions);
 router.get('/specialists', userController.getSpecialists);
 router.get('/specialists/:id', userController.getSpecialistInfo);
 router.get('/gift', giftController.fetchGift);
 
+router.post('/change_status/:id', authMiddleware, specialistController.changeStatus);
 router.get('/clients', authMiddleware, specMiddleware, specialistController.getClients);
 router.get('/clients/names', authMiddleware, specMiddleware, specialistController.getClientNames);
 router.get('/clients/:id', authMiddleware, specMiddleware, specialistController.getUserInfo);
+router.get('specialist/id', authMiddleware, specMiddleware, specialistController.getSpecialistIdByOwn);
 
 export default router;

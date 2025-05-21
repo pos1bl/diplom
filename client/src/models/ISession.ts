@@ -24,6 +24,7 @@ export interface ISession {
   type: SESSION_TYPES;
   scheduledAt: string;
   specialistId: string;
+  userId: string;
   isMoved: boolean;
   specialist?: ISpecialist & { user: Pick<IUser, 'name'> };
   user: string | Pick<IUser, "name">;

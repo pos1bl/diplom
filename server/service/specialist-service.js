@@ -2,6 +2,7 @@ import { Types } from "mongoose";
 import SessionModel from "../models/session-model.js";
 import UserModel from "../models/user-model.js";
 import { buildClientFilter, buildSessionFilter, SESSIONS_ROLES } from "../utils/queryHelper.js";
+import ApiError from "../exceptions/api-error.js";
 
 class SpecialistService {
   async getSessions(id, query) {
@@ -11,10 +12,21 @@ class SpecialistService {
     return sessions;
   }
 
-  async getClients(id, query) {
-    const { filter } = buildClientFilter({ id, query });
+  async getSession(id, specId) {
+    const sessionDocumet = await SessionModel.findById(id)
+      .populate({ path: 'user',  model: 'User', select: 'name' });
+    const session = JSON.parse(JSON.stringify(sessionDocumet))
+    session.specialistId = session.specialist;
+    if (specId !== session.specialistId) throw ApiError.BadRequest('Це не ваша сесія!')
+    session.userId = session.user._id;
+    delete session.specialist;
+    return session;
+  }
 
-    const clients = await SessionModel.aggregate([
+  async getClients(id, query) {
+    const { filter, options } = buildClientFilter({ id, query });
+
+    const pipeline = [
       { $match: filter },
       { 
         $group: {
@@ -49,7 +61,13 @@ class SpecialistService {
           }
         }
       }
-    ]);
+    ];
+
+    if (options.sort) {
+      pipeline.push({ $sort: options.sort });
+    }
+
+    const clients = await SessionModel.aggregate(pipeline)
 
     return clients;
   }
@@ -80,6 +98,10 @@ class SpecialistService {
 
   async getUserInfo(id) {
     return await UserModel.findById(id)
+  }
+
+  async isOwnClient(id, specId) {
+    return await SessionModel.exists({ specialist: specId, id: id })
   }
 }
 

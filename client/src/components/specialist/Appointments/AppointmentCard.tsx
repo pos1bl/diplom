@@ -24,7 +24,8 @@ export const SessionCard: React.FC<SessionCardProps> = ({ session }) => (
     <CardContent sx={{ display: 'flex', alignItems: 'center', p: 3 }}>
       <Box sx={{ flexGrow: 1 }}>
         <Typography
-          variant="body1"
+          variant="h5"
+          fontWeight={700}
           color='success.main'
           mb={0.5}
           sx={{
@@ -33,7 +34,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({ session }) => (
                 ? 'error.main'
                   : session.status === SESSION_STATUSES.SCHEDULED
                   ? 'success.main'
-                : '#AC98D1',
+                : '#000',
             mb: 1,
           }}
         >

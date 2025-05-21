@@ -8,7 +8,7 @@ import { observer } from 'mobx-react-lite';
 import { SPECIALIST_PAGES } from '@utils/NavigationList';
 import GroupIcon from '@mui/icons-material/Group';
 
-export const PromoSections = observer(() => {
+export const ClientsPromoSections = observer(() => {
   const { clients } = useClientsStore();
 
   const completedSessionsAmount = clients.reduce((total, client) => total + client.completedSessions, 0)

@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import $api from "../http";
 import { Role } from '@models/IUser';
-import { IFreeSessionPayload, IGiftSessionPayload, IMoveSessionPayload, ISession, ISessionPayload } from '@models/ISession';
+import { IFreeSessionPayload, IGiftSessionPayload, IMoveSessionPayload, ISession, ISessionPayload, SESSION_STATUSES } from '@models/ISession';
 import { PaymentResponse } from '@models/response/PaymentResponse';
 import { USER_PAGES } from '@utils/NavigationList';
 
@@ -37,6 +37,10 @@ export default class SessionsService {
 
   static async cancelSession(id: string): Promise<void> {
     return $api.post(`cancel/${id}`)
+  }
+
+  static async changeSessionStatus(id: string, status: SESSION_STATUSES): Promise<void> {
+    return $api.post(`change_status/${id}`, { status })
   }
 
   static async moveSession(id: string, payload: IMoveSessionPayload): Promise<void> {

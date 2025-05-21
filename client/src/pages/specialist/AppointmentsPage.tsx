@@ -1,11 +1,11 @@
 import { AppointmentsActionBar } from "@components/specialist/Appointments/AppointmentsActionBar";
 import { AppointmentsList } from "@components/specialist/Appointments/AppointmentsList";
-import { PromoSections } from "@components/specialist/Clients/PromoSections";
 import { Box, Breadcrumbs } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "@tanstack/react-router";
 import { userInfoQueryOptions } from "@utils/QueryOptioms";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import { AppointmentsPromoSections } from "@components/specialist/Appointments/AppointmentsPromoSections";
 
 export const AppointmentsPage = () => {
   const { clientId } = useParams({ from: "/_authenticated/specialist/clients/$clientId/appointments" });
@@ -17,6 +17,7 @@ export const AppointmentsPage = () => {
 
   return (
     <Box pb={1}>
+      <AppointmentsPromoSections />
       <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 3 }}>
         <Link
           color="inherit"
@@ -24,11 +25,10 @@ export const AppointmentsPage = () => {
         >
           <Box display="flex" alignItems="center" sx={{ fontSize: 18 }} >
             <ChevronLeftIcon />
-            Сесії з "{data?.name}"
+            Клієнти / Сесії з "{data?.name}"
           </Box>
         </Link>
       </Breadcrumbs>
-      <PromoSections />
       <AppointmentsActionBar />
       <AppointmentsList />
     </Box>

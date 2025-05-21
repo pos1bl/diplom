@@ -37,7 +37,7 @@ export const ClientCard: React.FC<ClientCardProps> = ({ client }) => (
               sx={{ color: '#AC98D1', mr: 1 }}
             />
             <Typography variant="body2" color="text.secondary">
-              {client.completedSessions} зустрічей
+              {client.completedSessions} {client.completedSessions === 1 ? "зустріч" : client.completedSessions > 1 && client.completedSessions < 5 ? "зустрічі" : "зустрічей"}
             </Typography>
           </Box>
         </Box>

@@ -34,7 +34,7 @@ class SessionService {
               $dateFromString: {
                 dateString: '$expirationDate',
                 format: '%d.%m.%Y',
-                onError: new Date(0),    // на випадок некоректного рядка
+                onError: new Date(0),
                 onNull:  new Date(0),
               },
             },
@@ -123,6 +123,30 @@ class SessionService {
     await mailService.sendInfoAboutSessionMove(session, oldWhenLine);
 
     return { message: "Сеанс перенесено" };
+  }
+
+  async changeStatus(status, id) {
+    const session = await SessionModel.findById(id).populate({ path: 'user' }).populate({ path: 'specialist', populate: { path: 'user' } });
+
+    const now = dayjs().format('DD.MM.YYYY HH:mm');
+    if (!session) throw ApiError.BadRequest('Невалідна сесія');
+    if (session.status !== "scheduled") throw ApiError.BadRequest("Неможливо завершити завершену сесію");
+
+    if (status === "completed") {
+      const sceduledDateIn50Minutes = dayjs.utc(session.scheduledAt).add(50, 'm').format('DD.MM.YYYY HH:mm');
+
+      if (now < sceduledDateIn50Minutes) throw ApiError.BadRequest("Неможливо завершити сеанс до його закінчення");
+    } else if (status === "no-show") {
+      const sceduledDateIn15Minutes = dayjs.utc(session.scheduledAt).add(15, 'm').format('DD.MM.YYYY HH:mm');
+
+      if (now < sceduledDateIn15Minutes) throw ApiError.BadRequest("Ви можете відмітити, що клієнт не з'явився лише через 15хв після початку");
+    } else throw ApiError.BadRequest("Невалідний статус");
+
+    session.status = status;
+
+    await session.save();
+
+    return { message: "Сеанс завершено" };
   }
 }
 
