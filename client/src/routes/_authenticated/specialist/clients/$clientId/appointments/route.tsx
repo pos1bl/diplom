@@ -1,7 +1,20 @@
-import { createFileRoute, Outlet } from '@tanstack/react-router'
+import { AppointmentsPage } from '@pages/specialist/AppointmentsPage';
+import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_authenticated/specialist/clients/$clientId/appointments')(
   {
-    component: Outlet,
+    component: AppointmentsPage,
+    loader: async ({ params, context, location }) => {
+      const { sessionStore, authStore } = context.stores;
+      const { search } = location;
+
+      const sessions = await sessionStore.fetchSessions(
+        authStore.user.role,
+        {
+          ...search,
+          clientId: params.clientId
+        }
+      )
+    },
   },
 )

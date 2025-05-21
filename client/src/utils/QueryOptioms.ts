@@ -1,5 +1,6 @@
 import { Role } from "@models/IUser";
 import SessionsService from "@services/SessionsService";
+import SpecialistService from "@services/SpecialistService";
 import UserService from "@services/UserService";
 import { keepPreviousData, queryOptions } from "@tanstack/react-query";
 
@@ -35,3 +36,10 @@ export const victimRequestQueryOptions = (id: string) => {
   });
 };
 
+export const userInfoQueryOptions = (id: string) => {
+  return queryOptions({
+    queryKey: ['clients', id],
+    queryFn: () => SpecialistService.fetchUserInfo(id),
+    placeholderData: keepPreviousData
+  });
+};

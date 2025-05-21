@@ -130,7 +130,7 @@ class UserController {
   async createSession(req, res, next) {
     try {
       const { payload } = req.body;
-      const successMsg = await sessionService.createSession({ ...payload, user: req.user, isVictim: req.user.isVictim });
+      const successMsg = await sessionService.createSession({ ...payload, user: req.user.id, isVictim: req.user.isVictim });
 
       return res.json(successMsg);
     } catch (e) {

@@ -18,7 +18,7 @@ dayjs.extend(timezone);
 dayjs.tz.setDefault("Etc/GMT");
 
 export const ControlPanel = () => {
-  const { filters, setFilters, resetFilters } = useFilters('/_authenticated/user/appointments');
+  const { filters, setFilters, resetFilters } = useFilters('/_authenticated/specialist/clients/$clientId/appointments');
   const [currentFilters, setCurrentFilters] = useState<Partial<any>>(filters);
   const debouncedFilters = useDebounce(currentFilters, 500);
 
@@ -91,17 +91,17 @@ export const ControlPanel = () => {
 
       <StyledFilter>
         <ContainedButton
-          onClick={() => {
-            if (resetFilters) {
-              setCurrentFilters({});
-              setTimeout(() => {
-                resetFilters();
-              }, 0);
-            }
-          }}
-        >
-          Очистити фільтр
-        </ContainedButton>
+        onClick={() => {
+          if (resetFilters) {
+            setCurrentFilters({});
+            setTimeout(() => {
+              resetFilters();
+            }, 0);
+          }
+        }}
+      >
+        Очистити фільтр
+      </ContainedButton>
       </StyledFilter>
     </Box>
   );

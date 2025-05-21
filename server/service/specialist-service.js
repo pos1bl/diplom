@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 import SessionModel from "../models/session-model.js";
+import UserModel from "../models/user-model.js";
 import { buildClientFilter, buildSessionFilter, SESSIONS_ROLES } from "../utils/queryHelper.js";
 
 class SpecialistService {
@@ -75,6 +76,10 @@ class SpecialistService {
     ])
 
     return docs.map(d => d.name)
+  }
+
+  async getUserInfo(id) {
+    return await UserModel.findById(id)
   }
 }
 

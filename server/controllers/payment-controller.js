@@ -8,7 +8,7 @@ class PaymentController {
     try {
       const { payload, redirectLink } = req.body;
       const { type } = req.params
-      const link = await paymentService.createPaymentLink({ ...payload, type, redirectLink, userId: req.user.id });
+      const link = await paymentService.createPaymentLink({ ...payload, type, redirectLink, user: req.user.id });
 
       return res.json({ url: link.url });
     } catch (e) {

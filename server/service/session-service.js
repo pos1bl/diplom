@@ -1,8 +1,8 @@
 import SessionModel from "../models/session-model.js";
 import mailService from "./mail-service.js";
 import paymentService from "./payment-service.js";
-import UserModel from "../models/user-model.js";
 import SpecialistModel from "../models/specialist-model.js";
+import UserModel from "../models/user-model.js";
 import GiftModel from "../models/gift-model.js";
 import ApiError from "../exceptions/api-error.js";
 import combineDateAndSlot from "../utils/compineDateAndSlot.js";
@@ -12,12 +12,17 @@ import { buildConflictCheckPipeline } from "../utils/queryHelper.js";
 
 class SessionService {
   async createSession(payload) {
-    const { selectedDate, selectedSlot, specialistId, user, giftId, priceId, isVictim, paymentIntentId } = payload;
+    const { selectedDate, selectedSlot, specialistId, user: userId, giftId, priceId, isVictim, paymentIntentId } = payload;
 
     if (!isVictim && !priceId && !giftId) throw ApiError.BadRequest('Сесія не була оплачена');
 
+    const user = await UserModel.findById(userId);
+    if (!user) throw ApiError.BadRequest('Спецаліста з таким id не знайдено');
+
     const specialist = await SpecialistModel.findById(specialistId).populate({ path: 'user', model: 'User' });
     if (!specialist) throw ApiError.BadRequest('Спецаліста з таким id не знайдено');
+
+    const sessionCreated = { user, specialist, status: 'scheduled', paymentIntentId };
 
     if (giftId) {
       const today = dayjs.utc().startOf('day').toDate();
@@ -39,19 +44,21 @@ class SessionService {
         amount: {$gte: 1} 
       });
       if (!gift) throw ApiError.BadRequest('Діючого сертифіката з таким кодом не знайдено');
-      
+
+      sessionCreated.gift = gift;
+
       gift.amount -= 1;
       await gift.save();
     }
 
-    const scheduledAt = combineDateAndSlot(selectedDate, selectedSlot);
+    sessionCreated.scheduledAt = combineDateAndSlot(selectedDate, selectedSlot);
 
-    const conflicts = await SessionModel.aggregate(buildConflictCheckPipeline(user.id, specialistId, scheduledAt));
+    const conflicts = await SessionModel.aggregate(buildConflictCheckPipeline(user.id, specialistId, sessionCreated.scheduledAt));
     if (conflicts.length) throw ApiError.BadRequest('Цей час вже недоступний для бронювання. Оберіть, будь ласка, інший');
 
-    const type = isVictim ? "free" : giftId ? "gift" : "paid";
+    sessionCreated.type = isVictim ? "free" : giftId ? "gift" : "paid";
+    const session = await SessionModel.create(sessionCreated);
 
-    const session = await SessionModel.create({ user, specialist, scheduledAt, type, status: 'scheduled', paymentIntentId, giftId });
     await mailService.sendInfoAboutSession(session);
     return { message: "Сесія успішно створена" };
   }

@@ -49,13 +49,13 @@ import { Route as AuthenticatedUserVideoCallIndexImport } from './routes/_authen
 import { Route as AuthenticatedUserAppointmentsIndexImport } from './routes/_authenticated/user/appointments/index'
 import { Route as AuthenticatedSpecialistVideoCallIndexImport } from './routes/_authenticated/specialist/video-call/index'
 import { Route as AuthenticatedSpecialistClientsIndexImport } from './routes/_authenticated/specialist/clients/index'
+import { Route as AuthenticatedSpecialistAppointmentIndexImport } from './routes/_authenticated/specialist/appointment/index'
 import { Route as AuthenticatedUserVideoCallAppointmentIdRouteImport } from './routes/_authenticated/user/video-call/$appointmentId/route'
 import { Route as AuthenticatedUserAppointmentsAppointmentIdRouteImport } from './routes/_authenticated/user/appointments/$appointmentId/route'
 import { Route as AuthenticatedSpecialistVideoCallAppointmentIdRouteImport } from './routes/_authenticated/specialist/video-call/$appointmentId/route'
+import { Route as AuthenticatedSpecialistAppointmentAppointmentIdRouteImport } from './routes/_authenticated/specialist/appointment/$appointmentId/route'
 import { Route as AuthenticatedSpecialistClientsClientIdIndexImport } from './routes/_authenticated/specialist/clients/$clientId/index'
 import { Route as AuthenticatedSpecialistClientsClientIdAppointmentsRouteImport } from './routes/_authenticated/specialist/clients/$clientId/appointments/route'
-import { Route as AuthenticatedSpecialistClientsClientIdAppointmentsIndexImport } from './routes/_authenticated/specialist/clients/$clientId/appointments/index'
-import { Route as AuthenticatedSpecialistClientsClientIdAppointmentsAppointmentIdRouteImport } from './routes/_authenticated/specialist/clients/$clientId/appointments/$appointmentId/route'
 
 // Create/Update Routes
 
@@ -308,6 +308,13 @@ const AuthenticatedSpecialistClientsIndexRoute =
     getParentRoute: () => AuthenticatedSpecialistClientsRouteRoute,
   } as any)
 
+const AuthenticatedSpecialistAppointmentIndexRoute =
+  AuthenticatedSpecialistAppointmentIndexImport.update({
+    id: '/appointment/',
+    path: '/appointment/',
+    getParentRoute: () => AuthenticatedSpecialistRouteRoute,
+  } as any)
+
 const AuthenticatedUserVideoCallAppointmentIdRouteRoute =
   AuthenticatedUserVideoCallAppointmentIdRouteImport.update({
     id: '/video-call/$appointmentId',
@@ -329,6 +336,13 @@ const AuthenticatedSpecialistVideoCallAppointmentIdRouteRoute =
     getParentRoute: () => AuthenticatedSpecialistRouteRoute,
   } as any)
 
+const AuthenticatedSpecialistAppointmentAppointmentIdRouteRoute =
+  AuthenticatedSpecialistAppointmentAppointmentIdRouteImport.update({
+    id: '/appointment/$appointmentId',
+    path: '/appointment/$appointmentId',
+    getParentRoute: () => AuthenticatedSpecialistRouteRoute,
+  } as any)
+
 const AuthenticatedSpecialistClientsClientIdIndexRoute =
   AuthenticatedSpecialistClientsClientIdIndexImport.update({
     id: '/$clientId/',
@@ -342,24 +356,6 @@ const AuthenticatedSpecialistClientsClientIdAppointmentsRouteRoute =
     path: '/$clientId/appointments',
     getParentRoute: () => AuthenticatedSpecialistClientsRouteRoute,
   } as any)
-
-const AuthenticatedSpecialistClientsClientIdAppointmentsIndexRoute =
-  AuthenticatedSpecialistClientsClientIdAppointmentsIndexImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () =>
-      AuthenticatedSpecialistClientsClientIdAppointmentsRouteRoute,
-  } as any)
-
-const AuthenticatedSpecialistClientsClientIdAppointmentsAppointmentIdRouteRoute =
-  AuthenticatedSpecialistClientsClientIdAppointmentsAppointmentIdRouteImport.update(
-    {
-      id: '/$appointmentId',
-      path: '/$appointmentId',
-      getParentRoute: () =>
-        AuthenticatedSpecialistClientsClientIdAppointmentsRouteRoute,
-    } as any,
-  )
 
 // Populate the FileRoutesByPath interface
 
@@ -603,6 +599,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DefaultSpecialistsIndexImport
       parentRoute: typeof DefaultSpecialistsRouteImport
     }
+    '/_authenticated/specialist/appointment/$appointmentId': {
+      id: '/_authenticated/specialist/appointment/$appointmentId'
+      path: '/appointment/$appointmentId'
+      fullPath: '/specialist/appointment/$appointmentId'
+      preLoaderRoute: typeof AuthenticatedSpecialistAppointmentAppointmentIdRouteImport
+      parentRoute: typeof AuthenticatedSpecialistRouteImport
+    }
     '/_authenticated/specialist/video-call/$appointmentId': {
       id: '/_authenticated/specialist/video-call/$appointmentId'
       path: '/video-call/$appointmentId'
@@ -623,6 +626,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/user/video-call/$appointmentId'
       preLoaderRoute: typeof AuthenticatedUserVideoCallAppointmentIdRouteImport
       parentRoute: typeof AuthenticatedUserRouteImport
+    }
+    '/_authenticated/specialist/appointment/': {
+      id: '/_authenticated/specialist/appointment/'
+      path: '/appointment'
+      fullPath: '/specialist/appointment'
+      preLoaderRoute: typeof AuthenticatedSpecialistAppointmentIndexImport
+      parentRoute: typeof AuthenticatedSpecialistRouteImport
     }
     '/_authenticated/specialist/clients/': {
       id: '/_authenticated/specialist/clients/'
@@ -666,20 +676,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSpecialistClientsClientIdIndexImport
       parentRoute: typeof AuthenticatedSpecialistClientsRouteImport
     }
-    '/_authenticated/specialist/clients/$clientId/appointments/$appointmentId': {
-      id: '/_authenticated/specialist/clients/$clientId/appointments/$appointmentId'
-      path: '/$appointmentId'
-      fullPath: '/specialist/clients/$clientId/appointments/$appointmentId'
-      preLoaderRoute: typeof AuthenticatedSpecialistClientsClientIdAppointmentsAppointmentIdRouteImport
-      parentRoute: typeof AuthenticatedSpecialistClientsClientIdAppointmentsRouteImport
-    }
-    '/_authenticated/specialist/clients/$clientId/appointments/': {
-      id: '/_authenticated/specialist/clients/$clientId/appointments/'
-      path: '/'
-      fullPath: '/specialist/clients/$clientId/appointments/'
-      preLoaderRoute: typeof AuthenticatedSpecialistClientsClientIdAppointmentsIndexImport
-      parentRoute: typeof AuthenticatedSpecialistClientsClientIdAppointmentsRouteImport
-    }
   }
 }
 
@@ -705,27 +701,9 @@ const AuthenticatedAdminRouteRouteWithChildren =
     AuthenticatedAdminRouteRouteChildren,
   )
 
-interface AuthenticatedSpecialistClientsClientIdAppointmentsRouteRouteChildren {
-  AuthenticatedSpecialistClientsClientIdAppointmentsAppointmentIdRouteRoute: typeof AuthenticatedSpecialistClientsClientIdAppointmentsAppointmentIdRouteRoute
-  AuthenticatedSpecialistClientsClientIdAppointmentsIndexRoute: typeof AuthenticatedSpecialistClientsClientIdAppointmentsIndexRoute
-}
-
-const AuthenticatedSpecialistClientsClientIdAppointmentsRouteRouteChildren: AuthenticatedSpecialistClientsClientIdAppointmentsRouteRouteChildren =
-  {
-    AuthenticatedSpecialistClientsClientIdAppointmentsAppointmentIdRouteRoute:
-      AuthenticatedSpecialistClientsClientIdAppointmentsAppointmentIdRouteRoute,
-    AuthenticatedSpecialistClientsClientIdAppointmentsIndexRoute:
-      AuthenticatedSpecialistClientsClientIdAppointmentsIndexRoute,
-  }
-
-const AuthenticatedSpecialistClientsClientIdAppointmentsRouteRouteWithChildren =
-  AuthenticatedSpecialistClientsClientIdAppointmentsRouteRoute._addFileChildren(
-    AuthenticatedSpecialistClientsClientIdAppointmentsRouteRouteChildren,
-  )
-
 interface AuthenticatedSpecialistClientsRouteRouteChildren {
   AuthenticatedSpecialistClientsIndexRoute: typeof AuthenticatedSpecialistClientsIndexRoute
-  AuthenticatedSpecialistClientsClientIdAppointmentsRouteRoute: typeof AuthenticatedSpecialistClientsClientIdAppointmentsRouteRouteWithChildren
+  AuthenticatedSpecialistClientsClientIdAppointmentsRouteRoute: typeof AuthenticatedSpecialistClientsClientIdAppointmentsRouteRoute
   AuthenticatedSpecialistClientsClientIdIndexRoute: typeof AuthenticatedSpecialistClientsClientIdIndexRoute
 }
 
@@ -734,7 +712,7 @@ const AuthenticatedSpecialistClientsRouteRouteChildren: AuthenticatedSpecialistC
     AuthenticatedSpecialistClientsIndexRoute:
       AuthenticatedSpecialistClientsIndexRoute,
     AuthenticatedSpecialistClientsClientIdAppointmentsRouteRoute:
-      AuthenticatedSpecialistClientsClientIdAppointmentsRouteRouteWithChildren,
+      AuthenticatedSpecialistClientsClientIdAppointmentsRouteRoute,
     AuthenticatedSpecialistClientsClientIdIndexRoute:
       AuthenticatedSpecialistClientsClientIdIndexRoute,
   }
@@ -752,7 +730,9 @@ interface AuthenticatedSpecialistRouteRouteChildren {
   AuthenticatedSpecialistUnavailabilitiesRouteRoute: typeof AuthenticatedSpecialistUnavailabilitiesRouteRoute
   AuthenticatedSpecialistWeekAppointmentsRouteRoute: typeof AuthenticatedSpecialistWeekAppointmentsRouteRoute
   AuthenticatedSpecialistIndexRoute: typeof AuthenticatedSpecialistIndexRoute
+  AuthenticatedSpecialistAppointmentAppointmentIdRouteRoute: typeof AuthenticatedSpecialistAppointmentAppointmentIdRouteRoute
   AuthenticatedSpecialistVideoCallAppointmentIdRouteRoute: typeof AuthenticatedSpecialistVideoCallAppointmentIdRouteRoute
+  AuthenticatedSpecialistAppointmentIndexRoute: typeof AuthenticatedSpecialistAppointmentIndexRoute
   AuthenticatedSpecialistVideoCallIndexRoute: typeof AuthenticatedSpecialistVideoCallIndexRoute
 }
 
@@ -771,8 +751,12 @@ const AuthenticatedSpecialistRouteRouteChildren: AuthenticatedSpecialistRouteRou
     AuthenticatedSpecialistWeekAppointmentsRouteRoute:
       AuthenticatedSpecialistWeekAppointmentsRouteRoute,
     AuthenticatedSpecialistIndexRoute: AuthenticatedSpecialistIndexRoute,
+    AuthenticatedSpecialistAppointmentAppointmentIdRouteRoute:
+      AuthenticatedSpecialistAppointmentAppointmentIdRouteRoute,
     AuthenticatedSpecialistVideoCallAppointmentIdRouteRoute:
       AuthenticatedSpecialistVideoCallAppointmentIdRouteRoute,
+    AuthenticatedSpecialistAppointmentIndexRoute:
+      AuthenticatedSpecialistAppointmentIndexRoute,
     AuthenticatedSpecialistVideoCallIndexRoute:
       AuthenticatedSpecialistVideoCallIndexRoute,
   }
@@ -936,17 +920,17 @@ export interface FileRoutesByFullPath {
   '/user/': typeof AuthenticatedUserIndexRoute
   '/gifts/': typeof DefaultGiftsIndexRoute
   '/specialists/': typeof DefaultSpecialistsIndexRoute
+  '/specialist/appointment/$appointmentId': typeof AuthenticatedSpecialistAppointmentAppointmentIdRouteRoute
   '/specialist/video-call/$appointmentId': typeof AuthenticatedSpecialistVideoCallAppointmentIdRouteRoute
   '/user/appointments/$appointmentId': typeof AuthenticatedUserAppointmentsAppointmentIdRouteRoute
   '/user/video-call/$appointmentId': typeof AuthenticatedUserVideoCallAppointmentIdRouteRoute
+  '/specialist/appointment': typeof AuthenticatedSpecialistAppointmentIndexRoute
   '/specialist/clients/': typeof AuthenticatedSpecialistClientsIndexRoute
   '/specialist/video-call': typeof AuthenticatedSpecialistVideoCallIndexRoute
   '/user/appointments/': typeof AuthenticatedUserAppointmentsIndexRoute
   '/user/video-call': typeof AuthenticatedUserVideoCallIndexRoute
-  '/specialist/clients/$clientId/appointments': typeof AuthenticatedSpecialistClientsClientIdAppointmentsRouteRouteWithChildren
+  '/specialist/clients/$clientId/appointments': typeof AuthenticatedSpecialistClientsClientIdAppointmentsRouteRoute
   '/specialist/clients/$clientId': typeof AuthenticatedSpecialistClientsClientIdIndexRoute
-  '/specialist/clients/$clientId/appointments/$appointmentId': typeof AuthenticatedSpecialistClientsClientIdAppointmentsAppointmentIdRouteRoute
-  '/specialist/clients/$clientId/appointments/': typeof AuthenticatedSpecialistClientsClientIdAppointmentsIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -976,16 +960,17 @@ export interface FileRoutesByTo {
   '/user': typeof AuthenticatedUserIndexRoute
   '/gifts': typeof DefaultGiftsIndexRoute
   '/specialists': typeof DefaultSpecialistsIndexRoute
+  '/specialist/appointment/$appointmentId': typeof AuthenticatedSpecialistAppointmentAppointmentIdRouteRoute
   '/specialist/video-call/$appointmentId': typeof AuthenticatedSpecialistVideoCallAppointmentIdRouteRoute
   '/user/appointments/$appointmentId': typeof AuthenticatedUserAppointmentsAppointmentIdRouteRoute
   '/user/video-call/$appointmentId': typeof AuthenticatedUserVideoCallAppointmentIdRouteRoute
+  '/specialist/appointment': typeof AuthenticatedSpecialistAppointmentIndexRoute
   '/specialist/clients': typeof AuthenticatedSpecialistClientsIndexRoute
   '/specialist/video-call': typeof AuthenticatedSpecialistVideoCallIndexRoute
   '/user/appointments': typeof AuthenticatedUserAppointmentsIndexRoute
   '/user/video-call': typeof AuthenticatedUserVideoCallIndexRoute
+  '/specialist/clients/$clientId/appointments': typeof AuthenticatedSpecialistClientsClientIdAppointmentsRouteRoute
   '/specialist/clients/$clientId': typeof AuthenticatedSpecialistClientsClientIdIndexRoute
-  '/specialist/clients/$clientId/appointments/$appointmentId': typeof AuthenticatedSpecialistClientsClientIdAppointmentsAppointmentIdRouteRoute
-  '/specialist/clients/$clientId/appointments': typeof AuthenticatedSpecialistClientsClientIdAppointmentsIndexRoute
 }
 
 export interface FileRoutesById {
@@ -1024,17 +1009,17 @@ export interface FileRoutesById {
   '/_authenticated/user/': typeof AuthenticatedUserIndexRoute
   '/_default/gifts/': typeof DefaultGiftsIndexRoute
   '/_default/specialists/': typeof DefaultSpecialistsIndexRoute
+  '/_authenticated/specialist/appointment/$appointmentId': typeof AuthenticatedSpecialistAppointmentAppointmentIdRouteRoute
   '/_authenticated/specialist/video-call/$appointmentId': typeof AuthenticatedSpecialistVideoCallAppointmentIdRouteRoute
   '/_authenticated/user/appointments/$appointmentId': typeof AuthenticatedUserAppointmentsAppointmentIdRouteRoute
   '/_authenticated/user/video-call/$appointmentId': typeof AuthenticatedUserVideoCallAppointmentIdRouteRoute
+  '/_authenticated/specialist/appointment/': typeof AuthenticatedSpecialistAppointmentIndexRoute
   '/_authenticated/specialist/clients/': typeof AuthenticatedSpecialistClientsIndexRoute
   '/_authenticated/specialist/video-call/': typeof AuthenticatedSpecialistVideoCallIndexRoute
   '/_authenticated/user/appointments/': typeof AuthenticatedUserAppointmentsIndexRoute
   '/_authenticated/user/video-call/': typeof AuthenticatedUserVideoCallIndexRoute
-  '/_authenticated/specialist/clients/$clientId/appointments': typeof AuthenticatedSpecialistClientsClientIdAppointmentsRouteRouteWithChildren
+  '/_authenticated/specialist/clients/$clientId/appointments': typeof AuthenticatedSpecialistClientsClientIdAppointmentsRouteRoute
   '/_authenticated/specialist/clients/$clientId/': typeof AuthenticatedSpecialistClientsClientIdIndexRoute
-  '/_authenticated/specialist/clients/$clientId/appointments/$appointmentId': typeof AuthenticatedSpecialistClientsClientIdAppointmentsAppointmentIdRouteRoute
-  '/_authenticated/specialist/clients/$clientId/appointments/': typeof AuthenticatedSpecialistClientsClientIdAppointmentsIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -1073,17 +1058,17 @@ export interface FileRouteTypes {
     | '/user/'
     | '/gifts/'
     | '/specialists/'
+    | '/specialist/appointment/$appointmentId'
     | '/specialist/video-call/$appointmentId'
     | '/user/appointments/$appointmentId'
     | '/user/video-call/$appointmentId'
+    | '/specialist/appointment'
     | '/specialist/clients/'
     | '/specialist/video-call'
     | '/user/appointments/'
     | '/user/video-call'
     | '/specialist/clients/$clientId/appointments'
     | '/specialist/clients/$clientId'
-    | '/specialist/clients/$clientId/appointments/$appointmentId'
-    | '/specialist/clients/$clientId/appointments/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -1112,16 +1097,17 @@ export interface FileRouteTypes {
     | '/user'
     | '/gifts'
     | '/specialists'
+    | '/specialist/appointment/$appointmentId'
     | '/specialist/video-call/$appointmentId'
     | '/user/appointments/$appointmentId'
     | '/user/video-call/$appointmentId'
+    | '/specialist/appointment'
     | '/specialist/clients'
     | '/specialist/video-call'
     | '/user/appointments'
     | '/user/video-call'
-    | '/specialist/clients/$clientId'
-    | '/specialist/clients/$clientId/appointments/$appointmentId'
     | '/specialist/clients/$clientId/appointments'
+    | '/specialist/clients/$clientId'
   id:
     | '__root__'
     | '/'
@@ -1158,17 +1144,17 @@ export interface FileRouteTypes {
     | '/_authenticated/user/'
     | '/_default/gifts/'
     | '/_default/specialists/'
+    | '/_authenticated/specialist/appointment/$appointmentId'
     | '/_authenticated/specialist/video-call/$appointmentId'
     | '/_authenticated/user/appointments/$appointmentId'
     | '/_authenticated/user/video-call/$appointmentId'
+    | '/_authenticated/specialist/appointment/'
     | '/_authenticated/specialist/clients/'
     | '/_authenticated/specialist/video-call/'
     | '/_authenticated/user/appointments/'
     | '/_authenticated/user/video-call/'
     | '/_authenticated/specialist/clients/$clientId/appointments'
     | '/_authenticated/specialist/clients/$clientId/'
-    | '/_authenticated/specialist/clients/$clientId/appointments/$appointmentId'
-    | '/_authenticated/specialist/clients/$clientId/appointments/'
   fileRoutesById: FileRoutesById
 }
 
@@ -1248,7 +1234,9 @@ export const routeTree = rootRoute
         "/_authenticated/specialist/unavailabilities",
         "/_authenticated/specialist/week-appointments",
         "/_authenticated/specialist/",
+        "/_authenticated/specialist/appointment/$appointmentId",
         "/_authenticated/specialist/video-call/$appointmentId",
+        "/_authenticated/specialist/appointment/",
         "/_authenticated/specialist/video-call/"
       ]
     },
@@ -1391,6 +1379,10 @@ export const routeTree = rootRoute
       "filePath": "_default/specialists/index.tsx",
       "parent": "/_default/specialists"
     },
+    "/_authenticated/specialist/appointment/$appointmentId": {
+      "filePath": "_authenticated/specialist/appointment/$appointmentId/route.tsx",
+      "parent": "/_authenticated/specialist"
+    },
     "/_authenticated/specialist/video-call/$appointmentId": {
       "filePath": "_authenticated/specialist/video-call/$appointmentId/route.tsx",
       "parent": "/_authenticated/specialist"
@@ -1402,6 +1394,10 @@ export const routeTree = rootRoute
     "/_authenticated/user/video-call/$appointmentId": {
       "filePath": "_authenticated/user/video-call/$appointmentId/route.tsx",
       "parent": "/_authenticated/user"
+    },
+    "/_authenticated/specialist/appointment/": {
+      "filePath": "_authenticated/specialist/appointment/index.tsx",
+      "parent": "/_authenticated/specialist"
     },
     "/_authenticated/specialist/clients/": {
       "filePath": "_authenticated/specialist/clients/index.tsx",
@@ -1421,23 +1417,11 @@ export const routeTree = rootRoute
     },
     "/_authenticated/specialist/clients/$clientId/appointments": {
       "filePath": "_authenticated/specialist/clients/$clientId/appointments/route.tsx",
-      "parent": "/_authenticated/specialist/clients",
-      "children": [
-        "/_authenticated/specialist/clients/$clientId/appointments/$appointmentId",
-        "/_authenticated/specialist/clients/$clientId/appointments/"
-      ]
+      "parent": "/_authenticated/specialist/clients"
     },
     "/_authenticated/specialist/clients/$clientId/": {
       "filePath": "_authenticated/specialist/clients/$clientId/index.tsx",
       "parent": "/_authenticated/specialist/clients"
-    },
-    "/_authenticated/specialist/clients/$clientId/appointments/$appointmentId": {
-      "filePath": "_authenticated/specialist/clients/$clientId/appointments/$appointmentId/route.tsx",
-      "parent": "/_authenticated/specialist/clients/$clientId/appointments"
-    },
-    "/_authenticated/specialist/clients/$clientId/appointments/": {
-      "filePath": "_authenticated/specialist/clients/$clientId/appointments/index.tsx",
-      "parent": "/_authenticated/specialist/clients/$clientId/appointments"
     }
   }
 }

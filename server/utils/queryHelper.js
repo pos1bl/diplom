@@ -15,6 +15,10 @@ export const buildSessionFilter = ({ roleField, id, query }) => {
     filter.status = query.status;
   }
 
+  if (query.clientId) {
+    filter.user = query.clientId
+  }
+
   return { filter };
 }
 
@@ -35,7 +39,7 @@ export const buildClientFilter = ({ id, query }) => {
     }
   }
 
-  const options = { sort: { scheduledAt: 1 } };
+  const options = { sort: { name: -1 } };
   if (query.limit) options.limit = parseInt(query.limit, 10);
   if (query.skip) options.skip = parseInt(query.skip, 10);
   if (query.sortBy) options.sort = { [query.sortBy]: query.order === 'asc' ? 1 : -1 };

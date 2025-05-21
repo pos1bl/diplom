@@ -1,4 +1,4 @@
-import { Router, raw } from 'express';
+import { Router } from 'express';
 import { body } from 'express-validator';
 import userController from '../controllers/user-controller.js';
 import authMiddleware from '../middlewares/auth-middleware.js';
@@ -58,5 +58,6 @@ router.get('/gift', giftController.fetchGift);
 
 router.get('/clients', authMiddleware, specMiddleware, specialistController.getClients);
 router.get('/clients/names', authMiddleware, specMiddleware, specialistController.getClientNames);
+router.get('/clients/:id', authMiddleware, specMiddleware, specialistController.getUserInfo);
 
 export default router;

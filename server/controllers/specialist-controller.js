@@ -26,6 +26,15 @@ class SpecialistController {
     } catch (e) {
       next(e);
     }
+  }
+  
+  async getUserInfo(req, res, next) {
+    try {
+      const userInfo = await specialistService.getUserInfo(req.params.id);
+      return res.json(userInfo);
+    } catch (e) {
+      next(e);
+    }
   }  
 }
 

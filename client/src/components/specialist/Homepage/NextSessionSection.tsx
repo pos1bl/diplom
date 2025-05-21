@@ -36,14 +36,14 @@ export const NextSessionSection: React.FC<Props> = ({ session }) => {
       >
         <CardContent sx={{ display: 'flex', alignItems: 'center', p: 3 }}>
           <Avatar
-            sx={{ width: 160, height: 160, mr: 3 }}
+            sx={{ width: 160, height: 160, mr: 3, fontSize: '4rem', }}
           >
             {name.charAt(0)}
           </Avatar>
 
           <Box sx={{ flexGrow: 1 }}>
             <AvatarName sx={{ mb: 0.2 }}>
-              name
+              {name}
             </AvatarName>
 
             <Typography
@@ -66,13 +66,13 @@ export const NextSessionSection: React.FC<Props> = ({ session }) => {
           </Box>
         </CardContent>
         
-          <Link 
-            to={`/specialist/appointments/${session._id}` as '/specialist/appointments/$appointmentId'}
-            params={{ appointmentId: session._id }}
-            style={{ alignSelf: "flex-end", width: "50%" }}
-          >
-            <ContainedButton sx={{ width: "100%" }}>Деталі</ContainedButton>
-          </Link>
+        <Link 
+          to={`/specialist/appointment/${session._id}` as '/specialist/appointment/$appointmentId'}
+          params={{ appointmentId: session._id }}
+          style={{ alignSelf: "flex-end", width: "50%" }}
+        >
+          <ContainedButton sx={{ width: "100%" }}>Деталі</ContainedButton>
+        </Link>
       </Card>
     </Box>
   )

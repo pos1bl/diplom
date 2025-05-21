@@ -1,4 +1,4 @@
-import { Box, Card, Chip, styled } from "@mui/material";
+import { Box, Card, styled } from "@mui/material";
 
 export const StyledCard = styled(Card)({
   display: 'flex',
@@ -11,5 +11,7 @@ export const StyledCard = styled(Card)({
 
 export const StyledFilter = styled(Box)({
   display: 'flex',
-  padding: '0.75em 0.75em'
+  flex: '0 0 auto',
+  alignSelf: "start",
+  padding: '0.75em 0.75em',
 })

@@ -3,7 +3,7 @@ import { SpecialistMain } from '@components/default/Specialist/SpecialistMain';
 import { Container, Box, Breadcrumbs } from '@mui/material'
 import { Route } from '@routes/_default/specialists/$specialistId/route'
 import { Link, useParams } from '@tanstack/react-router';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { useQuery } from '@tanstack/react-query';
 import { specialistQueryOptions } from '@utils/QueryOptioms';
 import { useAuthStore } from '@hooks/useStore';
@@ -32,7 +32,7 @@ export const SpecialistPage = () => {
           to="/specialists"
         >
           <Box display="flex" alignItems="center" sx={{ fontSize: 18 }} >
-            <ChevronRightIcon />
+            <ChevronLeftIcon />
             Фахівці Платформи / {employeeInfo.name}
           </Box>
         </Link>
