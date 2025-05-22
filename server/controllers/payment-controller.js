@@ -26,6 +26,16 @@ class PaymentController {
     }
   }
 
+  async refundBySpecialist(req, res, next) {
+    try {
+      const { id } = req.params;
+      const message = await sessionService.refundBySpecialist(id);
+      return res.json({ message });
+    } catch (e) {
+      next(e);
+    }
+  }
+
   async handleWebhook(req, res, next) {
     const sig = req.headers['stripe-signature'];
     

@@ -42,6 +42,7 @@ router.post('/add_specialist', authMiddleware, upload.single('avatar'), adminCon
 router.post('/verify_victim', authMiddleware, adminController.verifyVictim);
 router.post('/send_victim_request', authMiddleware, upload.single('file'), userController.sendVictimRequest);
 router.post('/user/refund/:id', authMiddleware, paymentController.refund);
+router.post('/specialist/refund/:id', authMiddleware, paymentController.refundBySpecialist);
 router.post('/cancel/:id', authMiddleware, userController.cancel);
 router.post('/move/:id', authMiddleware, userController.move);
 

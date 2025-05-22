@@ -86,6 +86,29 @@ class SessionService {
     return { message: "Запит на повернення коштів успішно створено" };
   }
 
+  async refundBySpecialist(id) {
+    const session = await SessionModel.findById(id).populate({ path: 'user' }).populate({ path: 'specialist', populate: { path: 'user' } });
+    if (!session) throw ApiError.BadRequest('Невалідна сесія');
+
+    const isRefund = session.type === "paid";
+
+    if (session.status !== "scheduled") throw ApiError.BadRequest("Неможливо скасувати завершену сесію");
+
+    session.status = isRefund ? "cancelled with refund" : "cancelled";
+
+    await session.save();
+    await cancelSessionReminder(id)
+
+    if (isRefund) {
+      await paymentService.refund(session.paymentIntentId);
+      await mailService.sendInfoAboutRefund(session);
+    } else {
+      await mailService.sendInfoAboutCancel(session);
+    }
+    
+    return { message: "Сесія скасована" };
+  }
+
   async cancel(id) {
     const session = await SessionModel.findById(id).populate({ path: 'user' }).populate({ path: 'specialist', populate: { path: 'user' } });
     if (!session) throw ApiError.BadRequest('Невалідна сесія');
