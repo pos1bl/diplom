@@ -9,7 +9,7 @@ import { StyledFilter } from "@components/styled/user/appointemts";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import { DEFAULT_SELECT } from "@utils/Filters";
+import { DEFAULT_DATE, DEFAULT_SELECT } from "@utils/Filters";
 import { getMultiselectStyles } from "@utils/mui-styles";
 import { SESSION_STATUSES } from "@models/ISession";
 import { ContainedButton } from "@components/shared/ContainedButton";
@@ -43,7 +43,7 @@ export const ControlPanel = () => {
       <StyledFilter>
         <DatePicker
           label="Початкова дата"
-          value={currentFilters.startDate ? dayjs.utc(currentFilters.startDate).startOf('day') : null}
+          value={currentFilters.startDate ? dayjs.utc(currentFilters.startDate).startOf('day') : DEFAULT_DATE}
           onChange={(newValue) => handleDateChange("startDate", newValue)}
         />
       </StyledFilter>
@@ -51,7 +51,7 @@ export const ControlPanel = () => {
       <StyledFilter>
         <DatePicker
           label="Кінцева дата"
-          value={currentFilters.endDate ? dayjs.utc(currentFilters.endDate).endOf('day') : null}
+          value={currentFilters.endDate ? dayjs.utc(currentFilters.endDate).endOf('day') : DEFAULT_DATE}
           onChange={(newValue) => handleDateChange("endDate", newValue)}
         />
       </StyledFilter>

@@ -37,12 +37,11 @@ import { Route as AuthenticatedUserSupportRouteImport } from './routes/_authenti
 import { Route as AuthenticatedUserSettingsRouteImport } from './routes/_authenticated/user/settings/route'
 import { Route as AuthenticatedUserPaymentSuccessRouteImport } from './routes/_authenticated/user/payment-success/route'
 import { Route as AuthenticatedUserAppointmentsRouteImport } from './routes/_authenticated/user/appointments/route'
-import { Route as AuthenticatedSpecialistWeekAppointmentsRouteImport } from './routes/_authenticated/specialist/week-appointments/route'
 import { Route as AuthenticatedSpecialistUnavailabilitiesRouteImport } from './routes/_authenticated/specialist/unavailabilities/route'
 import { Route as AuthenticatedSpecialistSettingsRouteImport } from './routes/_authenticated/specialist/settings/route'
 import { Route as AuthenticatedSpecialistEducationRouteImport } from './routes/_authenticated/specialist/education/route'
 import { Route as AuthenticatedSpecialistClientsRouteImport } from './routes/_authenticated/specialist/clients/route'
-import { Route as AuthenticatedSpecialistAnalyticsRouteImport } from './routes/_authenticated/specialist/analytics/route'
+import { Route as AuthenticatedSpecialistCalendarRouteImport } from './routes/_authenticated/specialist/calendar/route'
 import { Route as AuthenticatedAdminVerifyVictimRouteImport } from './routes/_authenticated/admin/verify-victim/route'
 import { Route as AuthenticatedAdminAddSpecialistRouteImport } from './routes/_authenticated/admin/add-specialist/route'
 import { Route as AuthenticatedUserVideoCallIndexImport } from './routes/_authenticated/user/video-call/index'
@@ -224,13 +223,6 @@ const AuthenticatedUserAppointmentsRouteRoute =
     getParentRoute: () => AuthenticatedUserRouteRoute,
   } as any)
 
-const AuthenticatedSpecialistWeekAppointmentsRouteRoute =
-  AuthenticatedSpecialistWeekAppointmentsRouteImport.update({
-    id: '/week-appointments',
-    path: '/week-appointments',
-    getParentRoute: () => AuthenticatedSpecialistRouteRoute,
-  } as any)
-
 const AuthenticatedSpecialistUnavailabilitiesRouteRoute =
   AuthenticatedSpecialistUnavailabilitiesRouteImport.update({
     id: '/unavailabilities',
@@ -259,10 +251,10 @@ const AuthenticatedSpecialistClientsRouteRoute =
     getParentRoute: () => AuthenticatedSpecialistRouteRoute,
   } as any)
 
-const AuthenticatedSpecialistAnalyticsRouteRoute =
-  AuthenticatedSpecialistAnalyticsRouteImport.update({
-    id: '/analytics',
-    path: '/analytics',
+const AuthenticatedSpecialistCalendarRouteRoute =
+  AuthenticatedSpecialistCalendarRouteImport.update({
+    id: '/calendar',
+    path: '/calendar',
     getParentRoute: () => AuthenticatedSpecialistRouteRoute,
   } as any)
 
@@ -473,11 +465,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminVerifyVictimRouteImport
       parentRoute: typeof AuthenticatedAdminRouteImport
     }
-    '/_authenticated/specialist/analytics': {
-      id: '/_authenticated/specialist/analytics'
-      path: '/analytics'
-      fullPath: '/specialist/analytics'
-      preLoaderRoute: typeof AuthenticatedSpecialistAnalyticsRouteImport
+    '/_authenticated/specialist/calendar': {
+      id: '/_authenticated/specialist/calendar'
+      path: '/calendar'
+      fullPath: '/specialist/calendar'
+      preLoaderRoute: typeof AuthenticatedSpecialistCalendarRouteImport
       parentRoute: typeof AuthenticatedSpecialistRouteImport
     }
     '/_authenticated/specialist/clients': {
@@ -506,13 +498,6 @@ declare module '@tanstack/react-router' {
       path: '/unavailabilities'
       fullPath: '/specialist/unavailabilities'
       preLoaderRoute: typeof AuthenticatedSpecialistUnavailabilitiesRouteImport
-      parentRoute: typeof AuthenticatedSpecialistRouteImport
-    }
-    '/_authenticated/specialist/week-appointments': {
-      id: '/_authenticated/specialist/week-appointments'
-      path: '/week-appointments'
-      fullPath: '/specialist/week-appointments'
-      preLoaderRoute: typeof AuthenticatedSpecialistWeekAppointmentsRouteImport
       parentRoute: typeof AuthenticatedSpecialistRouteImport
     }
     '/_authenticated/user/appointments': {
@@ -723,12 +708,11 @@ const AuthenticatedSpecialistClientsRouteRouteWithChildren =
   )
 
 interface AuthenticatedSpecialistRouteRouteChildren {
-  AuthenticatedSpecialistAnalyticsRouteRoute: typeof AuthenticatedSpecialistAnalyticsRouteRoute
+  AuthenticatedSpecialistCalendarRouteRoute: typeof AuthenticatedSpecialistCalendarRouteRoute
   AuthenticatedSpecialistClientsRouteRoute: typeof AuthenticatedSpecialistClientsRouteRouteWithChildren
   AuthenticatedSpecialistEducationRouteRoute: typeof AuthenticatedSpecialistEducationRouteRoute
   AuthenticatedSpecialistSettingsRouteRoute: typeof AuthenticatedSpecialistSettingsRouteRoute
   AuthenticatedSpecialistUnavailabilitiesRouteRoute: typeof AuthenticatedSpecialistUnavailabilitiesRouteRoute
-  AuthenticatedSpecialistWeekAppointmentsRouteRoute: typeof AuthenticatedSpecialistWeekAppointmentsRouteRoute
   AuthenticatedSpecialistIndexRoute: typeof AuthenticatedSpecialistIndexRoute
   AuthenticatedSpecialistAppointmentAppointmentIdRouteRoute: typeof AuthenticatedSpecialistAppointmentAppointmentIdRouteRoute
   AuthenticatedSpecialistVideoCallAppointmentIdRouteRoute: typeof AuthenticatedSpecialistVideoCallAppointmentIdRouteRoute
@@ -738,8 +722,8 @@ interface AuthenticatedSpecialistRouteRouteChildren {
 
 const AuthenticatedSpecialistRouteRouteChildren: AuthenticatedSpecialistRouteRouteChildren =
   {
-    AuthenticatedSpecialistAnalyticsRouteRoute:
-      AuthenticatedSpecialistAnalyticsRouteRoute,
+    AuthenticatedSpecialistCalendarRouteRoute:
+      AuthenticatedSpecialistCalendarRouteRoute,
     AuthenticatedSpecialistClientsRouteRoute:
       AuthenticatedSpecialistClientsRouteRouteWithChildren,
     AuthenticatedSpecialistEducationRouteRoute:
@@ -748,8 +732,6 @@ const AuthenticatedSpecialistRouteRouteChildren: AuthenticatedSpecialistRouteRou
       AuthenticatedSpecialistSettingsRouteRoute,
     AuthenticatedSpecialistUnavailabilitiesRouteRoute:
       AuthenticatedSpecialistUnavailabilitiesRouteRoute,
-    AuthenticatedSpecialistWeekAppointmentsRouteRoute:
-      AuthenticatedSpecialistWeekAppointmentsRouteRoute,
     AuthenticatedSpecialistIndexRoute: AuthenticatedSpecialistIndexRoute,
     AuthenticatedSpecialistAppointmentAppointmentIdRouteRoute:
       AuthenticatedSpecialistAppointmentAppointmentIdRouteRoute,
@@ -902,12 +884,11 @@ export interface FileRoutesByFullPath {
   '/support': typeof DefaultSupportRouteRoute
   '/admin/add-specialist': typeof AuthenticatedAdminAddSpecialistRouteRoute
   '/admin/verify-victim': typeof AuthenticatedAdminVerifyVictimRouteRoute
-  '/specialist/analytics': typeof AuthenticatedSpecialistAnalyticsRouteRoute
+  '/specialist/calendar': typeof AuthenticatedSpecialistCalendarRouteRoute
   '/specialist/clients': typeof AuthenticatedSpecialistClientsRouteRouteWithChildren
   '/specialist/education': typeof AuthenticatedSpecialistEducationRouteRoute
   '/specialist/settings': typeof AuthenticatedSpecialistSettingsRouteRoute
   '/specialist/unavailabilities': typeof AuthenticatedSpecialistUnavailabilitiesRouteRoute
-  '/specialist/week-appointments': typeof AuthenticatedSpecialistWeekAppointmentsRouteRoute
   '/user/appointments': typeof AuthenticatedUserAppointmentsRouteRouteWithChildren
   '/user/payment-success': typeof AuthenticatedUserPaymentSuccessRouteRoute
   '/user/settings': typeof AuthenticatedUserSettingsRouteRoute
@@ -944,11 +925,10 @@ export interface FileRoutesByTo {
   '/support': typeof DefaultSupportRouteRoute
   '/admin/add-specialist': typeof AuthenticatedAdminAddSpecialistRouteRoute
   '/admin/verify-victim': typeof AuthenticatedAdminVerifyVictimRouteRoute
-  '/specialist/analytics': typeof AuthenticatedSpecialistAnalyticsRouteRoute
+  '/specialist/calendar': typeof AuthenticatedSpecialistCalendarRouteRoute
   '/specialist/education': typeof AuthenticatedSpecialistEducationRouteRoute
   '/specialist/settings': typeof AuthenticatedSpecialistSettingsRouteRoute
   '/specialist/unavailabilities': typeof AuthenticatedSpecialistUnavailabilitiesRouteRoute
-  '/specialist/week-appointments': typeof AuthenticatedSpecialistWeekAppointmentsRouteRoute
   '/user/payment-success': typeof AuthenticatedUserPaymentSuccessRouteRoute
   '/user/settings': typeof AuthenticatedUserSettingsRouteRoute
   '/user/support': typeof AuthenticatedUserSupportRouteRoute
@@ -991,12 +971,11 @@ export interface FileRoutesById {
   '/_default/support': typeof DefaultSupportRouteRoute
   '/_authenticated/admin/add-specialist': typeof AuthenticatedAdminAddSpecialistRouteRoute
   '/_authenticated/admin/verify-victim': typeof AuthenticatedAdminVerifyVictimRouteRoute
-  '/_authenticated/specialist/analytics': typeof AuthenticatedSpecialistAnalyticsRouteRoute
+  '/_authenticated/specialist/calendar': typeof AuthenticatedSpecialistCalendarRouteRoute
   '/_authenticated/specialist/clients': typeof AuthenticatedSpecialistClientsRouteRouteWithChildren
   '/_authenticated/specialist/education': typeof AuthenticatedSpecialistEducationRouteRoute
   '/_authenticated/specialist/settings': typeof AuthenticatedSpecialistSettingsRouteRoute
   '/_authenticated/specialist/unavailabilities': typeof AuthenticatedSpecialistUnavailabilitiesRouteRoute
-  '/_authenticated/specialist/week-appointments': typeof AuthenticatedSpecialistWeekAppointmentsRouteRoute
   '/_authenticated/user/appointments': typeof AuthenticatedUserAppointmentsRouteRouteWithChildren
   '/_authenticated/user/payment-success': typeof AuthenticatedUserPaymentSuccessRouteRoute
   '/_authenticated/user/settings': typeof AuthenticatedUserSettingsRouteRoute
@@ -1040,12 +1019,11 @@ export interface FileRouteTypes {
     | '/support'
     | '/admin/add-specialist'
     | '/admin/verify-victim'
-    | '/specialist/analytics'
+    | '/specialist/calendar'
     | '/specialist/clients'
     | '/specialist/education'
     | '/specialist/settings'
     | '/specialist/unavailabilities'
-    | '/specialist/week-appointments'
     | '/user/appointments'
     | '/user/payment-success'
     | '/user/settings'
@@ -1081,11 +1059,10 @@ export interface FileRouteTypes {
     | '/support'
     | '/admin/add-specialist'
     | '/admin/verify-victim'
-    | '/specialist/analytics'
+    | '/specialist/calendar'
     | '/specialist/education'
     | '/specialist/settings'
     | '/specialist/unavailabilities'
-    | '/specialist/week-appointments'
     | '/user/payment-success'
     | '/user/settings'
     | '/user/support'
@@ -1126,12 +1103,11 @@ export interface FileRouteTypes {
     | '/_default/support'
     | '/_authenticated/admin/add-specialist'
     | '/_authenticated/admin/verify-victim'
-    | '/_authenticated/specialist/analytics'
+    | '/_authenticated/specialist/calendar'
     | '/_authenticated/specialist/clients'
     | '/_authenticated/specialist/education'
     | '/_authenticated/specialist/settings'
     | '/_authenticated/specialist/unavailabilities'
-    | '/_authenticated/specialist/week-appointments'
     | '/_authenticated/user/appointments'
     | '/_authenticated/user/payment-success'
     | '/_authenticated/user/settings'
@@ -1227,12 +1203,11 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/specialist/route.tsx",
       "parent": "/_authenticated",
       "children": [
-        "/_authenticated/specialist/analytics",
+        "/_authenticated/specialist/calendar",
         "/_authenticated/specialist/clients",
         "/_authenticated/specialist/education",
         "/_authenticated/specialist/settings",
         "/_authenticated/specialist/unavailabilities",
-        "/_authenticated/specialist/week-appointments",
         "/_authenticated/specialist/",
         "/_authenticated/specialist/appointment/$appointmentId",
         "/_authenticated/specialist/video-call/$appointmentId",
@@ -1298,8 +1273,8 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/admin/verify-victim/route.tsx",
       "parent": "/_authenticated/admin"
     },
-    "/_authenticated/specialist/analytics": {
-      "filePath": "_authenticated/specialist/analytics/route.tsx",
+    "/_authenticated/specialist/calendar": {
+      "filePath": "_authenticated/specialist/calendar/route.tsx",
       "parent": "/_authenticated/specialist"
     },
     "/_authenticated/specialist/clients": {
@@ -1321,10 +1296,6 @@ export const routeTree = rootRoute
     },
     "/_authenticated/specialist/unavailabilities": {
       "filePath": "_authenticated/specialist/unavailabilities/route.tsx",
-      "parent": "/_authenticated/specialist"
-    },
-    "/_authenticated/specialist/week-appointments": {
-      "filePath": "_authenticated/specialist/week-appointments/route.tsx",
       "parent": "/_authenticated/specialist"
     },
     "/_authenticated/user/appointments": {

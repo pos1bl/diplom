@@ -22,6 +22,7 @@ import { AvailabilitySlot, DayOfWeek, Gender } from '@models/ISpecialist';
 import { ISSUES_LIST, MenuProps, SPECIAL_GROUPS_LIST, THERAPY_METHODS_LIST } from '@utils/shared';
 import { ContainedButton } from '@components/shared/ContainedButton';
 import { ImageUploadField } from '@components/shared/ImageUploadField';
+import { min } from 'moment';
 
 export const AddSpecialistForm = () => {
   const theme = useTheme();

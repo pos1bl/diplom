@@ -9,7 +9,7 @@ import { StyledFilter } from "@components/styled/user/appointemts";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import { DEFAULT_SELECT } from "@utils/Filters";
+import { DEFAULT_DATE, DEFAULT_SELECT } from "@utils/Filters";
 import { getMultiselectStyles } from "@utils/mui-styles";
 import { ContainedButton } from "@components/shared/ContainedButton";
 import { useClientsStore } from "@hooks/useStore";
@@ -19,7 +19,7 @@ dayjs.tz.setDefault("Etc/GMT");
 
 export const ClientsControlPanel = () => {
   const { filters, setFilters, resetFilters } = useFilters('/_authenticated/specialist/clients');
-  const { clients, clientNames } = useClientsStore();
+  const { clientNames } = useClientsStore();
   const [currentFilters, setCurrentFilters] = useState<Partial<any>>(filters);
   const debouncedFilters = useDebounce(currentFilters, 500);
 
@@ -44,7 +44,7 @@ export const ClientsControlPanel = () => {
       <StyledFilter>
         <DatePicker
           label="Початкова дата"
-          value={currentFilters.startDate ? dayjs.utc(currentFilters.startDate).startOf('day') : null}
+          value={currentFilters.startDate ? dayjs.utc(currentFilters.startDate).startOf('day') : DEFAULT_DATE}
           onChange={(newValue) => handleDateChange("startDate", newValue)}
         />
       </StyledFilter>
@@ -52,7 +52,7 @@ export const ClientsControlPanel = () => {
       <StyledFilter>
         <DatePicker
           label="Кінцева дата"
-          value={currentFilters.endDate ? dayjs.utc(currentFilters.endDate).endOf('day') : null}
+          value={currentFilters.endDate ? dayjs.utc(currentFilters.endDate).endOf('day') : DEFAULT_DATE}
           onChange={(newValue) => handleDateChange("endDate", newValue)}
         />
       </StyledFilter>

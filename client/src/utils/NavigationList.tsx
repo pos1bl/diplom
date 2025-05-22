@@ -38,7 +38,7 @@ export const enum USER_PAGES {
 export const enum SPECIALIST_PAGES {
   HOME = '/specialist',
   CLIENTS = '/specialist/clients',
-  APPOINTMENTS_BY_WEEK = '/specialist/week-appointments',
+  CALENDAR = '/specialist/calendar',
   ANALYTICS = '/specialist/analytics',
   UNAVAILABILITIES = '/specialist/unavailabilities',
   EDUCATION = '/specialist/education',
@@ -143,7 +143,7 @@ export const SPECIALIST_NAVIGATION_LIST = [
   },
   {
     name: 'Мій розклад',
-    navigateTo: SPECIALIST_PAGES.APPOINTMENTS_BY_WEEK,
+    navigateTo: SPECIALIST_PAGES.CALENDAR,
     icon: <CalendarViewWeekIcon sx={{ color: "#AC98D1" }} />,
     availableRoles: [Role.SPECIALIST]
   },

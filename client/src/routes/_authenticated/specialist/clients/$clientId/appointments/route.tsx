@@ -8,7 +8,7 @@ export const Route = createFileRoute('/_authenticated/specialist/clients/$client
       const { sessionStore, authStore } = context.stores;
       const { search } = location;
 
-      const sessions = await sessionStore.fetchSessions(
+      await sessionStore.fetchSessions(
         authStore.user.role,
         {
           ...search,

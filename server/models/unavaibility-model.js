@@ -8,7 +8,7 @@ const UnavailabilitySchema = new Schema({
   },
   type: {
     type: String,
-    enum: ['vacation','dayOff','other'],
+    enum: ['vacation','dayOff','sick','other'],
     default: 'other',
   },
   start: { type: Date, required: true },

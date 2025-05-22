@@ -6,6 +6,7 @@ import utc from "dayjs/plugin/utc.js"
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import { BookingPanel } from "./BookingPanel";
 import { PaymentPanel } from "./PaymentPanel";
+import { DEFAULT_DATE } from "@utils/Filters";
 dayjs.extend(utc);
 dayjs.extend(localizedFormat);
 dayjs.locale('uk');
@@ -25,7 +26,7 @@ export const BookingFlow:FC<Props> = ({ availabilityByDay, specialistId }) => {
 
   const nearestDate = availabilites[0].date;
 
-  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(nearestDate || null);
+  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(nearestDate || DEFAULT_DATE);
 
   return (
     <Box

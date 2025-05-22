@@ -19,6 +19,16 @@ export const buildSessionFilter = ({ roleField, id, query }) => {
     filter.user = query.clientId
   }
 
+  if (query.startDate || query.endDate) {
+    filter.scheduledAt = {};
+    if (query.startDate) {
+      filter.scheduledAt.$gte = dayjs.utc(query.startDate).toDate();
+    }
+    if (query.endDate) {
+      filter.scheduledAt.$lte = dayjs.utc(query.endDate).endOf('day').toDate();
+    }
+  }
+
   return { filter };
 }
 
