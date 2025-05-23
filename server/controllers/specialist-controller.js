@@ -86,22 +86,35 @@ class SpecialistController {
     }
   }
 
-//   async getSpecialistIdByOwn(req, res, next) {
-//     try {
-//       return res.json(req.specialist.id);
-//     } catch (e) {
-//       next(e);
-//     }
-//   }
+  async getSpecialistByOwn(req, res, next) {
+    try {
+      return res.json(req.specialist);
+    } catch (e) {
+      next(e);
+    }
+  }
 
-//   async isOwnClient(req, res, next) {
-//     try {
-//       const isAllowed = await specialistService.isOwnClient(req.params.id, req.specialist.id);
-//       return res.json(isAllowed);
-//     } catch (e) {
-//       next(e);
-//     }
-//   } 
+  async changeBio(req, res, next) {
+    try {
+      const { bio } = req.body;
+      
+      await specialistService.changeBio(req.specialist.id, bio);
+      return res.json({ message: "Біо успішно змінене" });
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async changeMultiselect(req, res, next) {
+    try {
+      const { name, value } = req.body;
+      
+      await specialistService.changeMultiselect(req.specialist.id, name, value);
+      return res.json({ message: `${name} успішно змінені` });
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 export default new SpecialistController();

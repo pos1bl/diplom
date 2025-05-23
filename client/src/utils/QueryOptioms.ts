@@ -51,3 +51,11 @@ export const educationDataQueryOptions = () => {
     placeholderData: keepPreviousData
   })
 }
+
+export const specialistOwnInfoQueryOptions = () => {
+  return queryOptions({
+    queryKey: ['specialist'],
+    queryFn: () => SpecialistService.fetchSpecialist(),
+    placeholderData: keepPreviousData
+  });
+};

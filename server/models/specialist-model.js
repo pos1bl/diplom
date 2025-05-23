@@ -22,15 +22,15 @@ const SpecialistSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true, unique: true },
 
   dateOfBirth:          { type: Date, required: true },
+  dateOfStart:          { type: Date, required: true },
   gender:               { type: String, enum: ['male','female'], required: true },
   bio:                  { type: String, default: '' },
   isFired:              { type: Boolean, default: false },
 
-  yearsOfExperience:    { type: Number, default: 0 },
-  mainAreas:            { type: [String], default: [] },
+  mainAreas:            { type: [String], required: true },
   secondaryAreas:       { type: [String], default: [] },
   excludedAreas:        { type: [String], default: [] },
-  methods:              { type: [String], default: [] },
+  methods:              { type: [String], required: true },
   specialNeeds:         { type: [String], default: [] },
 
   availability:         { type: [AvailabilitySlotSchema], default: [] },

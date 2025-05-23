@@ -4,21 +4,25 @@ import {
 } from '@mui/material';
 import { useForm } from '@tanstack/react-form';
 import { OutlinedButton } from '@components/shared/OutlinedButton';
-import UserService from '@services/UserService';
-import { useAuthStore } from '@hooks/useStore';
+import { useQuery } from '@tanstack/react-query';
+import { specialistOwnInfoQueryOptions } from '@utils/QueryOptioms';
+import { Loader } from '@components/shared/Loader';
+import SpecialistService from '@services/SpecialistService';
 
-export const NameChangeForm = () => {
-  const {updateUserInfo, user } = useAuthStore();
+export const BioChangeForm = () => {
+  const { data, isLoading, refetch } = useQuery(specialistOwnInfoQueryOptions())
   const { Field, Subscribe, handleSubmit, reset } = useForm({
     defaultValues: {
-      name: '',
+      bio: data?.bio || '',
     },
     onSubmit: async ({ value }) => {
-      await UserService.changeName(value.name);
-      await updateUserInfo();
+      await SpecialistService.changeBio(value.bio);
+      await refetch();
       reset();
     }
   });
+
+  if (isLoading) return (<Loader />)
 
   return (
     <form onSubmit={(e) => {
@@ -26,19 +30,14 @@ export const NameChangeForm = () => {
       handleSubmit();
     }}>
       <Box display="flex" flexDirection="column" gap={3}>
-        <TextField
-          disabled
-          label="Поточне ім'я"
-          fullWidth
-          value={user.name}
-        />
         <Field
-          name="name"
-          validators={{ onChange: ({ value }) => !value && 'Ім’я обов’язкове' }}
+          name="bio"
+          validators={{ onChange: ({ value }) => value?.trim() === (data?.bio?.trim() ?? '') && "Нове біо ніяк не відрізняється від попереднього."}}
         >
           {(field) => (
             <TextField
-              label="Нове ім'я"
+              multiline
+              label="Ваше біо"
               fullWidth
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}

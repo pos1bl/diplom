@@ -38,6 +38,7 @@ export const SpecialistCard: FC<Props> = ({ specialist }) => {
   const [expanded, setExpanded] = useState(false);
 
   const age = calculateAge(specialist.dateOfBirth);
+  const yearsOfExperience = calculateAge(specialist.dateOfStart);
 
   return (
     <Card sx={{ px: { md: 7 }, py: { md: 2 }, borderRadius: 2, boxShadow: 3 }}>
@@ -56,7 +57,7 @@ export const SpecialistCard: FC<Props> = ({ specialist }) => {
 
           <Box mb={2} display="flex" justifyContent="center" gap={1}>
             <Chip sx={{ fontSize: 16, padding: 2, backgroundColor: "#AC98D1", color: "#fff", fontWeight: 600 }} label={`Вік: ${age}`} size="small" />
-            <Chip sx={{ fontSize: 16, padding: 2, backgroundColor: "#AC98D1", color: "#fff", fontWeight: 600 }} label={`Досвід: ${specialist.yearsOfExperience}`} size="small" />
+            <Chip sx={{ fontSize: 16, padding: 2, backgroundColor: "#AC98D1", color: "#fff", fontWeight: 600 }} label={`Досвід: ${yearsOfExperience}`} size="small" />
           </Box>
 
           <Box mb={2}>
@@ -100,7 +101,7 @@ export const SpecialistCard: FC<Props> = ({ specialist }) => {
 
             <Box mt={1} display="flex" justifyContent="center" gap={1}>
               <Chip sx={{ fontSize: 20, padding: 3, backgroundColor: "#AC98D1", color: "#fff", fontWeight: 600 }} label={`Вік: ${age}`}  />
-              <Chip sx={{ fontSize: 20, padding: 3, backgroundColor: "#AC98D1", color: "#fff", fontWeight: 600 }} label={`Досвід: ${specialist.yearsOfExperience}`} />
+              <Chip sx={{ fontSize: 20, padding: 3, backgroundColor: "#AC98D1", color: "#fff", fontWeight: 600 }} label={`Досвід: ${yearsOfExperience}`} />
             </Box>
 
             <Box mt={2} display="flex" justifyContent="center">

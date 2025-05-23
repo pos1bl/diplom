@@ -8,7 +8,7 @@ import UserService from '@services/UserService';
 import { useAuthStore } from '@hooks/useStore';
 
 export const EmailChangeForm = () => {
-  const { updateUserInfo } = useAuthStore();
+  const { updateUserInfo, user } = useAuthStore();
   const { Field, Subscribe, handleSubmit, reset } = useForm({
     defaultValues: {
       email: '',
@@ -26,6 +26,13 @@ export const EmailChangeForm = () => {
       handleSubmit();
     }}>
       <Box display="flex" flexDirection="column" gap={3}>
+        <TextField
+          label="Поточний"
+          fullWidth
+          disabled
+          value={user.email}
+        />
+
         <Field
           name="email"
           validators={{

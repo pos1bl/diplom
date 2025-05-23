@@ -145,9 +145,7 @@ export default function CustomizedCalendar() {
           defaultView={Views.WEEK}
           min={moment().startOf('day').add(6, "hours").toDate()}
           max={moment().startOf('day').add(23, "hours").toDate()}
-          // resources={view === Views.DAY ? RESOURCES : undefined}
           components={components}
-          // Toolbar
           toolbar={false}
           date={date}
           view={view}

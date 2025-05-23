@@ -52,13 +52,15 @@ router.get('/specialists/:id', userController.getSpecialistInfo);
 router.post('/change_status/:id', authMiddleware, specMiddleware, specialistController.changeStatus);
 router.post('/add_diplom', authMiddleware, specMiddleware, upload.single('image'), specialistController.addDiplom);
 router.post('/add_course', authMiddleware, specMiddleware, upload.single('image'), specialistController.addCourse);
+router.post('/change_bio', authMiddleware, specMiddleware, specialistController.changeBio);
+router.post('/change_multiselect', authMiddleware, specMiddleware, specialistController.changeMultiselect);
 router.get('/specialist/sessions/:id', authMiddleware, specMiddleware, specialistController.getSession);
 router.get('/specialist/sessions', authMiddleware, specMiddleware, specialistController.getSessions);
 router.get('/clients', authMiddleware, specMiddleware, specialistController.getClients);
 router.get('/clients/names', authMiddleware, specMiddleware, specialistController.getClientNames);
 router.get('/clients/:id', authMiddleware, specMiddleware, specialistController.getUserInfo);
 router.get('/education', authMiddleware, specMiddleware, specialistController.getEducation);
-// router.get('specialist/id', authMiddleware, specMiddleware, specialistController.getSpecialistIdByOwn);
+router.get('/specialist', authMiddleware, specMiddleware, specialistController.getSpecialistByOwn);
 
 router.post('/add_specialist', authMiddleware, upload.single('avatar'), adminController.addSpecialist);
 router.post('/verify_victim', authMiddleware, adminController.verifyVictim);

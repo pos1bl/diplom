@@ -15,7 +15,7 @@ export type SpecialistFormValues = {
   dateOfBirth: string;
   gender: string;
   bio: string;
-  yearsOfExperience: number;
+  dateOfStart: string;
   mainAreas: string[];
   secondaryAreas: string[];
   excludedAreas: string[];

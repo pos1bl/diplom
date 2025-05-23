@@ -22,11 +22,11 @@ import { AvailabilitySlot, DayOfWeek, Gender } from '@models/ISpecialist';
 import { ISSUES_LIST, MenuProps, SPECIAL_GROUPS_LIST, THERAPY_METHODS_LIST } from '@utils/shared';
 import { ContainedButton } from '@components/shared/ContainedButton';
 import { ImageUploadField } from '@components/shared/ImageUploadField';
-import { min } from 'moment';
 
 export const AddSpecialistForm = () => {
   const theme = useTheme();
   const maxYear = dayjs().subtract(18, 'years');
+  const now = dayjs();
 
   const { Field, Subscribe, handleSubmit, reset, getFieldValue } = useForm<SpecialistFormValues, any, any, any, any, any, any, any, any, any>({
     defaultValues: {
@@ -35,7 +35,7 @@ export const AddSpecialistForm = () => {
       dateOfBirth: '',
       gender: '',
       bio: '',
-      yearsOfExperience: 0,
+      dateOfStart: '',
       mainAreas: [],
       secondaryAreas: [],
       excludedAreas: [],
@@ -50,7 +50,7 @@ export const AddSpecialistForm = () => {
         dateOfBirth: value.dateOfBirth,
         gender: value.gender as Gender,
         bio: value.bio,
-        yearsOfExperience: value.yearsOfExperience,
+        dateOfStart: value.dateOfStart,
         mainAreas: value.mainAreas,
         secondaryAreas: value.secondaryAreas,
         excludedAreas: value.excludedAreas,
@@ -127,6 +127,28 @@ export const AddSpecialistForm = () => {
         </Field>
 
         <Field
+          name="dateOfStart"
+          validators={{ onChange: ({ value }) => !value && 'Обовʼязкове поле' }}
+        >
+          {(field) => (
+            <DatePicker
+              label="Дата початку роботи фахівцем"
+              format="YYYY-MM-DD"
+              maxDate={now}
+              value={field.state.value ? dayjs(field.state.value) : null}
+              onChange={(date: Dayjs | null) => field.handleChange(date ? date.format("YYYY-MM-DD") : '')}
+              slotProps={{
+                textField: {
+                  fullWidth: true,
+                  error: !!field.state.meta.errors.length,
+                  helperText: field.state.meta.errors[0],
+                },
+              }}
+            />
+          )}
+        </Field>
+
+        <Field
           name="gender"
           validators={{ onChange: ({ value }) => !value && 'Обовʼязкове поле' }}
         >
@@ -155,23 +177,6 @@ export const AddSpecialistForm = () => {
               fullWidth
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
-              error={!!field.state.meta.errors.length}
-              helperText={field.state.meta.errors[0]}
-            />
-          )}
-        </Field>
-
-        <Field
-          name="yearsOfExperience"
-          validators={{ onChange: ({ value }) => value < 0 && "Досвід не може бути від'ємним" }}
-        >
-          {(field) => (
-            <TextField
-              label="Досвід (років)"
-              type="number"
-              fullWidth
-              value={field.state.value}
-              onChange={(e) => field.handleChange(+e.target.value)}
               error={!!field.state.meta.errors.length}
               helperText={field.state.meta.errors[0]}
             />

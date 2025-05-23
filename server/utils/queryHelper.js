@@ -249,7 +249,7 @@ export const buildFullSpecialistInfoPipeline = (id, userId = "", dateProps) => {
         dateOfBirth: 1,
         gender: 1,
         bio: 1,
-        yearsOfExperience: 1,
+        dateOfStart: 1,
         mainAreas: 1,
         secondaryAreas: 1,
         excludedAreas: 1,

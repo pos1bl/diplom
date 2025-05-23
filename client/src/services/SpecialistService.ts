@@ -3,6 +3,8 @@ import $api from "../http";
 import { Client, IUser } from '@models/IUser';
 import { EducationResponse } from '@models/response/EducationResponse';
 import { CourseFormState, DiplomFormState } from '@utils/specialist/Education';
+import { ISpecialist } from '@models/ISpecialist';
+import { MULTISELECT_INPUT_NAMES } from '@utils/Settings';
 
 
 export default class SpecialistService {
@@ -16,11 +18,11 @@ export default class SpecialistService {
     return data;
   }
 
-  // static async fetchSpecialist(): Promise<string> {
-  //   const { data } = await $api.get<string>('specialist/id');
+  static async fetchSpecialist(): Promise<ISpecialist> {
+    const { data } = await $api.get<ISpecialist>('specialist');
 
-  //   return data;
-  // }
+    return data;
+  }
 
   static async fetchClientsNames(): Promise<AxiosResponse<string[]>> {
     return $api.get<string[]>('clients/names');
@@ -69,5 +71,13 @@ export default class SpecialistService {
         headers: { 'Content-Type': 'multipart/form-data' },
       }
     );
+  }
+
+  static async changeBio(bio: string): Promise<void> {
+    return $api.post('change_bio', { bio });
+  }
+
+  static async changeMultiselect(name: MULTISELECT_INPUT_NAMES, value: string[]): Promise<void> {
+    return $api.post('change_multiselect', { name, value });
   }
 }

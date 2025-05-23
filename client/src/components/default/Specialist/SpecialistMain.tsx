@@ -95,7 +95,7 @@ export const SpecialistMain: FC<Props> = ({ specialist }) => {
               </Typography>
               <Typography fontSize="20px" display="flex" alignItems="center">
                 <WorkIcon sx={{ fontSize: 32, color: '#AC98D1', mr: 1 }} />
-                Досвід: {specialist.yearsOfExperience} р.
+                Досвід: {calculateAge(specialist.dateOfStart)} р.
               </Typography>
             </Box>
           </Box>

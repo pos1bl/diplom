@@ -20,10 +20,10 @@ export const QuickActions = () => (
     >
       <CardContent sx={{ display: 'flex', alignItems: 'center', p: 3, gap: 2 }}>
         <Link
-          to="/specialist/analytics"
+          to="/specialist/calendar"
           style={{ alignSelf: "flex-end", width: "50%" }}
         >
-          <ContainedButton sx={{ width: "100%" }}>Аналітика</ContainedButton>
+          <ContainedButton sx={{ width: "100%" }}>Мій календар</ContainedButton>
         </Link>
         <Link
           to="/specialist/unavailabilities"

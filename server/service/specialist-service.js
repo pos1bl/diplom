@@ -186,6 +186,28 @@ class SpecialistService {
 
     await CourseModel.create(courseData);
   }
+
+  async changeBio(specId, newBio) {
+    const specialist = await specialistModel.findById(specId);
+  
+    if (!specialist) {
+      throw ApiError.BadRequest('Виникла помилка при оновленні біо. Спробуйте пізніше');
+    }
+  
+    specialist.bio = newBio;
+    await specialist.save();
+  }
+
+  async changeMultiselect(specId, name, value) {
+    const specialist = await specialistModel.findById(specId);
+  
+    if (!specialist) {
+      throw ApiError.BadRequest('Виникла помилка при оновленні біо. Спробуйте пізніше');
+    }
+  
+    specialist[name] = value;
+    await specialist.save();
+  }
 }
 
 export default new SpecialistService();

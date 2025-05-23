@@ -128,10 +128,12 @@ export const AppointmentPage = () => {
           </Box>
         </Box>
 
-        <OutlinedButton fullWidth sx={{ mb: 3, borderRadius: '50px' }} disabled={disabledJoin}>
-          Приєднатись
-        </OutlinedButton>
-
+        <Link to="/user/video-call/$appointmentId" params={{ appointmentId }}>
+          <OutlinedButton fullWidth sx={{ mb: 3, borderRadius: '50px' }} disabled={disabledJoin}>
+            Приєднатись
+          </OutlinedButton>
+        </Link>
+        
         <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, mb: 3 }}>
           <Button fullWidth variant="text" sx={{ color: "#AC98D1" }} disabled={disabledTransfer} onClick={() => setIsMoved(!isMoved)}>
             {isMoved ? "Відмінити перенос" : "Перенести"}

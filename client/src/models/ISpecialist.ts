@@ -26,7 +26,7 @@ export interface ISpecialist {
   dateOfBirth: string;
   gender: Gender;
   bio: string;
-  yearsOfExperience: number;
+  dateOfStart: string;
   mainAreas: string[];
   secondaryAreas: string[];
   excludedAreas: string[];
