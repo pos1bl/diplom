@@ -33,35 +33,40 @@ router.post('/send_resume',
   userController.sendResume
 );
 router.post('/resend_activation', userController.resendActivation);
-router.post('/create_payment_link/:type', authMiddleware, paymentController.createPaymentLink);
 router.post('/create_session', authMiddleware, userController.createSession);
 router.post('/change_name', authMiddleware, userController.changeName)
 router.post('/change_email', authMiddleware, userController.changeEmail)
 router.post('/change_password', authMiddleware, body('newPass').isLength({ min: 3, max: 32 }), userController.changePassword);
-router.post('/add_specialist', authMiddleware, upload.single('avatar'), adminController.addSpecialist);
-router.post('/verify_victim', authMiddleware, adminController.verifyVictim);
 router.post('/send_victim_request', authMiddleware, upload.single('file'), userController.sendVictimRequest);
-router.post('/user/refund/:id', authMiddleware, paymentController.refund);
-router.post('/specialist/refund/:id', authMiddleware, paymentController.refundBySpecialist);
 router.post('/cancel/:id', authMiddleware, userController.cancel);
 router.post('/move/:id', authMiddleware, userController.move);
-
 router.get('/activate/:link', userController.activate);
 router.get('/refresh', userController.refresh);
 router.get('/users', authMiddleware, userController.getUsers);
 router.get('/user/sessions', authMiddleware, userController.getSessions);
 router.get('/user/victim-request', authMiddleware, userController.getVictimRequest);
 router.get('/user/sessions/:id', authMiddleware, userController.getSession);
-router.get('/specialist/sessions/:id', authMiddleware, specMiddleware, specialistController.getSession);
-router.get('/specialist/sessions', authMiddleware, specMiddleware, specialistController.getSessions);
 router.get('/specialists', userController.getSpecialists);
 router.get('/specialists/:id', userController.getSpecialistInfo);
-router.get('/gift', giftController.fetchGift);
 
-router.post('/change_status/:id', authMiddleware, specialistController.changeStatus);
+router.post('/change_status/:id', authMiddleware, specMiddleware, specialistController.changeStatus);
+router.post('/add_diplom', authMiddleware, specMiddleware, upload.single('image'), specialistController.addDiplom);
+router.post('/add_course', authMiddleware, specMiddleware, upload.single('image'), specialistController.addCourse);
+router.get('/specialist/sessions/:id', authMiddleware, specMiddleware, specialistController.getSession);
+router.get('/specialist/sessions', authMiddleware, specMiddleware, specialistController.getSessions);
 router.get('/clients', authMiddleware, specMiddleware, specialistController.getClients);
 router.get('/clients/names', authMiddleware, specMiddleware, specialistController.getClientNames);
 router.get('/clients/:id', authMiddleware, specMiddleware, specialistController.getUserInfo);
+router.get('/education', authMiddleware, specMiddleware, specialistController.getEducation);
 // router.get('specialist/id', authMiddleware, specMiddleware, specialistController.getSpecialistIdByOwn);
+
+router.post('/add_specialist', authMiddleware, upload.single('avatar'), adminController.addSpecialist);
+router.post('/verify_victim', authMiddleware, adminController.verifyVictim);
+
+router.post('/create_payment_link/:type', authMiddleware, paymentController.createPaymentLink);
+router.post('/user/refund/:id', authMiddleware, paymentController.refund);
+router.post('/specialist/refund/:id', authMiddleware, specMiddleware, paymentController.refundBySpecialist);
+
+router.get('/gift', giftController.fetchGift);
 
 export default router;

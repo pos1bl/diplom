@@ -21,3 +21,8 @@ export type EventItem = {
   data: { appointment?: ISession; blockout?: IUnavaibility };
   resourceId?: number;
 };
+
+export const dateWithoutTimezone = (date: Date) => {
+  const withoutTimezone = new Date(date.valueOf()).toISOString().slice(0, -1);
+  return withoutTimezone;
+};

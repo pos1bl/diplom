@@ -7,6 +7,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { useQuery } from '@tanstack/react-query';
 import { specialistQueryOptions } from '@utils/QueryOptioms';
 import { useAuthStore } from '@hooks/useStore';
+import { Loader } from '@components/shared/Loader';
 
 export const SpecialistPage = () => {
   const { user } = useAuthStore();
@@ -17,7 +18,7 @@ export const SpecialistPage = () => {
   const { data: employeeInfo, isLoading, isError  } = useQuery(specialistQueryOptions(specialistId, user.id))
 
   if (isLoading || !employeeInfo) {
-    return <div>Завантаження...</div>
+    return <Loader />
   }
 
   if (isError) {

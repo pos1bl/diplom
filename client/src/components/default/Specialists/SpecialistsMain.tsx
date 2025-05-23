@@ -5,6 +5,7 @@ import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from "@utils/Filters";
 import { specialistsQueryOptions } from "@utils/QueryOptioms";
 import { SpecialistCard } from "./SpecialistCard";
 import { StyledSubtitle } from "@components/styled/base";
+import { Loader } from "@components/shared/Loader";
 
 export const SpecialistsMain = () => {
   const { filters, setFilters } = useFilters('/_default/specialists');
@@ -19,7 +20,7 @@ export const SpecialistsMain = () => {
   }
 
   if (isLoading) {
-    return <div>Завантаження...</div>
+    return <Loader />
   }
 
   if (!specialists.length) {

@@ -12,6 +12,7 @@ import { ContainedButton } from "@components/shared/ContainedButton";
 import { ISession } from "@models/ISession";
 import SessionsService from "@services/SessionsService";
 import { toast } from "react-toastify";
+import { Loader } from "@components/shared/Loader";
 dayjs.extend(utc);
 dayjs.extend(localizedFormat);
 dayjs.locale('uk');
@@ -38,7 +39,7 @@ export const MoveSection:FC<Props> = ({ specialistId, refetch, appointmentId, se
   }, [employeeInfo]);
 
   if (isLoading || !employeeInfo) {
-    return <div>Завантаження...</div>
+    return <Loader />
   }
 
   if (isError) {

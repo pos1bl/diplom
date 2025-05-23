@@ -1,3 +1,4 @@
+import { Loader } from "@components/shared/Loader";
 import { StyledSection, StyledTitle } from "@components/styled/base";
 import { VictimForm } from "@components/user/Victim/VictimForm";
 import { useAuthStore } from "@hooks/useStore";
@@ -11,7 +12,7 @@ export const VerifyVictimPage = () => {
   const { data: request, isLoading, refetch } =  useQuery(victimRequestQueryOptions(user.id));
 
   if (isLoading) {
-    return <div>Завантаження...</div>
+    return <Loader />
   }
 
   if (user.isVictim || request?.status === 'verified') {

@@ -1,4 +1,5 @@
 import { ContainedButton } from "@components/shared/ContainedButton";
+import { Loader } from "@components/shared/Loader";
 import { useAuthStore } from "@hooks/useStore";
 import { Role } from "@models/IUser";
 import { Box, } from "@mui/material";
@@ -59,7 +60,7 @@ export const VideoPage = () => {
   }, [session]);
 
   if (isLoading) {
-    return <div>Завантаження...</div>
+    return <Loader />
   }
 
   return (

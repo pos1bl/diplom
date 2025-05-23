@@ -6,13 +6,14 @@ import { Link, useParams } from "@tanstack/react-router";
 import { userInfoQueryOptions } from "@utils/QueryOptioms";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { AppointmentsPromoSections } from "@components/specialist/Appointments/AppointmentsPromoSections";
+import { Loader } from "@components/shared/Loader";
 
 export const AppointmentsPage = () => {
   const { clientId } = useParams({ from: "/_authenticated/specialist/clients/$clientId/appointments" });
   const { data, isLoading } = useQuery(userInfoQueryOptions(clientId))
 
   if (isLoading) {
-    return <div>Завантаження...</div>
+    return <Loader />
   }
 
   return (

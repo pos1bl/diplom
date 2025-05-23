@@ -23,6 +23,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { ButtonLoadingState } from '@utils/specialist/Appointment';
+import { Loader } from '@components/shared/Loader';
 
 
 export const AppointmentPage = () => {
@@ -45,7 +46,7 @@ export const AppointmentPage = () => {
 
 
   if (isLoading || !session) {
-    return <div>Завантаження...</div>
+    return <Loader />
   }
 
   const now = dayjs().format('DD.MM.YYYY HH:mm');

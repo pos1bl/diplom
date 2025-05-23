@@ -43,3 +43,11 @@ export const userInfoQueryOptions = (id: string) => {
     placeholderData: keepPreviousData
   });
 };
+
+export const educationDataQueryOptions = () => {
+  return queryOptions({
+    queryKey: ['education'],
+    queryFn: () => SpecialistService.fetchEducation(),
+    placeholderData: keepPreviousData
+  })
+}

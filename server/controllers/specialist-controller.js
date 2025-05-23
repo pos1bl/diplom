@@ -46,8 +46,35 @@ class SpecialistController {
     } catch (e) {
       next(e);
     }
-  } 
-  
+  }
+
+  async getEducation(req, res, next) {
+    try {
+      const education = await specialistService.getEducation(req.specialist.id);
+      return res.json(education);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async addDiplom(req, res, next) {
+    try {
+      await specialistService.addDiplom(req);
+      return res.json({ message: "Диплом успішно додано!" });
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async addCourse(req, res, next) {
+    try {
+      await specialistService.addCourse(req);
+      return res.json({ message: "Курс успішно додано!" });
+    } catch (e) {
+      next(e);
+    }
+  }
+
   async changeStatus(req, res, next) {
     try {
       const { status } = req.body;

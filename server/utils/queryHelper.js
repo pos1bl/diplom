@@ -175,6 +175,7 @@ export const buildSpecialistsPipeline = (query) => {
 export const buildFullSpecialistInfoPipeline = (id, userId = "", dateProps) => {
   const { startDate: startDayjs, endDate: endDayjs } = dateProps;
 
+  const userObjId = Types.ObjectId.isValid(userId) ? new Types.ObjectId(userId) : null;
   const startDate = startDayjs.toDate();
   const endDate   = endDayjs.toDate();
 
@@ -217,7 +218,7 @@ export const buildFullSpecialistInfoPipeline = (id, userId = "", dateProps) => {
     }},
     { $lookup: {
         from: 'sessions',
-        let: { specId: '$_id', userId },
+        let: { specId: '$_id', userObj: userObjId },
         pipeline: [
           {
             $match: {
@@ -226,7 +227,11 @@ export const buildFullSpecialistInfoPipeline = (id, userId = "", dateProps) => {
                   {
                     $or: [
                       { $eq: ['$specialist', '$$specId'] },
-                      { $eq: ['$user', { $toObjectId: '$$userId' }] },
+                      { $and: [
+                          { $ne: ['$$userObj', null] },
+                          { $eq: ['$user', '$$userObj'] }
+                        ]
+                      },
                     ]
                   },
                   { $eq: ['$status',     'scheduled'] },

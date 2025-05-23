@@ -12,6 +12,7 @@ import 'dayjs/locale/uk';
 import './assets/styles/index.scss';
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { theme } from '@utils/Theme'
+import { Loader } from '@components/shared/Loader'
 function App() {
   const queryClient = useQueryClient();
   const stores = useContext(StoresContext);
@@ -23,7 +24,7 @@ function App() {
   }, []);
 
   if (stores.authStore.isLoading) {
-    return <div>Завантаження...</div>;
+    return <Loader />;
   }
 
   return (

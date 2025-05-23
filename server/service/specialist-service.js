@@ -1,8 +1,12 @@
 import { Types } from "mongoose";
 import SessionModel from "../models/session-model.js";
 import UserModel from "../models/user-model.js";
+import DiplomModel from "../models/diploma-model.js";
+import CourseModel from "../models/course-model.js";
 import { buildClientFilter, buildSessionFilter, SESSIONS_ROLES } from "../utils/queryHelper.js";
 import ApiError from "../exceptions/api-error.js";
+import specialistModel from "../models/specialist-model.js";
+import { uploadToCloudinary } from "../utils/uploadToCloudinary.js";
 
 class SpecialistService {
   async getSessions(id, query) {
@@ -101,6 +105,86 @@ class SpecialistService {
 
   async isOwnClient(id, specId) {
     return await SessionModel.exists({ specialist: specId, id: id })
+  }
+
+  async getEducation(id) {
+    const idObj = new Types.ObjectId(id);
+    const [result] = await DiplomModel.aggregate([
+      {
+        $facet: {
+          diploms: [{ $match: { specialist: idObj } }],
+          courses: [
+            {
+              $unionWith: {
+                coll: 'courses',
+                pipeline: [{ $match: { specialist: idObj } }]
+              }
+            },
+            { $match: { provider: { $exists: true } } }
+          ]
+        }
+      }
+    ]);
+    return result || { diploms: [], courses: [] };
+  }
+
+  async addDiplom(req) {
+    const {
+      title,
+      institution,
+      specialty,
+      degree,
+      year,
+    } = req.body;
+
+    const specialist = await specialistModel.findById(req.specialist._id);
+    if (!specialist) throw ApiError.BadRequest('Виникла помилка, спробуйте пізніше');
+
+    let imageUrl = '';
+    if (req.file) {
+      imageUrl = await uploadToCloudinary(req.file.buffer, `education_${specialist._id}`);
+    }
+    
+    const diplomaData = {
+      institution: institution,
+      year,
+      specialist,
+      title,
+      specialty,
+      degree,
+      imageUrl
+    };
+
+    await DiplomModel.create(diplomaData);
+  }
+
+  async addCourse(req) {
+    const {
+      title,
+      provider,
+      hours,
+      year,
+    } = req.body;
+
+    const specialist = await specialistModel.findById(req.specialist._id);
+    if (!specialist) throw ApiError.BadRequest('Виникла помилка, спробуйте пізніше');
+
+    let imageUrl = '';
+    if (req.file) {
+      imageUrl = await uploadToCloudinary(req.file.buffer, `education_${specialist._id}`);
+    }
+    
+    const courseData = {
+      specialist,
+      title,
+      provider,
+      imageUrl,
+      year
+    };
+
+    if (hours) courseData.hours = hours;
+
+    await CourseModel.create(courseData);
   }
 }
 

@@ -6,8 +6,6 @@ import SpecialistModel from "../models/specialist-model.js";
 import UserModel from "../models/user-model.js";
 import victim_requestModel from "../models/victim_request-model.js";
 
-
-
 class AdminService {
   async addSpecialist(req) {
     const {
@@ -23,7 +21,6 @@ class AdminService {
       specialNeeds,
       availability
     } = req.body;
-
 
     const user = await UserModel.findOne({ email: parse(email) });
     if (!user) throw ApiError.BadRequest('Користувача з таким email не знайдено');

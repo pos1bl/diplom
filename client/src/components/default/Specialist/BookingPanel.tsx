@@ -54,7 +54,7 @@ export const BookingPanel:FC<Props> = ({
       {selectedDate && (
         <StyledBox>
           <Typography variant="subtitle1">
-            {selectedDate.locale('uk').format('dddd, D MMMM')} {getSlotRange(selectedSlot)}
+            {selectedDate.locale('uk').format('dddd, D MMMM')}
           </Typography>
           <Box display="flex" flexWrap="wrap" gap={1} justifyContent="center">
             {availabilites.find(day => day.date.isSame(selectedDate))?.timeSlots.map((slot) => {

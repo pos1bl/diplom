@@ -23,6 +23,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { MoveSection } from '@components/user/Appointment/MoveSection';
 import { ActionInfo } from '@components/user/Appointment/ActionInfo';
+import { Loader } from '@components/shared/Loader';
 
 export const AppointmentPage = () => {
   const { user } = useAuthStore();
@@ -35,7 +36,7 @@ export const AppointmentPage = () => {
   const [isMoved, setIsMoved] = useState<boolean>(false);
 
   if (isLoading || !session) {
-    return <div>Завантаження...</div>
+    return <Loader />
   }
 
   const now = dayjs().format('DD.MM.YYYY HH:mm');
