@@ -58,6 +58,11 @@ export const HEADER_NAVIGATION_LIST = [
     availableRoles: []
   },
   {
+    name: 'Підібрати спеціаліста',
+    navigateTo: DEFAULT_PAGES.FORM,
+    availableRoles: []
+  },
+  {
     name: 'Подарункові сертифікати',
     navigateTo: DEFAULT_PAGES.GIFTS,
     availableRoles: []

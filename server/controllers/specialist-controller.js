@@ -114,6 +114,17 @@ class SpecialistController {
     }
   }
 
+  async changeNotes(req, res, next) {
+    try {
+      const { notes } = req.body;
+      
+      await sessionService.changeNotes(req.params.id, notes);
+      return res.json({ message: "Нотатки успішно змінені" });
+    } catch (e) {
+      next(e);
+    }
+  }
+
   async changeMultiselect(req, res, next) {
     try {
       const { name, value } = req.body;

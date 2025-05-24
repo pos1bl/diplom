@@ -24,6 +24,7 @@ import { toast } from 'react-toastify';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { ButtonLoadingState } from '@utils/specialist/Appointment';
 import { Loader } from '@components/shared/Loader';
+import { NotesSection } from '@components/specialist/Appointment/Notes';
 
 
 export const AppointmentPage = () => {
@@ -184,6 +185,10 @@ export const AppointmentPage = () => {
           >
             Скасувати
           </Button>
+        </Box>
+
+        <Box sx={{ mb: 3 }}>
+          <NotesSection id={session._id} notes={session.notes} refetch={refetch} />
         </Box>
 
         <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, p: 2, bgcolor: 'grey.100', borderRadius: 1 }}>

@@ -9,11 +9,11 @@ import { Link, useLocation } from '@tanstack/react-router';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import Logo from '../shared/Logo';
 import { useAuthStore } from '@hooks/useStore';
-import { DEFAULT_PAGES, USER_NAVIGATION_LIST } from '@utils/NavigationList';
+import { DEFAULT_PAGES, getNavigationList } from '@utils/NavigationList';
 
 export const BottomBar = () => {
   const theme = useTheme();
-  const { logout } = useAuthStore();
+  const { logout, user } = useAuthStore();
   const { pathname } = useLocation();
 
   return (
@@ -54,7 +54,7 @@ export const BottomBar = () => {
             to={DEFAULT_PAGES.HOME_PAGE as '/'}
             component={Link}
           />
-          {USER_NAVIGATION_LIST.map(({ name, navigateTo, icon }) => (
+          {getNavigationList(user.role).map(({ name, navigateTo, icon }) => (
             <BottomNavigationAction
               key={name}
               label={name}

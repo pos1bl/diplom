@@ -23,7 +23,7 @@ export const UnavailabilitytForm = () => {
   
   const minDate = dayjs();
 
-  const { Field, Subscribe, handleSubmit, getFieldValue } = useForm<UnavailabilityFormValues, any, any, any, any, any, any, any, any, any>({
+  const { Field, Subscribe, handleSubmit, getFieldValue, reset } = useForm<UnavailabilityFormValues, any, any, any, any, any, any, any, any, any>({
     defaultValues: {
       type: '',
       start: '',
@@ -33,13 +33,11 @@ export const UnavailabilitytForm = () => {
     onSubmit: async ({ value }) => {
       try {
         await SpecialistService.addUnavailability(value);
-        
-        // reset();
+        refetch()
+        reset();
       } catch (e) {
         console.error(e)
-      } finally {
-        refetch()
-      }
+      } 
     },
   });
 
@@ -104,7 +102,7 @@ export const UnavailabilitytForm = () => {
           name="end"
           validators={{
             onChange: ({ value }) => !value && 'Обовʼязкове поле',
-            onSubmit: ({ value }) => {
+            onSubmit: () => {
               if (isSessionInDates()) return 'У Вас є запланована зустріч на вибраний час'
               if (isAnotherUnavailability()) return 'Вибраний Вами час охоплює вже існуючі відсутності'
               return undefined;

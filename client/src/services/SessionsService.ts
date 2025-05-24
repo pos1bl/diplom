@@ -47,4 +47,8 @@ export default class SessionsService {
   static async moveSession(id: string, payload: IMoveSessionPayload): Promise<void> {
     return $api.post(`move/${id}`, { payload })
   }
+
+  static async changeNotes(id: string, notes: string): Promise<void> {
+    return $api.post(`change_notes/${id}`, { notes })
+  }
 }

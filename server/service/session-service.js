@@ -10,6 +10,7 @@ import { Types } from "mongoose"
 import dayjs from "dayjs";
 import { buildConflictCheckPipeline } from "../utils/queryHelper.js";
 import { cancelSessionReminder, scheduleSessionReminder } from "../jobs/agenda.js";
+import sessionModel from "../models/session-model.js";
 
 class SessionService {
   async createSession(payload) {
@@ -176,6 +177,17 @@ class SessionService {
     await cancelSessionReminder(id)
     return { message: "Сеанс завершено" };
   }
+
+  async changeNotes(id, newNotes) {
+      const session = await sessionModel.findById(id);
+    
+      if (!session) {
+        throw ApiError.BadRequest('Виникла помилка при оновленні нотатків. Спробуйте пізніше');
+      }
+  
+      session.notes = newNotes;
+      await session.save();
+    }
 }
 
 export default new SessionService();
