@@ -3,10 +3,15 @@ import SessionModel from "../models/session-model.js";
 import UserModel from "../models/user-model.js";
 import DiplomModel from "../models/diploma-model.js";
 import CourseModel from "../models/course-model.js";
-import { buildClientFilter, buildSessionFilter, SESSIONS_ROLES } from "../utils/queryHelper.js";
+import UnavaibilityModel from "../models/unavaibility-model.js";
+import { buildClientFilter, buildConflictUnavCheckPipeline, buildIsSessionsInUnavPipeline, buildUnavailabilityFilter, buildSessionFilter, SESSIONS_ROLES } from "../utils/queryHelper.js";
 import ApiError from "../exceptions/api-error.js";
 import specialistModel from "../models/specialist-model.js";
 import { uploadToCloudinary } from "../utils/uploadToCloudinary.js";
+import sessionModel from "../models/session-model.js";
+import dayjs from "dayjs";
+import customParseFormat from 'dayjs/plugin/customParseFormat.js';
+dayjs.extend(customParseFormat);
 
 class SpecialistService {
   async getSessions(id, query) {
@@ -107,6 +112,13 @@ class SpecialistService {
     return await SessionModel.exists({ specialist: specId, id: id })
   }
 
+  async getUnavailabilities(id, query) {
+    const find = buildUnavailabilityFilter({id, query});
+    const unavailabilities = await UnavaibilityModel.find(find).sort({ start: 1 });
+  
+    return unavailabilities;
+  }
+
   async getEducation(id) {
     const idObj = new Types.ObjectId(id);
     const [result] = await DiplomModel.aggregate([
@@ -185,6 +197,35 @@ class SpecialistService {
     if (hours) courseData.hours = hours;
 
     await CourseModel.create(courseData);
+  }
+
+  async addUnavailability(req) {
+    const {
+      start,
+      end,
+      type,
+      note,
+    } = req.body;
+
+    const specialist = await specialistModel.findById(req.specialist._id);
+    if (!specialist) throw ApiError.BadRequest('Виникла помилка, спробуйте пізніше');
+
+    const sessions = await sessionModel.aggregate(buildIsSessionsInUnavPipeline());
+
+    if (sessions.length) throw ApiError.BadRequest('У Вас є запланована зустріч на вибраний час');
+
+    const unavailabilities = await UnavaibilityModel.aggregate(buildConflictUnavCheckPipeline());
+    if (unavailabilities.length) throw ApiError.BadRequest('Вибраний Вами час охоплює вже існуючі відсутності');
+
+    const unavailabilityData = {
+      start: dayjs.utc(start, 'DD.MM.YYYY HH:mm'),
+      end: dayjs.utc(end, 'DD.MM.YYYY HH:mm'),
+      type,
+      note,
+      specialist
+    };
+
+    await UnavaibilityModel.create(unavailabilityData);
   }
 
   async changeBio(specId, newBio) {

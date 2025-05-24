@@ -64,7 +64,10 @@ class AdminService {
     if (!user) throw ApiError.BadRequest('Автора запиту не знайдено');
 
     request.status = status;
-    user.isVictim = true;
+
+    if (status === "verified") {
+      user.isVictim = true;
+    }
 
     await user.save()
     await request.save()

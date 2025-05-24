@@ -1,11 +1,14 @@
+import { SESSION_STATUSES } from '@models/ISession';
+import { UnavailabilityPage } from '@pages/specialist/UnavailabilityPage';
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute(
   '/_authenticated/specialist/unavailabilities',
 )({
-  component: RouteComponent,
-})
+  beforeLoad: async ({ context }) => {
+    const { sessionStore, authStore } = context.stores;
 
-function RouteComponent() {
-  return <div>Hello "/_authenticated/specialist/unavailabilities"!</div>
-}
+    await sessionStore.fetchSessions(authStore.user.role, { status: [SESSION_STATUSES.SCHEDULED] });
+  },
+  component: UnavailabilityPage,
+})

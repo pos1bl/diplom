@@ -9,7 +9,7 @@ import { CancelledSection, PendingSection, VerifiedSection } from "@utils/user/V
 
 export const VerifyVictimPage = () => {
   const { user } = useAuthStore();
-  const { data: request, isLoading, refetch } =  useQuery(victimRequestQueryOptions(user.id));
+  const { data: request, isLoading, refetch } =  useQuery(victimRequestQueryOptions());
 
   if (isLoading) {
     return <Loader />

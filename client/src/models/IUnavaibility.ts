@@ -8,6 +8,15 @@ export enum UNAVAIBILITY_TYPES {
   OTHER = 'other',
 }
 
+export const UNAVAIBILITIES_NAMES = {
+  [UNAVAIBILITY_TYPES.VACATION]: 'Відпустка',
+  [UNAVAIBILITY_TYPES.DAYOFF]: 'Вихідні',
+  [UNAVAIBILITY_TYPES.SICK]: 'Лікарняний',
+  [UNAVAIBILITY_TYPES.OTHER]: 'Інше',
+}
+
+export type UnavType = keyof typeof UNAVAIBILITIES_NAMES;
+
 export interface IUnavaibility {
   _id: string;
   specialist: ISpecialist & { user: IUser };

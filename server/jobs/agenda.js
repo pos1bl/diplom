@@ -22,8 +22,6 @@ agenda.define('send-session-reminder', { lockLifetime: 5 * 60 * 1000 }, async jo
       populate: { path: 'user', model: 'User' }
     });
   
-  console.log(session)
-  console.log(session.status)
   if (!session || session.status !== 'scheduled') return;
   console.log('yeah baby')
   await mailService.sendSessionReminder(session);

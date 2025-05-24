@@ -1,4 +1,8 @@
 import dayjs from 'dayjs'
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore.js';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter.js';
+dayjs.extend(isSameOrBefore);
+dayjs.extend(isSameOrAfter);
 
 export const getAvailability = (specialist, dateProps) => {
   const { availability = [], unavailabilities = [], sessions = []  } = specialist;
@@ -16,7 +20,7 @@ export const getAvailability = (specialist, dateProps) => {
     // 5.2 перевіряємо, чи є повний day-off
     const fullBlock = unavailabilities.find(u =>
       dayjs(u.start).isSameOrBefore(d.hour(+slot.from.slice(0,2)), 'minute') &&
-      dayjs(u.end).isSameOrAfter  (d.hour(+slot.to  .slice(0,2)), 'minute')
+      dayjs(u.end).isSameOrAfter(d.hour(+slot.to  .slice(0,2)), 'minute')
     )
     if (fullBlock) continue
 

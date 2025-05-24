@@ -75,6 +75,15 @@ class SpecialistController {
     }
   }
 
+  async addUnavailability(req, res, next) {
+    try {
+      await specialistService.addUnavailability(req);
+      return res.json({ message: "Відсутність успішно додано!" });
+    } catch (e) {
+      next(e);
+    }
+  }
+
   async changeStatus(req, res, next) {
     try {
       const { status } = req.body;
@@ -122,6 +131,16 @@ class SpecialistController {
       
       await specialistService.changeSchedule(req.specialist.id, schedule);
       return res.json({ message: "Розклад успішно змінене" });
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async getUnavailabilities(req, res, next) {
+    try {
+      const { query } = req
+      const unavailabilities = await specialistService.getUnavailabilities(req.specialist.id, query);
+      return res.json(unavailabilities);
     } catch (e) {
       next(e);
     }

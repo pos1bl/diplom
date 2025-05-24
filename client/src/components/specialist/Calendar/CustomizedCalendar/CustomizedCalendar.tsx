@@ -4,14 +4,17 @@ import moment from "moment";
 import Calendar from "../Calendar";
 import { useSessionStore } from "@hooks/useStore";
 import { useNavigate } from "@tanstack/react-router";
-import { useCallback, useMemo, useState } from "react";
-import BlockoutEvent from "./BlockutEvent";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { AppointmentEvent } from "./AppointmentEvent";
 import { dateWithoutTimezone, EventItem, VIEW_OPTIONS } from "@utils/specialist/Calendar";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { ContainedButton } from "@components/shared/ContainedButton";
 import { OutlinedButton } from "@components/shared/OutlinedButton";
+import { useQuery } from "@tanstack/react-query";
+import { unavailabilitiesQueryOptions } from "@utils/QueryOptioms";
+import { Loader } from "@components/shared/Loader";
+import dayjs from "dayjs";
 import "./index.css";
 
 type Keys = keyof typeof Views;
@@ -21,8 +24,18 @@ const SECONDARY_COLOR  = "#6A1B9A";
 export default function CustomizedCalendar() {
   const [date, setDate] = useState<Date>(moment().toDate());
   const [view, setView] = useState<(typeof Views)[Keys]>(Views.WEEK);
+  const [filters, setFilters] = useState<Record<string,any>>({});
   const { sessions } = useSessionStore();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const startDate = dayjs.utc(date).startOf(view as "week" | "day").toISOString()
+    const endDate = dayjs.utc(date).endOf(view as "week" | "day").toISOString()
+    setFilters({ startDate, endDate});
+    refetch()
+  }, [view, date])
+
+  const { data: unavailabilities, isLoading, refetch } = useQuery(unavailabilitiesQueryOptions(filters));
 
   const onPrevClick = useCallback(async () => {
     if (view === Views.DAY) {
@@ -50,38 +63,40 @@ export default function CustomizedCalendar() {
     }
   }, [view, date]);
 
+  const onTodayClick = useCallback(async () => {
+    setDate(moment().toDate());
+  }, []);
+
+  if (isLoading || !unavailabilities) return <Loader />
+
   const components: any = {
     event: ({ event }: EventProps<EventItem>) => {
       const data = event?.data;
-      if (data?.appointment)
+      if (data?.appointment) {
         return (
           <AppointmentEvent
             appointment={data?.appointment}
           />
         );
-
-      if (data?.blockout) {
-        return <BlockoutEvent blockout={data?.blockout} />;
       }
 
       return null;
     },
   };
 
-  const onTodayClick = useCallback(async () => {
-    setDate(moment().toDate());
-  }, []);
 
   const events = sessions.map(s => {
-    const m = moment(s.scheduledAt)
+    const m = moment(s.scheduledAt);
+
     return ({
-    data: {
-      appointment: s
-    },
-    start: new Date(dateWithoutTimezone(m.toDate())),
-    end:  new Date (dateWithoutTimezone(m.clone().add(50, "minutes").toDate())),
-    resource: s,
-  })});
+      data: {
+        appointment: s
+      },
+      start: new Date(dateWithoutTimezone(m.toDate())),
+      end:  new Date (dateWithoutTimezone(m.clone().add(50, "minutes").toDate())),
+      resource: s,
+    })
+  });
 
   return (
     <Box display="flex" flexDirection="column" height="100%" width="100%" gap={2} p={2}>
@@ -141,6 +156,27 @@ export default function CustomizedCalendar() {
       </Box>
         <Calendar
           events={events}
+          slotPropGetter={(date) => {
+            // date — це початок кожного слоту
+            // перевіряємо, чи є для нього unavailability
+            const isBlocked = unavailabilities.some(u => {
+              const start = new Date(dateWithoutTimezone((moment(u.start)).toDate()))
+              const end = new Date(dateWithoutTimezone((moment(u.end)).toDate()))
+              // якщо слот починається після початку і до кінця
+              return date >= start && date < end
+            })
+
+            // якщо заблоковано — вертаємо стиль
+            if (isBlocked) {
+              return {
+                style: {
+                  backgroundColor: '#ccc',  // або будь-який ваш колір
+                }
+              }
+            }
+            // інакше — без змін
+            return {}
+          }}
           defaultDate={moment().toDate()}
           defaultView={Views.WEEK}
           min={moment().startOf('day').add(6, "hours").toDate()}

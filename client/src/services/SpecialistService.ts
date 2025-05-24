@@ -5,6 +5,8 @@ import { EducationResponse } from '@models/response/EducationResponse';
 import { CourseFormState, DiplomFormState } from '@utils/specialist/Education';
 import { AvailabilitySlot, ISpecialist } from '@models/ISpecialist';
 import { MULTISELECT_INPUT_NAMES } from '@utils/Settings';
+import { UnavailabilityFormValues } from '@utils/specialist/Unavailability';
+import { IUnavaibility } from '@models/IUnavaibility';
 
 
 export default class SpecialistService {
@@ -26,6 +28,12 @@ export default class SpecialistService {
 
   static async fetchClientsNames(): Promise<AxiosResponse<string[]>> {
     return $api.get<string[]>('clients/names');
+  }
+
+  static async fetchUnavailabilities(filters?: Record<string,any>): Promise<IUnavaibility[]> {
+    const { data } = await $api.get<IUnavaibility[]>('unavailabilities', { params: filters });
+
+    return data;
   }
 
   static async fetchEducation(): Promise<EducationResponse> {
@@ -83,5 +91,9 @@ export default class SpecialistService {
 
   static async changeSchedule(schedule: AvailabilitySlot[]) {
     return $api.post('change_schedule', { schedule });
+  }
+
+  static async addUnavailability(payload: UnavailabilityFormValues) {
+    return $api.post('add_unavailability', payload);
   }
 }

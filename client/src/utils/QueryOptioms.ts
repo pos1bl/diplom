@@ -28,10 +28,10 @@ export const sessionQueryOptions = (role: Role, id: string) => {
   });
 };
 
-export const victimRequestQueryOptions = (id: string) => {
+export const victimRequestQueryOptions = () => {
   return queryOptions({
-    queryKey: ['victim-request', id],
-    queryFn: () => UserService.fetchVictimRequest(id),
+    queryKey: ['victim-request'],
+    queryFn: () => UserService.fetchVictimRequest(),
     placeholderData: keepPreviousData
   });
 };
@@ -56,6 +56,14 @@ export const specialistOwnInfoQueryOptions = () => {
   return queryOptions({
     queryKey: ['specialist'],
     queryFn: () => SpecialistService.fetchSpecialist(),
+    placeholderData: keepPreviousData
+  });
+};
+
+export const unavailabilitiesQueryOptions = (filters? : Record<string,any>) => {
+  return queryOptions({
+    queryKey: ['unavailabilities', filters],
+    queryFn: () => SpecialistService.fetchUnavailabilities(filters),
     placeholderData: keepPreviousData
   });
 };

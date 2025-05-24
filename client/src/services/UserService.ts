@@ -34,8 +34,8 @@ export default class UserService {
     return data;
   }
 
-  static async fetchVictimRequest(id: string): Promise<IVictimRequest> {
-   const { data } = await $api.get<IVictimRequest>(`user/${id}/victim-request`);
+  static async fetchVictimRequest(): Promise<IVictimRequest> {
+   const { data } = await $api.get<IVictimRequest>(`user/victim-request`);
 
    return data;
   }

@@ -123,6 +123,27 @@ const buildSpecialistsFilter = (rawQuery) => {
   return { filter, options };
 }
 
+export const buildUnavailabilityFilter = ({ id, query }) => {
+  const filter = { specialist: new Types.ObjectId(id) };
+
+  if (query.startDate || query.endDate) {
+    filter.start = {};
+    filter.end = {};
+    if (query.startDate) {
+      filter.end.$gte = dayjs.utc(query.startDate).startOf('day').toDate();
+    }
+    if (query.endDate) {
+      filter.start.$lte = dayjs.utc(query.endDate).endOf('day').toDate();
+    }
+  }
+
+  if (query.type) {
+    filter.type = query.type;
+  }
+
+  return filter;
+}
+
 export const buildSpecialistsPipeline = (query) => {
   const { filter, options } = buildSpecialistsFilter(query);
 
@@ -297,3 +318,60 @@ export const buildConflictCheckPipeline = (userId, specId, scheduledAt) => {
     { $limit: 1 },
   ]
 }
+
+export const buildIsSessionsInUnavPipeline = (start, end) => {
+  return [
+    {
+      $addFields: {
+        startParsedDate: {
+          $dateFromString: {
+            dateString: start,
+            format: "%d.%m.%Y %H:%M",
+            onError: null
+          }
+        },
+        endParsedDate: {
+          $dateFromString: {
+            dateString: end,
+            format: "%d.%m.%Y %H:%M",
+            onError: null
+          }
+        }
+      }
+    },
+    {
+      $match: {
+        status: "scheduled",
+        $expr: {
+          $and: [
+            { $gte: ["$scheduledAt", "$startParsedDate"] },
+            { $lte: ["$scheduledAt", "$endParsedDate"] }
+          ]
+        }
+      }
+    }
+  ]
+}
+
+export const buildConflictUnavCheckPipeline = (start, end) => [
+  {
+    $addFields: {
+      startParsedDate: {
+        $dateFromString: { dateString: start, format: "%d.%m.%Y %H:%M" }
+      },
+      endParsedDate: {
+        $dateFromString: { dateString: end,   format: "%d.%m.%Y %H:%M" }
+      }
+    }
+  },
+  {
+    $match: {
+      $expr: {
+        $or: [
+          { $gte: ["$end",   "$startParsedDate"] },
+          { $lte: ["$start", "$endParsedDate"]   }
+        ]
+      }
+    }
+  }
+];
