@@ -3,7 +3,7 @@ import $api from "../http";
 import { Client, IUser } from '@models/IUser';
 import { EducationResponse } from '@models/response/EducationResponse';
 import { CourseFormState, DiplomFormState } from '@utils/specialist/Education';
-import { ISpecialist } from '@models/ISpecialist';
+import { AvailabilitySlot, ISpecialist } from '@models/ISpecialist';
 import { MULTISELECT_INPUT_NAMES } from '@utils/Settings';
 
 
@@ -79,5 +79,9 @@ export default class SpecialistService {
 
   static async changeMultiselect(name: MULTISELECT_INPUT_NAMES, value: string[]): Promise<void> {
     return $api.post('change_multiselect', { name, value });
+  }
+
+  static async changeSchedule(schedule: AvailabilitySlot[]) {
+    return $api.post('change_schedule', { schedule });
   }
 }

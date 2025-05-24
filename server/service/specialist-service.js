@@ -191,7 +191,7 @@ class SpecialistService {
     const specialist = await specialistModel.findById(specId);
   
     if (!specialist) {
-      throw ApiError.BadRequest('Виникла помилка при оновленні біо. Спробуйте пізніше');
+      throw ApiError.BadRequest('Виникла помилка при оновленні "Біо". Спробуйте пізніше');
     }
   
     specialist.bio = newBio;
@@ -202,10 +202,21 @@ class SpecialistService {
     const specialist = await specialistModel.findById(specId);
   
     if (!specialist) {
-      throw ApiError.BadRequest('Виникла помилка при оновленні біо. Спробуйте пізніше');
+      throw ApiError.BadRequest(`Виникла помилка при оновленні "${name}". Спробуйте пізніше`);
     }
   
     specialist[name] = value;
+    await specialist.save();
+  }
+
+  async changeSchedule(specId, availability) {
+    const specialist = await specialistModel.findById(specId);
+  
+    if (!specialist) {
+      throw ApiError.BadRequest('Виникла помилка при оновленні розкладу. Спробуйте пізніше');
+    }
+  
+    specialist.availability = availability;
     await specialist.save();
   }
 }

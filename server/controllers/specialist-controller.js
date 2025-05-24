@@ -115,6 +115,17 @@ class SpecialistController {
       next(e);
     }
   }
+
+  async changeSchedule(req, res, next) {
+    try {
+      const { schedule } = req.body;
+      
+      await specialistService.changeSchedule(req.specialist.id, schedule);
+      return res.json({ message: "Розклад успішно змінене" });
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 export default new SpecialistController();

@@ -226,7 +226,7 @@ export const AddSpecialistForm = () => {
                         label="День"
                         value={slot.dayOfWeek}
                         onChange={(e) => {
-                          const updated = [...slots];
+                          const updated = JSON.parse(JSON.stringify(slots));
                           updated[index].dayOfWeek = e.target.value as DayOfWeek;
                           field.handleChange(updated);
                         }}

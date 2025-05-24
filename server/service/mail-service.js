@@ -350,7 +350,7 @@ class MailService {
     })
   }
 
-   async sendReminder(session) {
+   async sendSessionReminder(session) {
     const { _id, scheduledAt, user, specialist } = session
 
     const start = dayjs.utc(scheduledAt)

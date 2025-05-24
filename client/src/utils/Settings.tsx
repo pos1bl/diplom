@@ -6,6 +6,7 @@ import { PassChangeForm } from "@components/shared/Settings/PassChangeForm";
 import { BioChangeForm } from "@components/specialist/Settings/BioChangeForm";
 import { MultiselectChangeForm } from "@components/specialist/Settings/MultiselectChangeForm";
 import { ISSUES_LIST, SPECIAL_GROUPS_LIST, THERAPY_METHODS_LIST } from "./shared";
+import { ScheduleChangeForm } from "@components/specialist/Settings/ScheduleChangeForm";
 
 interface AccordionItem {
   id: number
@@ -32,6 +33,14 @@ export const MULTISELECT_LABELS = {
   [MULTISELECT_INPUT_NAMES.EXCLUDED_AREAS]: "З чим не працюю",
   [MULTISELECT_INPUT_NAMES.SPECIAL_NEEDS]: "Спеціальні потреби",
 }
+
+export type AvailableFormValues = {
+  availability: {
+    dayOfWeek: string;
+    from: string;
+    to: string;
+  }[];
+};
 
 export const USER_SETTINGS_ACCORDIONS: AccordionItem[] = [
   {
@@ -117,5 +126,10 @@ export const SPECIALiST_SETTINGS_ACCORDIONS: AccordionItem[] = [
       unavailableKeys={[MULTISELECT_INPUT_NAMES.EXCLUDED_AREAS]}
       options={SPECIAL_GROUPS_LIST}
     />,
+  },
+  {
+    id: 8,
+    title: `Змінити "Розклад"`,
+    render: () => <ScheduleChangeForm />,
   },
 ];

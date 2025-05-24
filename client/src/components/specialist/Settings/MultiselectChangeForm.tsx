@@ -63,7 +63,7 @@ export const MultiselectChangeForm:FC<Props> = ({ name, isRequired, options, una
           name={name}
           validators={{ onChange: ({ value }) => {
             if (!value.length && isRequired) return `Має бути хоч одна вибрана опція`;
-            if (value.every((val, index) => val === data[name][index])) return 'Нові опції нічим не відрізняються від попередніх'
+            if (value.length === data[name].length || value.every((val, index) => val === data[name][index])) return 'Нові опції нічим не відрізняються від попередніх'
             return undefined;
           }}}
         >

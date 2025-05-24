@@ -54,6 +54,7 @@ router.post('/add_diplom', authMiddleware, specMiddleware, upload.single('image'
 router.post('/add_course', authMiddleware, specMiddleware, upload.single('image'), specialistController.addCourse);
 router.post('/change_bio', authMiddleware, specMiddleware, specialistController.changeBio);
 router.post('/change_multiselect', authMiddleware, specMiddleware, specialistController.changeMultiselect);
+router.post('/change_schedule', authMiddleware, specMiddleware, specialistController.changeSchedule);
 router.get('/specialist/sessions/:id', authMiddleware, specMiddleware, specialistController.getSession);
 router.get('/specialist/sessions', authMiddleware, specMiddleware, specialistController.getSessions);
 router.get('/clients', authMiddleware, specMiddleware, specialistController.getClients);
