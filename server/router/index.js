@@ -40,6 +40,7 @@ router.post('/change_password', authMiddleware, body('newPass').isLength({ min: 
 router.post('/send_victim_request', authMiddleware, upload.single('file'), userController.sendVictimRequest);
 router.post('/cancel/:id', authMiddleware, userController.cancel);
 router.post('/move/:id', authMiddleware, userController.move);
+router.post('/form', userController.getSuitableSpecialists);
 router.get('/activate/:link', userController.activate);
 router.get('/refresh', userController.refresh);
 router.get('/users', authMiddleware, userController.getUsers);

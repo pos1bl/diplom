@@ -27,11 +27,13 @@ import { Route as AuthenticatedSpecialistRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin/route'
 import { Route as DefaultSpecialistsIndexImport } from './routes/_default/specialists/index'
 import { Route as DefaultGiftsIndexImport } from './routes/_default/gifts/index'
+import { Route as DefaultFormIndexImport } from './routes/_default/form/index'
 import { Route as AuthenticatedUserIndexImport } from './routes/_authenticated/user/index'
 import { Route as AuthenticatedSpecialistIndexImport } from './routes/_authenticated/specialist/index'
 import { Route as AuthenticatedAdminIndexImport } from './routes/_authenticated/admin/index'
 import { Route as DefaultSpecialistsSpecialistIdRouteImport } from './routes/_default/specialists/$specialistId/route'
 import { Route as DefaultGiftsPaymentSuccessRouteImport } from './routes/_default/gifts/payment-success/route'
+import { Route as DefaultFormResultsRouteImport } from './routes/_default/form/results/route'
 import { Route as AuthenticatedUserVerifyVictimRouteImport } from './routes/_authenticated/user/verify-victim/route'
 import { Route as AuthenticatedUserSupportRouteImport } from './routes/_authenticated/user/support/route'
 import { Route as AuthenticatedUserSettingsRouteImport } from './routes/_authenticated/user/settings/route'
@@ -155,6 +157,12 @@ const DefaultGiftsIndexRoute = DefaultGiftsIndexImport.update({
   getParentRoute: () => DefaultGiftsRouteRoute,
 } as any)
 
+const DefaultFormIndexRoute = DefaultFormIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DefaultFormRouteRoute,
+} as any)
+
 const AuthenticatedUserIndexRoute = AuthenticatedUserIndexImport.update({
   id: '/',
   path: '/',
@@ -187,6 +195,12 @@ const DefaultGiftsPaymentSuccessRouteRoute =
     path: '/payment-success',
     getParentRoute: () => DefaultGiftsRouteRoute,
   } as any)
+
+const DefaultFormResultsRouteRoute = DefaultFormResultsRouteImport.update({
+  id: '/results',
+  path: '/results',
+  getParentRoute: () => DefaultFormRouteRoute,
+} as any)
 
 const AuthenticatedUserVerifyVictimRouteRoute =
   AuthenticatedUserVerifyVictimRouteImport.update({
@@ -535,6 +549,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedUserVerifyVictimRouteImport
       parentRoute: typeof AuthenticatedUserRouteImport
     }
+    '/_default/form/results': {
+      id: '/_default/form/results'
+      path: '/results'
+      fullPath: '/form/results'
+      preLoaderRoute: typeof DefaultFormResultsRouteImport
+      parentRoute: typeof DefaultFormRouteImport
+    }
     '/_default/gifts/payment-success': {
       id: '/_default/gifts/payment-success'
       path: '/payment-success'
@@ -569,6 +590,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/user/'
       preLoaderRoute: typeof AuthenticatedUserIndexImport
       parentRoute: typeof AuthenticatedUserRouteImport
+    }
+    '/_default/form/': {
+      id: '/_default/form/'
+      path: '/'
+      fullPath: '/form/'
+      preLoaderRoute: typeof DefaultFormIndexImport
+      parentRoute: typeof DefaultFormRouteImport
     }
     '/_default/gifts/': {
       id: '/_default/gifts/'
@@ -814,6 +842,19 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface DefaultFormRouteRouteChildren {
+  DefaultFormResultsRouteRoute: typeof DefaultFormResultsRouteRoute
+  DefaultFormIndexRoute: typeof DefaultFormIndexRoute
+}
+
+const DefaultFormRouteRouteChildren: DefaultFormRouteRouteChildren = {
+  DefaultFormResultsRouteRoute: DefaultFormResultsRouteRoute,
+  DefaultFormIndexRoute: DefaultFormIndexRoute,
+}
+
+const DefaultFormRouteRouteWithChildren =
+  DefaultFormRouteRoute._addFileChildren(DefaultFormRouteRouteChildren)
+
 interface DefaultGiftsRouteRouteChildren {
   DefaultGiftsPaymentSuccessRouteRoute: typeof DefaultGiftsPaymentSuccessRouteRoute
   DefaultGiftsIndexRoute: typeof DefaultGiftsIndexRoute
@@ -846,7 +887,7 @@ const DefaultSpecialistsRouteRouteWithChildren =
 
 interface DefaultRouteRouteChildren {
   DefaultCareerRouteRoute: typeof DefaultCareerRouteRoute
-  DefaultFormRouteRoute: typeof DefaultFormRouteRoute
+  DefaultFormRouteRoute: typeof DefaultFormRouteRouteWithChildren
   DefaultGiftsRouteRoute: typeof DefaultGiftsRouteRouteWithChildren
   DefaultHomepageRouteRoute: typeof DefaultHomepageRouteRoute
   DefaultPaymentSuccessRouteRoute: typeof DefaultPaymentSuccessRouteRoute
@@ -856,7 +897,7 @@ interface DefaultRouteRouteChildren {
 
 const DefaultRouteRouteChildren: DefaultRouteRouteChildren = {
   DefaultCareerRouteRoute: DefaultCareerRouteRoute,
-  DefaultFormRouteRoute: DefaultFormRouteRoute,
+  DefaultFormRouteRoute: DefaultFormRouteRouteWithChildren,
   DefaultGiftsRouteRoute: DefaultGiftsRouteRouteWithChildren,
   DefaultHomepageRouteRoute: DefaultHomepageRouteRoute,
   DefaultPaymentSuccessRouteRoute: DefaultPaymentSuccessRouteRoute,
@@ -876,7 +917,7 @@ export interface FileRoutesByFullPath {
   '/specialist': typeof AuthenticatedSpecialistRouteRouteWithChildren
   '/user': typeof AuthenticatedUserRouteRouteWithChildren
   '/career': typeof DefaultCareerRouteRoute
-  '/form': typeof DefaultFormRouteRoute
+  '/form': typeof DefaultFormRouteRouteWithChildren
   '/gifts': typeof DefaultGiftsRouteRouteWithChildren
   '/homepage': typeof DefaultHomepageRouteRoute
   '/payment-success': typeof DefaultPaymentSuccessRouteRoute
@@ -894,11 +935,13 @@ export interface FileRoutesByFullPath {
   '/user/settings': typeof AuthenticatedUserSettingsRouteRoute
   '/user/support': typeof AuthenticatedUserSupportRouteRoute
   '/user/verify-victim': typeof AuthenticatedUserVerifyVictimRouteRoute
+  '/form/results': typeof DefaultFormResultsRouteRoute
   '/gifts/payment-success': typeof DefaultGiftsPaymentSuccessRouteRoute
   '/specialists/$specialistId': typeof DefaultSpecialistsSpecialistIdRouteRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/specialist/': typeof AuthenticatedSpecialistIndexRoute
   '/user/': typeof AuthenticatedUserIndexRoute
+  '/form/': typeof DefaultFormIndexRoute
   '/gifts/': typeof DefaultGiftsIndexRoute
   '/specialists/': typeof DefaultSpecialistsIndexRoute
   '/specialist/appointment/$appointmentId': typeof AuthenticatedSpecialistAppointmentAppointmentIdRouteRoute
@@ -919,7 +962,6 @@ export interface FileRoutesByTo {
   '': typeof DefaultRouteRouteWithChildren
   '/sign-in': typeof SignInRoute
   '/career': typeof DefaultCareerRouteRoute
-  '/form': typeof DefaultFormRouteRoute
   '/homepage': typeof DefaultHomepageRouteRoute
   '/payment-success': typeof DefaultPaymentSuccessRouteRoute
   '/support': typeof DefaultSupportRouteRoute
@@ -933,11 +975,13 @@ export interface FileRoutesByTo {
   '/user/settings': typeof AuthenticatedUserSettingsRouteRoute
   '/user/support': typeof AuthenticatedUserSupportRouteRoute
   '/user/verify-victim': typeof AuthenticatedUserVerifyVictimRouteRoute
+  '/form/results': typeof DefaultFormResultsRouteRoute
   '/gifts/payment-success': typeof DefaultGiftsPaymentSuccessRouteRoute
   '/specialists/$specialistId': typeof DefaultSpecialistsSpecialistIdRouteRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/specialist': typeof AuthenticatedSpecialistIndexRoute
   '/user': typeof AuthenticatedUserIndexRoute
+  '/form': typeof DefaultFormIndexRoute
   '/gifts': typeof DefaultGiftsIndexRoute
   '/specialists': typeof DefaultSpecialistsIndexRoute
   '/specialist/appointment/$appointmentId': typeof AuthenticatedSpecialistAppointmentAppointmentIdRouteRoute
@@ -963,7 +1007,7 @@ export interface FileRoutesById {
   '/_authenticated/specialist': typeof AuthenticatedSpecialistRouteRouteWithChildren
   '/_authenticated/user': typeof AuthenticatedUserRouteRouteWithChildren
   '/_default/career': typeof DefaultCareerRouteRoute
-  '/_default/form': typeof DefaultFormRouteRoute
+  '/_default/form': typeof DefaultFormRouteRouteWithChildren
   '/_default/gifts': typeof DefaultGiftsRouteRouteWithChildren
   '/_default/homepage': typeof DefaultHomepageRouteRoute
   '/_default/payment-success': typeof DefaultPaymentSuccessRouteRoute
@@ -981,11 +1025,13 @@ export interface FileRoutesById {
   '/_authenticated/user/settings': typeof AuthenticatedUserSettingsRouteRoute
   '/_authenticated/user/support': typeof AuthenticatedUserSupportRouteRoute
   '/_authenticated/user/verify-victim': typeof AuthenticatedUserVerifyVictimRouteRoute
+  '/_default/form/results': typeof DefaultFormResultsRouteRoute
   '/_default/gifts/payment-success': typeof DefaultGiftsPaymentSuccessRouteRoute
   '/_default/specialists/$specialistId': typeof DefaultSpecialistsSpecialistIdRouteRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/specialist/': typeof AuthenticatedSpecialistIndexRoute
   '/_authenticated/user/': typeof AuthenticatedUserIndexRoute
+  '/_default/form/': typeof DefaultFormIndexRoute
   '/_default/gifts/': typeof DefaultGiftsIndexRoute
   '/_default/specialists/': typeof DefaultSpecialistsIndexRoute
   '/_authenticated/specialist/appointment/$appointmentId': typeof AuthenticatedSpecialistAppointmentAppointmentIdRouteRoute
@@ -1029,11 +1075,13 @@ export interface FileRouteTypes {
     | '/user/settings'
     | '/user/support'
     | '/user/verify-victim'
+    | '/form/results'
     | '/gifts/payment-success'
     | '/specialists/$specialistId'
     | '/admin/'
     | '/specialist/'
     | '/user/'
+    | '/form/'
     | '/gifts/'
     | '/specialists/'
     | '/specialist/appointment/$appointmentId'
@@ -1053,7 +1101,6 @@ export interface FileRouteTypes {
     | ''
     | '/sign-in'
     | '/career'
-    | '/form'
     | '/homepage'
     | '/payment-success'
     | '/support'
@@ -1067,11 +1114,13 @@ export interface FileRouteTypes {
     | '/user/settings'
     | '/user/support'
     | '/user/verify-victim'
+    | '/form/results'
     | '/gifts/payment-success'
     | '/specialists/$specialistId'
     | '/admin'
     | '/specialist'
     | '/user'
+    | '/form'
     | '/gifts'
     | '/specialists'
     | '/specialist/appointment/$appointmentId'
@@ -1113,11 +1162,13 @@ export interface FileRouteTypes {
     | '/_authenticated/user/settings'
     | '/_authenticated/user/support'
     | '/_authenticated/user/verify-victim'
+    | '/_default/form/results'
     | '/_default/gifts/payment-success'
     | '/_default/specialists/$specialistId'
     | '/_authenticated/admin/'
     | '/_authenticated/specialist/'
     | '/_authenticated/user/'
+    | '/_default/form/'
     | '/_default/gifts/'
     | '/_default/specialists/'
     | '/_authenticated/specialist/appointment/$appointmentId'
@@ -1235,7 +1286,11 @@ export const routeTree = rootRoute
     },
     "/_default/form": {
       "filePath": "_default/form/route.tsx",
-      "parent": "/_default"
+      "parent": "/_default",
+      "children": [
+        "/_default/form/results",
+        "/_default/form/"
+      ]
     },
     "/_default/gifts": {
       "filePath": "_default/gifts/route.tsx",
@@ -1322,6 +1377,10 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/user/verify-victim/route.tsx",
       "parent": "/_authenticated/user"
     },
+    "/_default/form/results": {
+      "filePath": "_default/form/results/route.tsx",
+      "parent": "/_default/form"
+    },
     "/_default/gifts/payment-success": {
       "filePath": "_default/gifts/payment-success/route.tsx",
       "parent": "/_default/gifts"
@@ -1341,6 +1400,10 @@ export const routeTree = rootRoute
     "/_authenticated/user/": {
       "filePath": "_authenticated/user/index.tsx",
       "parent": "/_authenticated/user"
+    },
+    "/_default/form/": {
+      "filePath": "_default/form/index.tsx",
+      "parent": "/_default/form"
     },
     "/_default/gifts/": {
       "filePath": "_default/gifts/index.tsx",

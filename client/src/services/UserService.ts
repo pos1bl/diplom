@@ -4,6 +4,8 @@ import { IUser } from '@models/IUser';
 import { IFetchSpecialistResponse, IFetchSpecialistsResponse } from '@models/response/SpecialistsResponse';
 import { IVictimRequest } from '@models/IVictimRequet';
 import { VictimFormValues } from '@utils/user/Victimrequest';
+import { FormValues } from '@utils/default/Form';
+import { ISpecialist } from '@models/ISpecialist';
 
 export default class UserService {
   static fetchUsers(): Promise<AxiosResponse<IUser[]>> {
@@ -57,5 +59,11 @@ export default class UserService {
         headers: { 'Content-Type': 'multipart/form-data' },
       }
     );
+  }
+
+  static async fetchFormSpecialists(vals: FormValues): Promise<ISpecialist[]> {
+    const { data } = await $api.post<ISpecialist[]>('form', vals);
+
+    return data;
   }
 }

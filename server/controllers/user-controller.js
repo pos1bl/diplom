@@ -3,6 +3,7 @@ import userService from "../service/user-service.js";
 import ApiError from "../exceptions/api-error.js";
 import resumeService from "../service/resume-service.js";
 import sessionService from "../service/session-service.js";
+import specialistService from "../service/specialist-service.js";
 
 class UserController {
   async registration(req, res, next) {
@@ -220,6 +221,17 @@ class UserController {
       const successMsg = await sessionService.moveSession({ ...payload, id: req.params.id });
 
       return res.json(successMsg);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async getSuitableSpecialists(req, res, next) {
+    try {
+      const vals = req.body;
+      const specialists = await specialistService.getSuitableSpecialists(vals);
+
+      return res.json(specialists);
     } catch (e) {
       next(e);
     }

@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 import SessionModel from "../models/session-model.js";
+import SpecialistModel from "../models/specialist-model.js";
 import UserModel from "../models/user-model.js";
 import DiplomModel from "../models/diploma-model.js";
 import CourseModel from "../models/course-model.js";
@@ -11,6 +12,7 @@ import { uploadToCloudinary } from "../utils/uploadToCloudinary.js";
 import sessionModel from "../models/session-model.js";
 import dayjs from "dayjs";
 import customParseFormat from 'dayjs/plugin/customParseFormat.js';
+import { computeScore } from "../utils/computeScore.js";
 dayjs.extend(customParseFormat);
 
 class SpecialistService {
@@ -259,6 +261,21 @@ class SpecialistService {
   
     specialist.availability = availability;
     await specialist.save();
+  }
+
+  async getSuitableSpecialists(vals) {
+    const specs = await SpecialistModel.find().lean();
+    if (!specs.length) throw ApiError.BadRequest("Не вдалося отримати список спеціалістів")
+
+    const scored = specs.map(sp => ({
+      specialist: sp,
+      score: computeScore(sp, vals)
+    }));
+
+    console.log(vals)
+    console.log(scored)
+
+    return scored.sort((a, b) => b.score - a.score).slice(0, 3).map(s => s.specialist);
   }
 }
 
