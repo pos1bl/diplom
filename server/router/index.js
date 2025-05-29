@@ -43,7 +43,6 @@ router.post('/move/:id', authMiddleware, userController.move);
 router.post('/form', userController.getSuitableSpecialists);
 router.get('/activate/:link', userController.activate);
 router.get('/refresh', userController.refresh);
-router.get('/users', authMiddleware, userController.getUsers);
 router.get('/user/sessions', authMiddleware, userController.getSessions);
 router.get('/user/victim-request', authMiddleware, userController.getVictimRequest);
 router.get('/user/sessions/:id', authMiddleware, userController.getSession);

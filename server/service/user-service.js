@@ -91,11 +91,6 @@ class UserService {
     return this._buildAuthResponse(user);
   }
 
-  async getAllUsers() {
-    const users = await UserModel.find();
-    return users;
-  }
-
   async getSessions(id, query) {
     const { filter, options } = buildSessionFilter({ roleField: SESSIONS_ROLES.USER, id, query });
     const sessions = await SessionModel.find(filter, null, options)

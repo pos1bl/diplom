@@ -8,10 +8,6 @@ import { FormValues } from '@utils/default/Form';
 import { ISpecialist } from '@models/ISpecialist';
 
 export default class UserService {
-  static fetchUsers(): Promise<AxiosResponse<IUser[]>> {
-    return $api.get<IUser[]>('users');
-  }
-
   static async changeName(name: string): Promise<void> {
     return $api.post('change_name', { name });
   }
